@@ -3,7 +3,7 @@ const Sequelize = require("sequelize");
 const sequelize = new Sequelize(
   "Social-Pet-Site",
   "postgres",
-  "whiterhino248",
+  process.env.PASSWORD,
   {
     host: "localhost",
     dialect: "postgres"
