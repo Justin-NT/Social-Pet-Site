@@ -3,11 +3,18 @@ import "./App.css";
 import Adopt from "./Components/Adopt/Adopt";
 import Auth from "./Components/Auth/Auth";
 
-class App extends Component {
-  constructor() {
-    super();
-    this.state = { sessionToken: "" };
-  }
+interface AppState {
+  sessionToken: string | null;
+}
+
+interface AppProps {
+  updateToken?: any;
+}
+
+class App extends Component<AppProps, AppState> {
+  state: AppState = {
+    sessionToken: ""
+  };
 
   componentDidMount() {
     if (localStorage.getItem("token")) {
@@ -17,7 +24,7 @@ class App extends Component {
     }
   }
 
-  shouldComponentUpdate(prevProps, prevState) {
+  shouldComponentUpdate(prevProps: any, prevState: any) {
     if (prevState.sessionToken !== this.state.sessionToken) {
       return true;
     } else {
@@ -25,7 +32,7 @@ class App extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: any, prevState: any) {
     if (prevState.sessionToken !== this.state.sessionToken) {
       console.log("Current state value for token: ", this.state.sessionToken);
       console.log("previous state value for token: ", prevState.sessionToken);
@@ -39,7 +46,7 @@ class App extends Component {
     console.log("yes");
   }
 
-  updateToken = newToken => {
+  updateToken = (newToken: string) => {
     localStorage.setItem("token: ", newToken);
     this.setState({ sessionToken: newToken });
   };

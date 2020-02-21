@@ -2,11 +2,21 @@ import React, { Component } from "react";
 // import PetFinderKey from "../../helpers/environment";
 // import PetFinderSecret from "../../helpers/environment";
 
-class Adopt extends Component {
-  constructor(props) {
+interface adoptState {
+  results: object;
+  bearerToken: string;
+}
+
+class Adopt extends Component<{}, adoptState> {
+  constructor(props: any) {
     super(props);
     this.state = { results: [], bearerToken: "" };
   }
+
+  // state: adoptState = {
+  //   results: [],
+  //   bearerToken: ""
+  // };
 
   requestTest = () => {
     let url = "https://api.petfinder.com/v2/oauth2/token";
@@ -44,7 +54,7 @@ class Adopt extends Component {
     this.requestTest();
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps: any, prevState: any) {
     if (this.state.bearerToken !== prevState.bearerToken) {
       this.adoptFetch();
     }

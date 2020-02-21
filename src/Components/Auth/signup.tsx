@@ -1,12 +1,30 @@
 import React, { Component } from "react";
 
-class Signup extends Component {
-  constructor(props) {
+interface SignupProps {
+  updateToken: any;
+}
+
+interface SignupState {
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+  admin: boolean;
+}
+
+class Signup extends Component<SignupProps, SignupState> {
+  constructor(props: any) {
     super(props);
-    this.state = { firstname: "", lastname: "", email: "", password: "" };
+    this.state = {
+      firstname: "",
+      lastname: "",
+      email: "",
+      password: "",
+      admin: false
+    };
   }
 
-  signupFetch = e => {
+  signupFetch = (e: any) => {
     e.preventDefault();
     let endpoint = "http://localhost:3000/auth/signup";
     fetch(endpoint, {
@@ -15,7 +33,8 @@ class Signup extends Component {
         firstname: this.state.firstname,
         lastname: this.state.lastname,
         email: this.state.email,
-        password: this.state.password
+        password: this.state.password,
+        admin: this.state.admin
       }),
       headers: new Headers({
         "Content-Type": "application/json"

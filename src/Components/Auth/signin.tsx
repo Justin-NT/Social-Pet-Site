@@ -1,12 +1,21 @@
-import React, { Component } from "react";
+import React, { Component, SyntheticEvent } from "react";
 
-class Signin extends Component {
-  constructor(props) {
+interface SigninState {
+  email: string;
+  password: string;
+}
+
+interface SigninProps {
+  updateToken(newToken: string): any;
+}
+
+class Signin extends Component<SigninProps, SigninState> {
+  constructor(props: SigninProps) {
     super(props);
     this.state = { email: "", password: "" };
   }
 
-  signinFetch = e => {
+  signinFetch = (e: SyntheticEvent) => {
     e.preventDefault();
     let url = "http://localhost:3000/auth/signin";
     fetch(url, {
