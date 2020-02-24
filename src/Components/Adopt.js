@@ -43,8 +43,17 @@ class Adopt extends Component {
   }
 
   render() {
-    return <div>Adopt Component</div>;
-  }
+    return(
+    <AdoptDisplay />
+    )
+    }
 }
 
+const AdoptDisplay = () => {
+  return(
+    <div>
+
+    </div>
+  )
+}
 export default Adopt;
