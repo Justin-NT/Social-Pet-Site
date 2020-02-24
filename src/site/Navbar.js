@@ -3,13 +3,15 @@ import Appbar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-// import TextField from "@material-ui/core/TextField";
+import TextField from "@material-ui/core/TextField";
 import Feed from "../Components/Feed";
 import MyProfile from "../Components/MyProfile";
 import Adopt from "../Components/Adopt";
 import { Switch, Route, Link } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
+import FormControl from "@material-ui/core/FormControl";
+// import Input from "@material-ui/core/Input";
 
 
 
@@ -31,14 +33,15 @@ class Navbar extends Component {
 
 const useStyles = makeStyles({
   root: {
-    flexGrow: 1,
-    justifyContent: "center",
+    
+    display: "flex",
   },
   title: {
     flexGrow: 1,
   },
   color: {
     backgroundColor: '#61c899',
+    justifyContent: "space-between"
   },
   peta: {
     fontFamily: 'Krona One',
@@ -55,7 +58,10 @@ const useStyles = makeStyles({
       fontFamily: 'Krona One',
       color: "white",
       alignSelf: "right",
-  }
+  },
+  input: {
+       justifyContent: "center",
+    }
   
   
 })
@@ -75,11 +81,11 @@ const NavbarDisplay = () => {
             <Link className={classes.links} to="/Feed">My Feed</Link>
             <Link className={classes.links} to="/Adopt">Adopt</Link>
           </Router>
-          {/* <form className={classes.input}> */}
-            {/* <TextField id="email" label="Email" /> */}
-            {/* <TextField id="password" label="Password" /> */}
+          <FormControl className={classes.input}> 
+            <TextField id="email" placeholder="Email" />
+            <TextField id="password" placeholder="Password" />
              <Button className={classes.button} type="submit">Login</Button>
-          {/* </form> */}
+          </FormControl>
         </Toolbar>
       </Appbar>
 
