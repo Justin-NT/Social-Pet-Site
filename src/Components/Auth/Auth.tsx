@@ -4,14 +4,22 @@ import Signin from "./signin";
 
 interface AuthProps {
   updateToken: any;
+  updateUserId: any;
 }
 
 class Auth extends Component<AuthProps> {
   render() {
     return (
       <div>
-        <Signup updateToken={this.props.updateToken} />
-        <Signin updateToken={this.props.updateToken} />
+        <Signup
+          updateToken={this.props.updateToken}
+          updateUserId={this.props.updateUserId}
+        />
+        <hr />
+        <Signin
+          updateToken={this.props.updateToken}
+          updateUserId={this.props.updateUserId}
+        />
       </div>
     );
   }

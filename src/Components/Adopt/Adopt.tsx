@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 // import PetFinderKey from "../../helpers/environment";
 // import PetFinderSecret from "../../helpers/environment";
+let PetFinderKey = "QYKORCbKtERgCS5ycOCD6qCg6uxQU2duXV6rCVou8EvMCflEwc";
+let PetFinderSecret = "sZgS6xKAiUeB90YgkAB3gStLG3qU6XlWnqY6YjCM";
 
 interface adoptState {
   results: object;

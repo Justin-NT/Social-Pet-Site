@@ -2,9 +2,14 @@ import React, { Component } from "react";
 import "./App.css";
 import Adopt from "./Components/Adopt/Adopt";
 import Auth from "./Components/Auth/Auth";
+import Post from "./Components/Posting/Post";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import MyProfile from "./Components/MyProfile/MyProfile";
 
 interface AppState {
   sessionToken: string | null;
+  userId: number;
+  // sessionToken: any;
 }
 
 interface AppProps {
@@ -13,22 +18,15 @@ interface AppProps {
 
 class App extends Component<AppProps, AppState> {
   state: AppState = {
-    sessionToken: ""
+    sessionToken: "",
+    userId: 0
   };
 
   componentDidMount() {
     if (localStorage.getItem("token")) {
-      console.log("hi");
+      console.log("App mounted");
       let localToken = localStorage.getItem("token");
       this.setState({ sessionToken: localToken });
-    }
-  }
-
-  shouldComponentUpdate(prevProps: any, prevState: any) {
-    if (prevState.sessionToken !== this.state.sessionToken) {
-      return true;
-    } else {
-      return false;
     }
   }
 
@@ -37,41 +35,42 @@ class App extends Component<AppProps, AppState> {
       console.log("Current state value for token: ", this.state.sessionToken);
       console.log("previous state value for token: ", prevState.sessionToken);
       // this.setState({ sessionToken: ">:|" });
+      // localStorage.setItem("token", this.state.sessionToken);
     } else {
       console.log("no");
     }
   }
 
-  componentWillUnmount() {
-    console.log("yes");
-  }
-
   updateToken = (newToken: string) => {
-    localStorage.setItem("token: ", newToken);
+    localStorage.setItem("token", newToken);
     this.setState({ sessionToken: newToken });
   };
 
-  clearToken = () => {
-    localStorage.clear();
-    this.setState({ sessionToken: "" });
-    console.log("token cleared");
-  };
-
-  test = () => {
-    localStorage.setItem("token: ", "testing");
-    this.setState({ sessionToken: "testing" });
-    console.log("token has been changed");
+  updateUserId = (id: number) => {
+    this.setState({ userId: id });
   };
 
   render() {
     return (
       <div>
-        <Adopt />
-        <Auth updateToken={this.updateToken} />
-        <button onClick={() => this.test()}>
-          Click to update token hackily
-        </button>
-        <button onClick={() => this.clearToken()}>Clear token</button>
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <Adopt />
+              <Auth
+                updateToken={this.updateToken}
+                updateUserId={this.updateUserId}
+              />
+              <Post sessionToken={this.state.sessionToken} />
+            </Route>
+            <Route exact path="/myprofile">
+              <MyProfile
+                sessionToken={this.state.sessionToken}
+                userid={this.state.userId}
+              />
+            </Route>
+          </Switch>
+        </Router>
       </div>
     );
   }
