@@ -2,18 +2,16 @@
   text-align: center;
 }
 
-
-body{
+/* body{
   background: url("./assets/kitty.jpeg");
   background-size:100%;
   background-position:top;
   background: cover;
   
   
-}
+} */
 
-.mission{
-  color:white;
-  font-family: 'Sriracha', cursive;
-  
+.mission {
+  color: white;
+  font-family: "Sriracha", cursive;
 }

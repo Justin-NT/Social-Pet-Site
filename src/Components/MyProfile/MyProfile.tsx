@@ -10,7 +10,8 @@ interface MyProfileState {
   animal: string;
   bio: string;
   gender: string;
-  profileActivity: [];
+  profile: [];
+  postResults: [];
 }
 
 class MyProfile extends Component<MyProfileProps, MyProfileState> {
@@ -21,7 +22,8 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       animal: "",
       bio: "",
       gender: "",
-      profileActivity: []
+      profile: [],
+      postResults: []
     };
   }
 
@@ -32,6 +34,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
   componentDidUpdate(prevProps: any, prevState: any) {
     if (this.props.sessionToken !== prevProps.sessionToken) {
       this.showMyProfile();
+      this.getPostsComments();
     }
     if (this.props.userid !== prevProps.userid) {
       this.showMyProfile();
@@ -73,37 +76,45 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       .then(res => res.json())
       .then(json => {
         console.log(json);
-        // this.setState({ profileActivity: json });
+        this.setState({ profile: json });
       })
       .catch(err => console.log("error ", err));
   };
 
-  //Works but returns profile null?
-  //   showMyActivity = () => {
-  //     let url = `http://localhost:3000/profiles/${this.props.userid}`;
-  //     fetch(url, {
-  //       method: "GET",
-  //       headers: new Headers({
-  //         "Content-Type": "application/json",
-  //         Authorization: this.props.sessionToken
-  //       })
-  //     })
-  //       .then(res => res.json())
-  //       .then(json => {
-  //         console.log(json);
-  //         this.setState({ profileActivity: json });
-  //       })
-  //       .catch(err => console.log("error ", err));
-  //   };
+  getPostsComments = () => {
+    let url = "http://localhost:3000/posts/mine";
+    fetch(url, {
+      method: "GET",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: this.props.sessionToken
+      })
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+        this.setState({ postResults: json });
+      })
+      .catch(err => console.log("error", err));
+  };
 
-  profileMapper = () => {
-    return;
+  displayPosts = () => {
+    return this.state.postResults.map((post: any) => {
+      return (
+        <div key={post.id}>
+          <MyProfileDisplay
+            post={post}
+            sessionToken={this.props.sessionToken}
+          />
+        </div>
+      );
+    });
   };
 
   render() {
     return (
       <div>
-        Create Profile
+        <h3>Create Profile</h3>
         <form onSubmit={e => this.createProfile(e)}>
           <input
             type="text"
@@ -136,7 +147,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
           <button>Create Profile</button>
         </form>
         {/* <button onClick={() => this.showMyActivity()}>Click</button> */}
-        <hr />
+        {this.displayPosts()}
       </div>
     );
   }
@@ -144,6 +155,84 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
 
 export default MyProfile;
 
-const MyProfileDisplay = () => {
-  return <div></div>;
-};
+interface MyProfileDisplayProps {
+  post: any;
+  sessionToken: any;
+}
+
+interface MyProfileDisplayState {
+  comments: [];
+}
+
+class MyProfileDisplay extends Component<
+  MyProfileDisplayProps,
+  MyProfileDisplayState
+> {
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      comments: []
+    };
+  }
+
+  getComments = () => {
+    fetch(`http://localhost:3000/comments/${this.props.post.id}`, {
+      method: "GET",
+      headers: new Headers({
+        Authorization: this.props.sessionToken
+      })
+    })
+      .then(res => res.json())
+      .then(json => this.setState({ comments: json.comment }));
+  };
+
+  componentDidUpdate(prevProps: any, prevState: any) {
+    if (prevProps.post !== this.props.post) {
+      this.getComments();
+    }
+  }
+
+  displayComments = () => {
+    return this.state.comments.map((comment: any) => {
+      return (
+        <div key={comment.id}>
+          {comment.body}
+          {`, comment id: `} {comment.id}
+          {`, postid: ${this.props.post.id}`}
+        </div>
+      );
+    });
+  };
+
+  render() {
+    return (
+      <div key={this.props.post.id}>
+        <hr />
+        {this.props.post.title} {this.props.post.id}
+        <br />
+        <hr />
+        Comments Section
+        {this.getComments()}
+        {this.displayComments()}
+      </div>
+    );
+  }
+}
+
+//Works but returns profile null?
+//   showMyActivity = () => {
+//     let url = `http://localhost:3000/profiles/${this.props.userid}`;
+//     fetch(url, {
+//       method: "GET",
+//       headers: new Headers({
+//         "Content-Type": "application/json",
+//         Authorization: this.props.sessionToken
+//       })
+//     })
+//       .then(res => res.json())
+//       .then(json => {
+//         console.log(json);
+//         this.setState({ profileActivity: json });
+//       })
+//       .catch(err => console.log("error ", err));
+//   };
