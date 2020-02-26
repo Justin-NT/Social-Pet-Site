@@ -13,8 +13,6 @@ import { makeStyles } from "@material-ui/core/styles";
 // import FormControl from "@material-ui/core/FormControl";
 // import Input from "@material-ui/core/Input";
 import Box from "@material-ui/core/Box";
-import Signin from "../Components/Auth/signin";
-// import Signup from "../Components/Auth/signup";
 
 
 
@@ -81,14 +79,12 @@ const NavbarDisplay = ({updateToken, updateUserId}: SigninProps) => {
             <Link className={classes.links} to="/MyProfile">My Profile</Link>
             <Link className={classes.links} to="/Feed">My Feed</Link>
             <Link className={classes.links} to="/Adopt">Adopt</Link>
-          <Signin updateToken={updateToken} updateUserId={updateUserId} />
-            <Link className={classes.blinks} to="/Signup">No Profile? Click here.</Link>
           </Router>
         </Toolbar>
       </Appbar>
       </Box>
       
-
+    <Router>
       <Switch>
         <Route exact path="/Feed">
           <Feed />
@@ -100,6 +96,7 @@ const NavbarDisplay = ({updateToken, updateUserId}: SigninProps) => {
           <Adopt />
         </Route>
       </Switch>
+      </Router>
     </div>
   );
 };

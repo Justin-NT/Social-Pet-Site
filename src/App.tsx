@@ -59,14 +59,14 @@ class App extends Component<AppProps, AppState> {
   render() {
     return (
       <div>
-        <Navbar updateToken={this.updateToken} updateUserId={this.updateUserId}/>
         <Router>
           <Switch>
             <Route exact path="/">
-              <Auth
+              {/* <Auth
                 updateToken={this.updateToken}
                 updateUserId={this.updateUserId}
-              />
+              /> */}
+        <Body updateToken={this.updateToken} updateUserId={this.updateUserId}/>
               <Post sessionToken={this.state.sessionToken} />
             </Route>
             <Route exact path="/myprofile">
