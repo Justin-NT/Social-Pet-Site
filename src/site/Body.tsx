@@ -16,10 +16,10 @@ import Pig from "../assets/piglet.jpeg";
 
 
 class Body extends Component {
-    constructor(props){
-    super(props)
-    this.state ={}
-}
+//     constructor(props){
+//     super(props)
+//     this.state ={}
+// }
 render(){
     return(
     <div>
@@ -85,12 +85,12 @@ const BodyDisplay = () => {
                           <CardMedia component="img" alt="Joy Division" height="180" src={Gunny} title="Joy Division" />
                           <CardContent>
                               <Typography gutterBottom variant="h5" component="h2">Ginny the Guinea Pig</Typography>
-                              <Typography variant="body2" color="textSecondary" component="p">Designer Peter Saville's decision to go with pulsar radio waves is right up there with Martin Hannett’s spellbinding production in making this album a goth classic. Disney's Mickey Mouse shirt parody four decades later only reaffirmed its legend.</Typography>
+                              <Typography variant="body2" color="textSecondary" component="p"></Typography>
                           </CardContent>
                       </CardActionArea>
                       <CardActions>
-                          <Button size="small" color="dark">Share</Button>
-                          <Button size="small" color="dark">Learn More</Button>
+                          <Button size="small">Like</Button>
+                          <Button size="small">Comment</Button>
                       </CardActions>
                   </Card>
               </Wrapper>
@@ -107,12 +107,12 @@ const BodyDisplay = () => {
                           title="Dark Side of the Moon" />
                           <CardContent>
                               <Typography gutterBottom variant="h5" component="h2">Wiglet the Piglet</Typography>
-                              <Typography variant="body2" color="textSecondary" component="p">This simple art says so much. The light going through a prism and coming out as a rainbow was meant to convey the band's stage lighting and the album's lyrics. And, as evidenced by the number of t-shirts bearing this image today, the prism has become synonymous with Floyd itself.</Typography>
+                              <Typography variant="body2" color="textSecondary" component="p"> </Typography>
                           </CardContent>
                       </CardActionArea>
                       <CardActions>
-                          <Button size="small" color="dark">Share</Button>
-                          <Button size="small" color="dark">Learn More</Button>
+                          <Button size="small" >Like</Button>
+                          <Button size="small" >Comment</Button>
                       </CardActions>
                   </Card>
               </Wrapper>
@@ -129,12 +129,12 @@ const BodyDisplay = () => {
                           title="Abbey Road" />
                           <CardContent>
                               <Typography gutterBottom variant="h5" component="h2">Pretty the Kitty</Typography>
-                              <Typography variant="body2" color="textSecondary" component="p">Does any other album cover on this list stop traffic? It's a testament to the lasting impression of this street-crossing photo that hundreds of fans re-create it every day outside Abbey Road Studios. There's even a webcam live feed of the attraction.</Typography>
+                              <Typography variant="body2" color="textSecondary" component="p"> </Typography>
                           </CardContent>
                       </CardActionArea>
                       <CardActions>
-                          <Button size="small" color="dark">Share</Button>
-                          <Button size="small" color="dark">Learn More</Button>
+                          <Button size="small" >Like</Button>
+                          <Button size="small" >Comment</Button>
                       </CardActions>
                   </Card>
               </Wrapper>

@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
 
 class Feed extends Component {
-    constructor(){
-        super();
-        this.state ={
+    // constructor(){
+    //     super();
+    //     this.state ={
 
-        }
-    }
+    //     }
+    // }
     render(){
         return(
             <div>

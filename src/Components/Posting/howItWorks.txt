@@ -1,0 +1,11 @@
+Post is currently just a conglomerated source of most of the api fetchs. The location of the fetches will likely be changed, but I just wanted to set 
+them up so that we had a baseline that we could slightly alter to meet our needs. Any fetch that alters the users postResults will trigger another fetch to redisplay the updated
+results.
+
+THINGS TO FIX/IMPROVE:
+1)Currently, only the user's own posts are being displayed
+2)res.json() in the delete fetch returns an error. I implemented JSON.stringify(res) as a workaround, but it should probably be looked into more
+3)I don't currently know what to do with the display one post by id fetch, so I'm not going to fetch it for now
+4)Update is working, but not exactly functional. Currently it updates the post that is clicked and automatically inputs the current state values for title, feeling and body.
+I decided not to go too in depth with this one because it's a lot more liable to change than the other fetches.
+5)Sessiontoken currently isnt strictly typed(it accepts anything)

@@ -1,40 +1,26 @@
-import React, { Component } from "react";
+import React from "react";
 import Appbar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
+// import Button from "@material-ui/core/Button";
+// import TextField from "@material-ui/core/TextField";
 import Feed from "../Components/Feed";
 import MyProfile from "../Components/MyProfile";
 import Adopt from "../Components/Adopt";
 import { Switch, Route, Link } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-import FormControl from "@material-ui/core/FormControl";
+// import FormControl from "@material-ui/core/FormControl";
 // import Input from "@material-ui/core/Input";
-
-
-
-class Navbar extends Component {
-  constructor() {
-    super();
-    this.state = {};
-  }
-  render() {
-    return (
-      <div>
-        <NavbarDisplay />
-      </div>
-    );
-  }
-}
+import Box from "@material-ui/core/Box";
+import Signin from "../Components/Auth/signin";
+// import Signup from "../Components/Auth/signup";
 
 
 
 const useStyles = makeStyles({
   root: {
-    
-    display: "flex",
+    flexGrow: 1,
   },
   title: {
     flexGrow: 1,
@@ -61,18 +47,33 @@ const useStyles = makeStyles({
   },
   input: {
        justifyContent: "center",
-    }
-  
+  },
+  blinks: {
+    fontFamily: "Krona One",
+    fontSize: "7px",
+    justifyContent: "space-between",
+    color: "white",
+  },
   
 })
 
 
-const NavbarDisplay = () => {
+
+interface SigninProps {
+  updateToken(newToken: string): any;
+  updateUserId: any;
+}
+
+
+
+
+const NavbarDisplay = ({updateToken, updateUserId}: SigninProps) => {
   
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
+      <Box justifyContent="flex-end">
       <Appbar position="static" className={classes.color}>
         <Toolbar>
           <Typography className={classes.peta}>Petazoa</Typography>
@@ -80,14 +81,13 @@ const NavbarDisplay = () => {
             <Link className={classes.links} to="/MyProfile">My Profile</Link>
             <Link className={classes.links} to="/Feed">My Feed</Link>
             <Link className={classes.links} to="/Adopt">Adopt</Link>
+          <Signin updateToken={updateToken} updateUserId={updateUserId} />
+            <Link className={classes.blinks} to="/Signup">No Profile? Click here.</Link>
           </Router>
-          <FormControl className={classes.input}> 
-            <TextField id="email" placeholder="Email" />
-            <TextField id="password" placeholder="Password" />
-             <Button className={classes.button} type="submit">Login</Button>
-          </FormControl>
         </Toolbar>
       </Appbar>
+      </Box>
+      
 
       <Switch>
         <Route exact path="/Feed">
@@ -104,4 +104,4 @@ const NavbarDisplay = () => {
   );
 };
 
-export default Navbar;
+export default NavbarDisplay;
