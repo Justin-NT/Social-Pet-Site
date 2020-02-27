@@ -8,17 +8,17 @@ class Adopt extends Component {
     this.state = { results: [], bearerToken: "" };
   }
 
-  requestTest = () => {
-    let url = `https://api.petfinder.com/v2/oauth2/token?grant_type=client_credentials&client_id=${PetFinderKey}&client_secret=${PetFinderSecret}`;
-    fetch(url, {
-      method: "GET",
-      headers: new Headers({
-        "Content-Type": "text-plain"
-      })
-    })
-      .then(ret => console.log(ret))
-      .catch(err => console.log("error", err));
-  };
+  // requestTest = () => {
+  //   let url = `https://api.petfinder.com/v2/oauth2/token?grant_type=client_credentials&client_id=${PetFinderKey}&client_secret=${PetFinderSecret}`;
+  //   fetch(url, {
+  //     method: "GET",
+  //     headers: new Headers({
+  //       "Content-Type": "text-plain"
+  //     })
+  //   })
+  //     .then(ret => console.log(ret))
+  //     .catch(err => console.log("error", err));
+  // };
 
   adoptFetch = () => {
     let url = "https://api.petfinder.com/v2/animals?type=dog&page=2";
@@ -39,12 +39,21 @@ class Adopt extends Component {
 
   componentDidMount() {
     // this.adoptFetch();
-    this.requestTest();
+    // this.requestTest();
   }
 
   render() {
-    return <div>Adopt Component</div>;
-  }
+    return(
+    <AdoptDisplay />
+    )
+    }
 }
 
+const AdoptDisplay = () => {
+  return(
+    <div>
+
+    </div>
+  )
+}
 export default Adopt;

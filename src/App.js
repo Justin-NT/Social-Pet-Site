@@ -1,11 +1,23 @@
 import React from "react";
 import "./App.css";
-import Adopt from "./Components/Adopt/Adopt";
+import Navbar from "./site/Navbar";
+import Body from "./site/Body";
+import Footer from "./site/Footer";
+import {
+  BrowserRouter as Router,
+} from 'react-router-dom';
+
+
+
 
 function App() {
   return (
-    <div>
-      <Adopt />
+    <div className="maindiv">
+    
+      <Router><Navbar /></Router>
+      <Body />
+      <Footer />
+      
     </div>
   );
 }
