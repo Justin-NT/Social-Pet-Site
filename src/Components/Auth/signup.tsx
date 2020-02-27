@@ -1,4 +1,6 @@
 import React, { Component, SyntheticEvent } from "react";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button"
 
 interface SignupProps {
   updateToken: any;
@@ -11,6 +13,10 @@ interface SignupState {
   email: string;
   password: string;
   admin: boolean;
+  name: string;
+  animal: string;
+  gender: string;
+  bio: string;
 }
 
 class Signup extends Component<SignupProps, SignupState> {
@@ -21,7 +27,11 @@ class Signup extends Component<SignupProps, SignupState> {
       lastname: "",
       email: "",
       password: "",
-      admin: false
+      admin: false,
+      name: "",
+      animal: "",
+      gender: "",
+      bio: "",
     };
   }
 
@@ -53,38 +63,17 @@ class Signup extends Component<SignupProps, SignupState> {
   render() {
     return (
       <div>
-        Signup
-        <form onSubmit={e => this.signupFetch(e)}>
-          <input
-            placeholder="firstname"
-            name="firstname"
-            type="text"
-            value={this.state.firstname}
-            onChange={e => this.setState({ firstname: e.target.value })}
-          />
-          <input
-            placeholder="lastname"
-            name="lastname"
-            type="text"
-            value={this.state.lastname}
-            onChange={e => this.setState({ lastname: e.target.value })}
-          />
-          <input
-            placeholder="email"
-            name="email"
-            type="text"
-            value={this.state.email}
-            onChange={e => this.setState({ email: e.target.value })}
-          />
-          <input
-            placeholder="password"
-            name="password"
-            type="password"
-            value={this.state.password}
-            onChange={e => this.setState({ password: e.target.value })}
-          />
-          <button>Signup</button>
-        </form>
+        <form onSubmit={e => this.signupFetch(e)}> 
+            <TextField type="text" value={this.state.firstname} name="firstname" placeholder="First" onChange={e=> this.setState({firstname: e.target.value})}/>
+            <TextField type="text" value={this.state.lastname} name="lastname" placeholder="Last" onChange={e=> this.setState({lastname: e.target.value})}/>
+            <TextField type="email" value={this.state.email} name="email" placeholder="Email" onChange={e => this.setState({ email: e.target.value })}/>
+            <TextField type="password" value={this.state.password} name="password" placeholder="Password" onChange={e => this.setState({ password: e.target.value })}/>
+            <TextField type="text" value={this.state.name} name="name" placeholder="name" onChange={e=> this.setState({name: e.target.value})}/>
+            <TextField type="text" value={this.state.animal} name="animal" placeholder="animal" onChange={e=> this.setState({animal: e.target.value})}/>
+            <TextField type="text" value={this.state.gender} name="gender" placeholder="gender" onChange={e => this.setState({ gender: e.target.value })}/>
+            <TextField type="text" value={this.state.bio} name="bio" placeholder="bio" onChange={e => this.setState({ bio: e.target.value })}/>
+            <Button type="submit">Login</Button>
+          </form>
       </div>
     );
   }

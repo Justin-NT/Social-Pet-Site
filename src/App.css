@@ -3,17 +3,10 @@
 }
 
 
-body{
-  background: url("./assets/kitty.jpeg");
-  background-size:100%;
-  background-position:top;
-  background: cover;
-  
-  
-}
+
 
 .mission{
-  color:white;
-  font-family: 'Sriracha', cursive;
+  
+  font-family: 'Krona One', sans-serif;
   
 }

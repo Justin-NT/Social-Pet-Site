@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import "./App.css";
-import Adopt from "./Components/Adopt/Adopt";
+// import Adopt from "./Components/Adopt/Adopt";
 import Auth from "./Components/Auth/Auth";
 import Post from "./Components/Posting/Post";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import MyProfile from "./Components/MyProfile/MyProfile";
+import Navbar from "./site/Navbar";
+import Body from "./site/Body";
+import Footer from "./site/Footer";
 
 interface AppState {
   sessionToken: string | null;
@@ -15,6 +18,8 @@ interface AppState {
 interface AppProps {
   updateToken?: any;
 }
+
+
 
 class App extends Component<AppProps, AppState> {
   state: AppState = {
@@ -49,6 +54,7 @@ class App extends Component<AppProps, AppState> {
   updateUserId = (id: number) => {
     this.setState({ userId: id });
   };
+  
 
   render() {
     return (
@@ -56,11 +62,11 @@ class App extends Component<AppProps, AppState> {
         <Router>
           <Switch>
             <Route exact path="/">
-              <Adopt />
-              <Auth
+              {/* <Auth
                 updateToken={this.updateToken}
                 updateUserId={this.updateUserId}
-              />
+              /> */}
+        <Body updateToken={this.updateToken} updateUserId={this.updateUserId}/>
               <Post sessionToken={this.state.sessionToken} />
             </Route>
             <Route exact path="/myprofile">
@@ -76,4 +82,14 @@ class App extends Component<AppProps, AppState> {
   }
 }
 
+
 export default App;
+
+
+
+
+
+
+
+
+
