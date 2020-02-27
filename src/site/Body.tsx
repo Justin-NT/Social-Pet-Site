@@ -13,7 +13,7 @@ import Signin from "../Components/Auth/signin"
 // import Signup from "../Components/Auth/signup"
 
 import Link from "@material-ui/core/Link";
-// import Kitty from "../assets/kitty.jpeg";
+import Kitty from "../assets/kitty.jpeg";
 
 
 interface BodyProps {
@@ -48,6 +48,10 @@ const Background = styled.div`
     background: linear-gradient(to bottom, white, #e1e6e2);
 `;
 
+const Kitten = styled.img`
+    width: 100vw;
+    position: static;
+`
 
 const BodyDisplay = (props:any) => {
 
@@ -70,7 +74,7 @@ const BodyDisplay = (props:any) => {
       <Signin updateToken={props.updateToken} updateUserId={props.updateUserId} />
             <Link>No Profile? Click here.</Link>
             {/* <Signup updateToken={props.updateToken} updateUserId={props.updateUserId}/> */}
-    
+        <Kitten src={Kitty} alt="Petazoa"/>
           </Background>
       
   </div>
