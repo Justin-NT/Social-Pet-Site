@@ -7,7 +7,6 @@ interface SigninState {
 
 interface SigninProps {
   updateToken(newToken: string): any;
-  updateUserId: any;
 }
 
 class Signin extends Component<SigninProps, SigninState> {
@@ -33,7 +32,6 @@ class Signin extends Component<SigninProps, SigninState> {
       .then(data => {
         console.log(data);
         this.props.updateToken(data.sessionToken);
-        this.props.updateUserId(data.user.id);
       })
       .catch(err => console.log("error: ", err));
   };

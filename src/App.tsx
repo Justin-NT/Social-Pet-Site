@@ -8,8 +8,6 @@ import MyProfile from "./Components/MyProfile/MyProfile";
 
 interface AppState {
   sessionToken: string | null;
-  userId: number;
-  // sessionToken: any;
 }
 
 interface AppProps {
@@ -17,14 +15,16 @@ interface AppProps {
 }
 
 class App extends Component<AppProps, AppState> {
-  state: AppState = {
-    sessionToken: "",
-    userId: 0
-  };
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      sessionToken: ""
+    };
+  }
 
   componentDidMount() {
+    console.log("App mounted");
     if (localStorage.getItem("token")) {
-      console.log("App mounted");
       let localToken = localStorage.getItem("token");
       this.setState({ sessionToken: localToken });
     }
@@ -34,8 +34,6 @@ class App extends Component<AppProps, AppState> {
     if (prevState.sessionToken !== this.state.sessionToken) {
       console.log("Current state value for token: ", this.state.sessionToken);
       console.log("previous state value for token: ", prevState.sessionToken);
-      // this.setState({ sessionToken: ">:|" });
-      // localStorage.setItem("token", this.state.sessionToken);
     } else {
       console.log("no");
     }
@@ -46,28 +44,23 @@ class App extends Component<AppProps, AppState> {
     this.setState({ sessionToken: newToken });
   };
 
-  updateUserId = (id: number) => {
-    this.setState({ userId: id });
-  };
+  //userId is stored as a string in localstorage
+  // updateUserId = (id: number) => {
+  //   localStorage.setItem("userid", `${id}`);
+  // };
 
   render() {
     return (
       <div>
         <Router>
           <Switch>
-            <Route exact path="/">
+            <Route exact path="/posts">
               <Adopt />
-              <Auth
-                updateToken={this.updateToken}
-                updateUserId={this.updateUserId}
-              />
+              <Auth updateToken={this.updateToken} />
               <Post sessionToken={this.state.sessionToken} />
             </Route>
             <Route exact path="/myprofile">
-              <MyProfile
-                sessionToken={this.state.sessionToken}
-                userid={this.state.userId}
-              />
+              <MyProfile sessionToken={this.state.sessionToken} />
             </Route>
           </Switch>
         </Router>

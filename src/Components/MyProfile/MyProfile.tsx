@@ -1,8 +1,8 @@
 import React, { Component, SyntheticEvent } from "react";
+import MyProfileDisplay from "./MyProfileDisplay";
 
 interface MyProfileProps {
   sessionToken: any;
-  userid: number;
 }
 
 interface MyProfileState {
@@ -12,6 +12,7 @@ interface MyProfileState {
   gender: string;
   profile: [];
   postResults: [];
+  userIdTest: number;
 }
 
 class MyProfile extends Component<MyProfileProps, MyProfileState> {
@@ -23,21 +24,25 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       bio: "",
       gender: "",
       profile: [],
-      postResults: []
+      postResults: [],
+      userIdTest: 0
     };
   }
 
   componentDidMount() {
     console.log("MyProfile mounted");
+    this.getPosts();
   }
 
-  componentDidUpdate(prevProps: any, prevState: any) {
+  componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
     if (this.props.sessionToken !== prevProps.sessionToken) {
-      this.showMyProfile();
-      this.getPostsComments();
-    }
-    if (this.props.userid !== prevProps.userid) {
-      this.showMyProfile();
+      // this.showMyProfile();
+      this.getPosts();
+      console.log(this.props.sessionToken);
+      console.log(prevProps.sessionToken);
+    } else {
+      console.log(this.props.sessionToken);
+      console.log(prevProps.sessionToken);
     }
   }
 
@@ -81,7 +86,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       .catch(err => console.log("error ", err));
   };
 
-  getPostsComments = () => {
+  getPosts = () => {
     let url = "http://localhost:3000/posts/mine";
     fetch(url, {
       method: "GET",
@@ -94,6 +99,8 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       .then(json => {
         console.log(json);
         this.setState({ postResults: json });
+        this.setState({ userIdTest: json[0].userId });
+        console.log(json[0].userId);
       })
       .catch(err => console.log("error", err));
   };
@@ -105,6 +112,8 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
           <MyProfileDisplay
             post={post}
             sessionToken={this.props.sessionToken}
+            getPosts={this.getPosts}
+            userIdTest={this.state.userIdTest}
           />
         </div>
       );
@@ -113,7 +122,13 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
 
   render() {
     return (
-      <div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flexFlow: "wrap column"
+        }}
+      >
         <h3>Create Profile</h3>
         <form onSubmit={e => this.createProfile(e)}>
           <input
@@ -144,9 +159,8 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
             placeholder="gender"
             onChange={e => this.setState({ gender: e.target.value })}
           />
-          <button>Create Profile</button>
+          <button>Update Profile(still need to update)</button>
         </form>
-        {/* <button onClick={() => this.showMyActivity()}>Click</button> */}
         {this.displayPosts()}
       </div>
     );
@@ -154,85 +168,3 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
 }
 
 export default MyProfile;
-
-interface MyProfileDisplayProps {
-  post: any;
-  sessionToken: any;
-}
-
-interface MyProfileDisplayState {
-  comments: [];
-}
-
-class MyProfileDisplay extends Component<
-  MyProfileDisplayProps,
-  MyProfileDisplayState
-> {
-  constructor(props: any) {
-    super(props);
-    this.state = {
-      comments: []
-    };
-  }
-
-  getComments = () => {
-    fetch(`http://localhost:3000/comments/${this.props.post.id}`, {
-      method: "GET",
-      headers: new Headers({
-        Authorization: this.props.sessionToken
-      })
-    })
-      .then(res => res.json())
-      .then(json => this.setState({ comments: json.comment }));
-  };
-
-  componentDidUpdate(prevProps: any, prevState: any) {
-    if (prevProps.post !== this.props.post) {
-      this.getComments();
-    }
-  }
-
-  displayComments = () => {
-    return this.state.comments.map((comment: any) => {
-      return (
-        <div key={comment.id}>
-          {comment.body}
-          {`, comment id: `} {comment.id}
-          {`, postid: ${this.props.post.id}`}
-        </div>
-      );
-    });
-  };
-
-  render() {
-    return (
-      <div key={this.props.post.id}>
-        <hr />
-        {this.props.post.title} {this.props.post.id}
-        <br />
-        <hr />
-        Comments Section
-        {this.getComments()}
-        {this.displayComments()}
-      </div>
-    );
-  }
-}
-
-//Works but returns profile null?
-//   showMyActivity = () => {
-//     let url = `http://localhost:3000/profiles/${this.props.userid}`;
-//     fetch(url, {
-//       method: "GET",
-//       headers: new Headers({
-//         "Content-Type": "application/json",
-//         Authorization: this.props.sessionToken
-//       })
-//     })
-//       .then(res => res.json())
-//       .then(json => {
-//         console.log(json);
-//         this.setState({ profileActivity: json });
-//       })
-//       .catch(err => console.log("error ", err));
-//   };

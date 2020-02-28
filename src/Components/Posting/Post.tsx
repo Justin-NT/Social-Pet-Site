@@ -25,12 +25,13 @@ class Post extends React.Component<PostProps, PostState> {
   //   state = { title: "", feeling: "", body: "" };
   componentDidMount() {
     console.log("Post mounted");
+    this.getPosts();
   }
 
   //There was a bug with the component rendering before the prop of sessiontoken could be passed, so the post fetch wasnt rendering. This will fetch all of the users own posts on load
   componentDidUpdate(prevProps: any, prevState: any) {
     if (this.props.sessionToken !== prevProps.sessionToken) {
-      console.log("Component updated");
+      console.log("Post Component updated");
       this.getPosts();
     }
     //Arrays are copied by reference value and not actual value, so comparing the previous and current postResults will always bring back false. We have to use a function to compare
@@ -95,7 +96,7 @@ class Post extends React.Component<PostProps, PostState> {
         Authorization: this.props.sessionToken
       })
     })
-      .then(res => JSON.stringify(res))
+      .then(res => res.json())
       .then(json => {
         console.log("Post deleted", json);
       })
