@@ -2,9 +2,6 @@ import React, { Component, SyntheticEvent } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
-
-
-
 interface SigninState {
   email: string;
   password: string;
@@ -15,10 +12,7 @@ interface SigninProps {
 }
 
 class Signin extends Component<SigninProps, SigninState> {
-  constructor(props: SigninProps) {
-    super(props);
-    this.state = { email: "", password: "" };
-  }
+  state: SigninState = { email: "", password: "" };
 
   signinFetch = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -36,24 +30,36 @@ class Signin extends Component<SigninProps, SigninState> {
       .then(response => response.json())
       .then(data => {
         console.log(data);
+        console.log(data.sessionToken);
+        console.log(this.props);
         this.props.updateToken(data.sessionToken);
       })
       .catch(err => console.log("error: ", err));
   };
 
-  
-    
-  
-
   render() {
+    {
+      console.log(this.props);
+    }
     return (
       <div>
-       
-        <form onSubmit={e => this.signinFetch(e)}> 
-            <TextField type="email" value={this.state.email} name="email" placeholder="Email" onChange={e => this.setState({ email: e.target.value })}/>
-            <TextField type="password" value={this.state.password} name="password" placeholder="Password" onChange={e => this.setState({ password: e.target.value })}/>
-             <Button type="submit">Login</Button>
-          </form>
+        <form onSubmit={e => this.signinFetch(e)}>
+          <TextField
+            type="email"
+            value={this.state.email}
+            name="email"
+            placeholder="Email"
+            onChange={e => this.setState({ email: e.target.value })}
+          />
+          <TextField
+            type="password"
+            value={this.state.password}
+            name="password"
+            placeholder="Password"
+            onChange={e => this.setState({ password: e.target.value })}
+          />
+          <Button type="submit">Login</Button>
+        </form>
       </div>
     );
   }
@@ -61,20 +67,20 @@ class Signin extends Component<SigninProps, SigninState> {
 
 export default Signin;
 
-        // <form onSubmit={e => this.signinFetch(e)}>
-        //   <input
-        //     type="email"
-        //     placeholder="email"
-        //     value={this.state.email}
-        //     name="email"
-        //     onChange={e => this.setState({ email: e.target.value })}
-        //   />
-        //   <input
-        //     type="password"
-        //     placeholder="password"
-        //     value={this.state.password}
-        //     name="password"
-        //     onChange={e => this.setState({ password: e.target.value })}
-        //   />
-        //   <button>Signin</button>
-        // </form>
+// <form onSubmit={e => this.signinFetch(e)}>
+//   <input
+//     type="email"
+//     placeholder="email"
+//     value={this.state.email}
+//     name="email"
+//     onChange={e => this.setState({ email: e.target.value })}
+//   />
+//   <input
+//     type="password"
+//     placeholder="password"
+//     value={this.state.password}
+//     name="password"
+//     onChange={e => this.setState({ password: e.target.value })}
+//   />
+//   <button>Signin</button>
+// </form>

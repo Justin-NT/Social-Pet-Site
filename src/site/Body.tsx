@@ -32,8 +32,23 @@ class Body extends Component<BodyProps, BodyState> {
   }
   render() {
     return (
-      <div>
-        <BodyDisplay />
+      <div className="maindiv">
+        {console.log(this.props.updateToken)}
+        <h3 className="mission">
+          Tired of seeing a depressing scene as you mindlessly scroll through
+          your social media?
+        </h3>
+        <h1 className="mission">Don't!</h1>
+        <h3 className="mission">
+          Stay happy and keep your heart full at Petazoa!{" "}
+        </h3>
+
+        <Background>
+          <Signin updateToken={this.props.updateToken} />
+          <Link>No Profile? Click here.</Link>
+          {/* <Signup updateToken={props.updateToken} updateUserId={props.updateUserId}/> */}
+          <Kitten src={Kitty} alt="Petazoa" />
+        </Background>
       </div>
     );
   }
@@ -46,28 +61,7 @@ const Background = styled.div`
 const Kitten = styled.img`
   width: 100vw;
   position: static;
+  flex-shrink: 1;
 `;
-
-const BodyDisplay = (props: any) => {
-  return (
-    <div className="maindiv">
-      <h3 className="mission">
-        Tired of seeing a depressing scene as you mindlessly scroll through your
-        social media?
-      </h3>
-      <h1 className="mission">Don't!</h1>
-      <h3 className="mission">
-        Stay happy and keep your heart full at Petazoa!{" "}
-      </h3>
-
-      <Background>
-        <Signin updateToken={props.updateToken} />
-        <Link>No Profile? Click here.</Link>
-        {/* <Signup updateToken={props.updateToken} updateUserId={props.updateUserId}/> */}
-        <Kitten src={Kitty} alt="Petazoa" />
-      </Background>
-    </div>
-  );
-};
 
 export default Body;

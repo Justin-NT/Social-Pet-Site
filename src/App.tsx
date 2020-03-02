@@ -42,16 +42,15 @@ class App extends Component<AppProps, AppState> {
     }
   }
 
-  updateToken = (newToken: string) => {
+  updateToken = (newToken: string): any => {
     localStorage.setItem("token", newToken);
     this.setState({ sessionToken: newToken });
   };
 
-  // updateUserId = (id: number) => {
-  //   this.setState({ userId: id });
-  // };
-
   render() {
+    {
+      console.log(this.updateToken);
+    }
     return (
       <div>
         <Router>
