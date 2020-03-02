@@ -1,12 +1,16 @@
 import React, { createRef, SyntheticEvent } from "react";
+import "./Comment.css";
+import TextField from "@material-ui/core/TextField";
+import Grid from "@material-ui/core/Grid";
 
 interface CommentProps {
-  onSubmit: any;
-  onClose: any;
+  comment: any;
+  closeModal: any;
+  submitCommentUpdate: any;
 }
 
 interface CommentState {
-  value: any;
+  newComment: string | null;
 }
 
 class commentModal extends React.Component<CommentProps, CommentState> {
@@ -14,41 +18,46 @@ class commentModal extends React.Component<CommentProps, CommentState> {
   constructor(props: any) {
     super(props);
     this.inputRef = createRef();
-    this.state = { value: props.initialValue };
+    this.state = { newComment: this.props.comment.comment };
   }
 
   componentDidMount() {
     this.inputRef.current.focus();
   }
 
-  onChange = (e: SyntheticEvent) => {
-    this.setState({ value: e.target.value });
-  };
-
-  onSubmit = (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-    const { value } = this.state;
-    const { onSubmit, onClose } = this.props;
-    onSubmit(value);
-    onClose();
-  };
-
   render() {
-    const { value } = this.state;
-
     return (
       <div className="modal--overlay">
         <div className="modal">
-          <h1>Insert a new value</h1>
-          <form action="?" onSubmit={this.onSubmit}>
-            <input
-              ref={this.inputRef}
+          <h1>Update your Comment</h1>
+          <Grid item xs={12}>
+            <TextField
+              inputRef={this.inputRef}
               type="text"
-              onChange={this.onChange}
-              value={value}
+              onChange={e => this.setState({ newComment: e.target.value })}
+              value={this.state.newComment}
+              //   defaultValue={this.props.comment.comment}
+              variant="outlined"
+              placeholder={this.props.comment.comment}
             />
-            <button>Save new value</button>
-          </form>
+          </Grid>
+          <Grid container spacing={3}>
+            <Grid item xs={6}>
+              <button
+                onClick={() =>
+                  this.props.submitCommentUpdate(
+                    this.props.comment.id,
+                    this.state.newComment
+                  )
+                }
+              >
+                Save comment
+              </button>
+            </Grid>
+            <Grid item xs={6}>
+              <button onClick={() => this.props.closeModal()}>Cancel</button>
+            </Grid>
+          </Grid>
         </div>
       </div>
     );

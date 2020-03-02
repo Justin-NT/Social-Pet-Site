@@ -161,6 +161,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
           />
           <button>Update Profile(still need to update)</button>
         </form>
+        <button onClick={() => this.showMyProfile()}>Show Profile</button>
         {this.displayPosts()}
       </div>
     );

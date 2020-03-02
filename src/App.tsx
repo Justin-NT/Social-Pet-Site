@@ -54,7 +54,7 @@ class App extends Component<AppProps, AppState> {
       <div>
         <Router>
           <Switch>
-            <Route exact path="/posts">
+            <Route exact path="/">
               <Adopt />
               <Auth updateToken={this.updateToken} />
               <Post sessionToken={this.state.sessionToken} />

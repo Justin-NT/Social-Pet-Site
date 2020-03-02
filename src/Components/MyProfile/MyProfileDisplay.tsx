@@ -15,6 +15,7 @@ import SendIcon from "@material-ui/icons/Send";
 import UpdateIcon from "@material-ui/icons/Update";
 import { TextField } from "@material-ui/core";
 import CommentDisplay from "./CommentDisplay";
+import PostModal from "./PostModal";
 
 const useStyles = (theme: any) =>
   createStyles({
@@ -57,7 +58,8 @@ interface MyProfileDisplayProps {
 interface MyProfileDisplayState {
   comments: [];
   createdComment: string;
-  updateCommentTest: boolean;
+  editComment: boolean;
+  editPost: boolean;
 }
 
 class MyProfileDisplay extends Component<
@@ -69,9 +71,64 @@ class MyProfileDisplay extends Component<
     this.state = {
       comments: [],
       createdComment: "",
-      updateCommentTest: true
+      editComment: false,
+      editPost: false
     };
   }
+
+  submitCommentUpdate = (commentId: number, newComment: string) => {
+    let url = `http://localhost:3000/comments/${commentId}`;
+    console.log(url);
+    console.log(newComment);
+    fetch(url, {
+      method: "PUT",
+      body: JSON.stringify({
+        comment: newComment
+      }),
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: this.props.sessionToken
+      })
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+        this.getComments();
+      })
+      .then(() => this.closeCommentModal())
+      .catch(err => console.log("Error: ", err));
+  };
+
+  submitPostUpdate = (postId: number, newBody: string) => {
+    let url = `http://localhost:3000/posts/${postId}`;
+    fetch(url, {
+      method: "PUT",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: this.props.sessionToken
+      }),
+      body: JSON.stringify({
+        title: this.props.post.title,
+        feeling: this.props.post.feeling,
+        body: newBody
+      })
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log("Updated successfully", json);
+        this.props.getPosts();
+        this.closePostModal();
+      })
+      .catch(err => console.log("error: ", err));
+  };
+
+  closeCommentModal = () => {
+    this.setState({ editComment: false });
+  };
+
+  closePostModal = () => {
+    this.setState({ editPost: false });
+  };
 
   componentDidMount() {
     this.getComments();
@@ -168,11 +225,13 @@ class MyProfileDisplay extends Component<
 
   updatePost = () => {
     console.log("This is where the post update will happen");
+    this.setState({ editPost: !this.state.editPost });
     console.log(this.props.userIdTest);
   };
 
   updateComment = (commentId: number) => {
     console.log("This is where the comment update will happen");
+    this.setState({ editComment: !this.state.editComment });
     return commentId;
   };
 
@@ -180,6 +239,13 @@ class MyProfileDisplay extends Component<
     const { classes } = this.props;
     return (
       <Card className={classes.root}>
+        {this.state.editPost ? (
+          <PostModal
+            closeModal={this.closePostModal}
+            post={this.props.post}
+            submitPostUpdate={this.submitPostUpdate}
+          />
+        ) : null}
         <CardHeader
           className={classes.cardhead}
           avatar={
@@ -207,6 +273,17 @@ class MyProfileDisplay extends Component<
                 {comment.comment}
                 {comment.userId === this.props.userIdTest ? (
                   <Button
+                    color="primary"
+                    variant="contained"
+                    startIcon={<UpdateIcon />}
+                    className={classes.button}
+                    onClick={() => this.updateComment(comment.id)}
+                  >
+                    Update
+                  </Button>
+                ) : null}
+                {comment.userId === this.props.userIdTest ? (
+                  <Button
                     color="secondary"
                     variant="contained"
                     startIcon={<DeleteIcon />}
@@ -216,17 +293,12 @@ class MyProfileDisplay extends Component<
                     Delete
                   </Button>
                 ) : null}
-
-                {comment.userId === this.props.userIdTest ? (
-                  <Button
-                    color="primary"
-                    variant="contained"
-                    startIcon={<UpdateIcon />}
-                    className={classes.button}
-                    onClick={() => this.updateComment(comment.id)}
-                  >
-                    Update
-                  </Button>
+                {this.state.editComment ? (
+                  <CommentDisplay
+                    comment={comment}
+                    closeModal={this.closeCommentModal}
+                    submitCommentUpdate={this.submitCommentUpdate}
+                  />
                 ) : null}
               </div>
             );
