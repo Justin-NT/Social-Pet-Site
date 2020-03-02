@@ -1,10 +1,13 @@
 import React, { Component } from "react";
 import "./App.css";
-import Adopt from "./Components/Adopt/Adopt";
+// import Adopt from "./Components/Adopt/Adopt";
 import Auth from "./Components/Auth/Auth";
 import Post from "./Components/Posting/Post";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import MyProfile from "./Components/MyProfile/MyProfile";
+import Navbar from "./site/Navbar";
+import Body from "./site/Body";
+import Footer from "./site/Footer";
 
 interface AppState {
   sessionToken: string | null;
@@ -44,25 +47,25 @@ class App extends Component<AppProps, AppState> {
     this.setState({ sessionToken: newToken });
   };
 
-  //userId is stored as a string in localstorage
   // updateUserId = (id: number) => {
-  //   localStorage.setItem("userid", `${id}`);
+  //   this.setState({ userId: id });
   // };
 
   render() {
     return (
       <div>
         <Router>
+          <Navbar />
           <Switch>
             <Route exact path="/">
-              <Adopt />
-              <Auth updateToken={this.updateToken} />
-              <Post sessionToken={this.state.sessionToken} />
+              <Body updateToken={this.updateToken} />
+              {/* <Post sessionToken={this.state.sessionToken} /> */}
             </Route>
             <Route exact path="/myprofile">
               <MyProfile sessionToken={this.state.sessionToken} />
             </Route>
           </Switch>
+          <Footer />
         </Router>
       </div>
     );
