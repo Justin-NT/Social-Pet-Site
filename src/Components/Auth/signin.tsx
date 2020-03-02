@@ -9,14 +9,12 @@ interface SigninState {
 
 interface SigninProps {
   updateToken(newToken: string): any;
-  updateUserId: any;
 }
 
 class Signin extends Component<SigninProps, SigninState> {
-  constructor(props: SigninProps) {
-    super(props);
-    this.state = { email: "", password: "" };
-  }
+  // constructor(props: SigninProps) {
+  //   super(props);
+  state: SigninState = { email: "", password: "" };
 
   signinFetch = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -39,13 +37,8 @@ class Signin extends Component<SigninProps, SigninState> {
         .then(data => {
           console.log(data);
           this.props.updateToken(data.sessionToken);
-          this.props.updateUserId(data.user.id);
         })
         .catch(err => console.log("error: ", err));
-    } else {
-      console.log(
-        "Password requires minimum of 8 characters, with 1 number and one special character"
-      );
     }
   };
 
@@ -73,7 +66,6 @@ class Signin extends Component<SigninProps, SigninState> {
     );
   }
 }
-
 export default Signin;
 
 // <form onSubmit={e => this.signinFetch(e)}>

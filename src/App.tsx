@@ -11,8 +11,6 @@ import Footer from "./site/Footer";
 
 interface AppState {
   sessionToken: string | null;
-  userId: number;
-  // sessionToken: any;
 }
 
 interface AppProps {
@@ -20,14 +18,16 @@ interface AppProps {
 }
 
 class App extends Component<AppProps, AppState> {
-  state: AppState = {
-    sessionToken: "",
-    userId: 0
-  };
+  constructor(props: any) {
+    super(props);
+    this.state = {
+      sessionToken: ""
+    };
+  }
 
   componentDidMount() {
+    console.log("App mounted");
     if (localStorage.getItem("token")) {
-      console.log("App mounted");
       let localToken = localStorage.getItem("token");
       this.setState({ sessionToken: localToken });
     }
@@ -37,8 +37,6 @@ class App extends Component<AppProps, AppState> {
     if (prevState.sessionToken !== this.state.sessionToken) {
       console.log("Current state value for token: ", this.state.sessionToken);
       console.log("previous state value for token: ", prevState.sessionToken);
-      // this.setState({ sessionToken: ">:|" });
-      // localStorage.setItem("token", this.state.sessionToken);
     } else {
       console.log("no");
     }
@@ -49,33 +47,25 @@ class App extends Component<AppProps, AppState> {
     this.setState({ sessionToken: newToken });
   };
 
-  updateUserId = (id: number) => {
-    this.setState({ userId: id });
-  };
+  // updateUserId = (id: number) => {
+  //   this.setState({ userId: id });
+  // };
 
   render() {
     return (
       <div>
         <Router>
+          <Navbar />
           <Switch>
             <Route exact path="/">
-              {/* <Auth
-                updateToken={this.updateToken}
-                updateUserId={this.updateUserId}
-              /> */}
-              <Body
-                updateToken={this.updateToken}
-                updateUserId={this.updateUserId}
-              />
-              <Post sessionToken={this.state.sessionToken} />
+              <Body updateToken={this.updateToken} />
+              {/* <Post sessionToken={this.state.sessionToken} /> */}
             </Route>
             <Route exact path="/myprofile">
-              <MyProfile
-                sessionToken={this.state.sessionToken}
-                userid={this.state.userId}
-              />
+              <MyProfile sessionToken={this.state.sessionToken} />
             </Route>
           </Switch>
+          <Footer />
         </Router>
       </div>
     );

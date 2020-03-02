@@ -1,8 +1,8 @@
 import React, { Component, SyntheticEvent } from "react";
+import MyProfileDisplay from "./MyProfileDisplay";
 
 interface MyProfileProps {
   sessionToken: any;
-  userid: number;
 }
 
 interface MyProfileState {
@@ -10,7 +10,9 @@ interface MyProfileState {
   animal: string;
   bio: string;
   gender: string;
-  profileActivity: [];
+  profile: [];
+  postResults: [];
+  userIdTest: number;
 }
 
 class MyProfile extends Component<MyProfileProps, MyProfileState> {
@@ -21,20 +23,26 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       animal: "",
       bio: "",
       gender: "",
-      profileActivity: []
+      profile: [],
+      postResults: [],
+      userIdTest: 0
     };
   }
 
   componentDidMount() {
     console.log("MyProfile mounted");
+    this.getPosts();
   }
 
-  componentDidUpdate(prevProps: any, prevState: any) {
+  componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
     if (this.props.sessionToken !== prevProps.sessionToken) {
-      this.showMyProfile();
-    }
-    if (this.props.userid !== prevProps.userid) {
-      this.showMyProfile();
+      // this.showMyProfile();
+      this.getPosts();
+      console.log(this.props.sessionToken);
+      console.log(prevProps.sessionToken);
+    } else {
+      console.log(this.props.sessionToken);
+      console.log(prevProps.sessionToken);
     }
   }
 
@@ -73,37 +81,55 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       .then(res => res.json())
       .then(json => {
         console.log(json);
-        // this.setState({ profileActivity: json });
+        this.setState({ profile: json });
       })
       .catch(err => console.log("error ", err));
   };
 
-  //Works but returns profile null?
-  //   showMyActivity = () => {
-  //     let url = `http://localhost:3000/profiles/${this.props.userid}`;
-  //     fetch(url, {
-  //       method: "GET",
-  //       headers: new Headers({
-  //         "Content-Type": "application/json",
-  //         Authorization: this.props.sessionToken
-  //       })
-  //     })
-  //       .then(res => res.json())
-  //       .then(json => {
-  //         console.log(json);
-  //         this.setState({ profileActivity: json });
-  //       })
-  //       .catch(err => console.log("error ", err));
-  //   };
+  getPosts = () => {
+    let url = "http://localhost:3000/posts/mine";
+    fetch(url, {
+      method: "GET",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: this.props.sessionToken
+      })
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+        this.setState({ postResults: json });
+        this.setState({ userIdTest: json[0].userId });
+        console.log(json[0].userId);
+      })
+      .catch(err => console.log("error", err));
+  };
 
-  profileMapper = () => {
-    return;
+  displayPosts = () => {
+    return this.state.postResults.map((post: any) => {
+      return (
+        <div key={post.id}>
+          <MyProfileDisplay
+            post={post}
+            sessionToken={this.props.sessionToken}
+            getPosts={this.getPosts}
+            userIdTest={this.state.userIdTest}
+          />
+        </div>
+      );
+    });
   };
 
   render() {
     return (
-      <div>
-        Create Profile
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flexFlow: "wrap column"
+        }}
+      >
+        <h3>Create Profile</h3>
         <form onSubmit={e => this.createProfile(e)}>
           <input
             type="text"
@@ -133,17 +159,13 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
             placeholder="gender"
             onChange={e => this.setState({ gender: e.target.value })}
           />
-          <button>Create Profile</button>
+          <button>Update Profile(still need to update)</button>
         </form>
-        {/* <button onClick={() => this.showMyActivity()}>Click</button> */}
-        <hr />
+        <button onClick={() => this.showMyProfile()}>Show Profile</button>
+        {this.displayPosts()}
       </div>
     );
   }
 }
 
 export default MyProfile;
-
-const MyProfileDisplay = () => {
-  return <div></div>;
-};

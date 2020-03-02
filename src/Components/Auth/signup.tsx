@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button";
 
 interface SignupProps {
   updateToken: any;
-  updateUserId: any;
 }
 
 interface SignupState {
@@ -37,7 +36,6 @@ class Signup extends Component<SignupProps, SignupState> {
 
   signupFetch = (e: SyntheticEvent) => {
     e.preventDefault();
-
     let endpoint = "http://localhost:3000/auth/signup";
     return this.state.password.length >= 8 &&
       /^(?=.*\d)(?=.*[!@#$%^&*])$/.test(this.state.password)

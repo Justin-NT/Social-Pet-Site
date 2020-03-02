@@ -51,12 +51,11 @@ const useStyles = makeStyles({
   }
 });
 
-interface SigninProps {
-  updateToken(newToken: string): any;
-  updateUserId: any;
-}
+interface SigninProps {}
 
-const NavbarDisplay = ({ updateToken, updateUserId }: SigninProps) => {
+interface SigninState {}
+
+const NavbarDisplay = () => {
   const classes = useStyles();
 
   return (
@@ -65,17 +64,18 @@ const NavbarDisplay = ({ updateToken, updateUserId }: SigninProps) => {
         <Appbar position="static" className={classes.color}>
           <Toolbar>
             <Typography className={classes.peta}>Petazoa</Typography>
-            <Router>
-              <Link className={classes.links} to="/MyProfile">
-                My Profile
-              </Link>
-              <Link className={classes.links} to="/Feed">
-                My Feed
-              </Link>
-              <Link className={classes.links} to="/Adopt">
-                Adopt
-              </Link>
-            </Router>
+            <Link className={classes.links} to="/">
+              Home
+            </Link>
+            <Link className={classes.links} to="/MyProfile">
+              My Profile
+            </Link>
+            <Link className={classes.links} to="/Feed">
+              My Feed
+            </Link>
+            <Link className={classes.links} to="/Adopt">
+              Adopt
+            </Link>
           </Toolbar>
         </Appbar>
       </Box>
