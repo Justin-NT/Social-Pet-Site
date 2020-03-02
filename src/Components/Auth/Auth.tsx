@@ -5,6 +5,7 @@ import Signin from "./signin";
 interface AuthProps {
   updateToken: any;
   updateUserId: any;
+  inSwitch: boolean;
 }
 
 class Auth extends Component<AuthProps> {
@@ -12,6 +13,7 @@ class Auth extends Component<AuthProps> {
     return (
       <div>
         <Signup
+          inSwitch={this.props.inSwitch}
           updateToken={this.props.updateToken}
           updateUserId={this.props.updateUserId}
         />
