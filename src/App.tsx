@@ -19,8 +19,6 @@ interface AppProps {
   updateToken?: any;
 }
 
-
-
 class App extends Component<AppProps, AppState> {
   state: AppState = {
     sessionToken: "",
@@ -54,7 +52,6 @@ class App extends Component<AppProps, AppState> {
   updateUserId = (id: number) => {
     this.setState({ userId: id });
   };
-  
 
   render() {
     return (
@@ -66,7 +63,10 @@ class App extends Component<AppProps, AppState> {
                 updateToken={this.updateToken}
                 updateUserId={this.updateUserId}
               /> */}
-        <Body updateToken={this.updateToken} updateUserId={this.updateUserId}/>
+              <Body
+                updateToken={this.updateToken}
+                updateUserId={this.updateUserId}
+              />
               <Post sessionToken={this.state.sessionToken} />
             </Route>
             <Route exact path="/myprofile">
@@ -82,14 +82,4 @@ class App extends Component<AppProps, AppState> {
   }
 }
 
-
 export default App;
-
-
-
-
-
-
-
-
-
