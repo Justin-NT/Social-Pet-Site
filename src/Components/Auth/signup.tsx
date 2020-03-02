@@ -4,7 +4,6 @@ import Button from "@material-ui/core/Button"
 
 interface SignupProps {
   updateToken: any;
-  updateUserId: any;
 }
 
 interface SignupState {
@@ -55,7 +54,6 @@ class Signup extends Component<SignupProps, SignupState> {
       .then(data => {
         console.log(data);
         this.props.updateToken(data.sessionToken);
-        // this.props.updateUserId(data.user.id);
       })
       .catch(err => console.log("error: ", err));
   };

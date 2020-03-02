@@ -14,88 +14,85 @@ import { makeStyles } from "@material-ui/core/styles";
 // import Input from "@material-ui/core/Input";
 import Box from "@material-ui/core/Box";
 
-
-
 const useStyles = makeStyles({
   root: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   title: {
-    flexGrow: 1,
+    flexGrow: 1
   },
   color: {
-    backgroundColor: '#61c899',
+    backgroundColor: "#61c899",
     justifyContent: "space-between"
   },
   peta: {
-    fontFamily: 'Krona One',
+    fontFamily: "Krona One",
     fontSize: "40px",
+    textDecoration: "none"
   },
   links: {
-      fontFamily: "Krona One",
-      fontSize: "10px",
-      justifyContent: "space-between",
-      color: "white",
-      
+    fontFamily: "Krona One",
+    fontSize: "10px",
+    justifyContent: "space-between",
+    color: "white"
   },
   button: {
-      fontFamily: 'Krona One',
-      color: "white",
-      alignSelf: "right",
+    fontFamily: "Krona One",
+    color: "white",
+    alignSelf: "right"
   },
   input: {
-       justifyContent: "center",
+    justifyContent: "center"
   },
   blinks: {
     fontFamily: "Krona One",
     fontSize: "7px",
     justifyContent: "space-between",
-    color: "white",
-  },
-  
-})
+    color: "white"
+  }
+});
 
+interface SigninProps {}
 
+interface SigninState {}
 
-interface SigninProps {
-  updateToken(newToken: string): any;
-  updateUserId: any;
-}
-
-
-
-
-const NavbarDisplay = ({updateToken, updateUserId}: SigninProps) => {
-  
+const NavbarDisplay = () => {
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       <Box justifyContent="flex-end">
-      <Appbar position="static" className={classes.color}>
-        <Toolbar>
-          <Typography className={classes.peta}>Petazoa</Typography>
-          <Router>
-            <Link className={classes.links} to="/MyProfile">My Profile</Link>
-            <Link className={classes.links} to="/Feed">My Feed</Link>
-            <Link className={classes.links} to="/Adopt">Adopt</Link>
-          </Router>
-        </Toolbar>
-      </Appbar>
+        <Appbar position="static" className={classes.color}>
+          <Toolbar>
+            <Typography className={classes.peta}>Petazoa</Typography>
+            <Link className={classes.links} to="/">
+              Home
+            </Link>
+            <Link className={classes.links} to="/MyProfile">
+              My Profile
+            </Link>
+            <Link className={classes.links} to="/Feed">
+              My Feed
+            </Link>
+            <Link className={classes.links} to="/Adopt">
+              Adopt
+            </Link>
+          </Toolbar>
+        </Appbar>
       </Box>
-      
-    <Router>
-      <Switch>
-        <Route exact path="/Feed">
-          <Feed />
-        </Route>
-        <Route exact path="/MyProfile">
-          <MyProfile />
-        </Route>
-        <Route exact path="/Adopt">
-          <Adopt />
-        </Route>
-      </Switch>
+
+      <Router>
+        <Switch>
+          <Route exact path="/Feed">
+            <Feed />
+          </Route>
+          <Route exact path="/MyProfile">
+            <MyProfile />
+          </Route>
+          <Route exact path="/Adopt">
+            <Adopt />
+          </Route>
+        </Switch>
       </Router>
     </div>
   );
