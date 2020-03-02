@@ -1,10 +1,31 @@
 import React, { Component, SyntheticEvent } from "react";
 import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button"
+import Button from "@material-ui/core/Button";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+// import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import styled from 'styled-components';
+
+
+const Container = styled.div`
+  width: 90%;
+  height: 50%;
+  font-family: Krona One;
+  display: flex;
+`;
+const Header = styled.div`
+  background-color: #61c899;
+  font-family: 'Krona One', sans-serif;
+`
+
+
 
 interface SignupProps {
   updateToken: any;
   updateUserId: any;
+  inSwitch: boolean;
 }
 
 interface SignupState {
@@ -17,7 +38,11 @@ interface SignupState {
   animal: string;
   gender: string;
   bio: string;
+  image: string;
+  open: boolean;
 }
+
+
 
 class Signup extends Component<SignupProps, SignupState> {
   constructor(props: any) {
@@ -32,6 +57,8 @@ class Signup extends Component<SignupProps, SignupState> {
       animal: "",
       gender: "",
       bio: "",
+      image: "",
+      open: true,
     };
   }
 
@@ -60,10 +87,17 @@ class Signup extends Component<SignupProps, SignupState> {
       .catch(err => console.log("error: ", err));
   };
 
+
   render() {
+
+    
+    
     return (
-      <div>
+      <Container>
+        <Dialog open={this.props.inSwitch}>
+          <Header><DialogTitle>Sign up and Create a profile</DialogTitle></Header>
         <form onSubmit={e => this.signupFetch(e)}> 
+            <DialogContent>
             <TextField type="text" value={this.state.firstname} name="firstname" placeholder="First" onChange={e=> this.setState({firstname: e.target.value})}/>
             <TextField type="text" value={this.state.lastname} name="lastname" placeholder="Last" onChange={e=> this.setState({lastname: e.target.value})}/>
             <TextField type="email" value={this.state.email} name="email" placeholder="Email" onChange={e => this.setState({ email: e.target.value })}/>
@@ -72,11 +106,25 @@ class Signup extends Component<SignupProps, SignupState> {
             <TextField type="text" value={this.state.animal} name="animal" placeholder="animal" onChange={e=> this.setState({animal: e.target.value})}/>
             <TextField type="text" value={this.state.gender} name="gender" placeholder="gender" onChange={e => this.setState({ gender: e.target.value })}/>
             <TextField type="text" value={this.state.bio} name="bio" placeholder="bio" onChange={e => this.setState({ bio: e.target.value })}/>
-            <Button type="submit">Login</Button>
+            <TextField type="file" value={this.state.image} name="image" placeholder="image" onChange={e => this.setState({ image: e.target.value })}/>
+          </DialogContent>
+            <DialogActions>
+            <Button type="submit">Create Profile</Button>
+            <Button>Cancel</Button>
+            </DialogActions>
           </form>
-      </div>
+          </Dialog>
+      </Container>
     );
   }
 }
 
 export default Signup;
+
+
+
+
+
+ 
+
+  

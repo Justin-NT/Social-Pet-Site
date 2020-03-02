@@ -1,6 +1,6 @@
 import React from "react";
 import Appbar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
+// import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 // import Button from "@material-ui/core/Button";
 // import TextField from "@material-ui/core/TextField";
@@ -13,6 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // import FormControl from "@material-ui/core/FormControl";
 // import Input from "@material-ui/core/Input";
 import Box from "@material-ui/core/Box";
+// import { flexbox } from "@material-ui/system";
 
 
 
@@ -36,23 +37,7 @@ const useStyles = makeStyles({
       fontSize: "10px",
       justifyContent: "space-between",
       color: "white",
-      
-  },
-  button: {
-      fontFamily: 'Krona One',
-      color: "white",
-      alignSelf: "right",
-  },
-  input: {
-       justifyContent: "center",
-  },
-  blinks: {
-    fontFamily: "Krona One",
-    fontSize: "7px",
-    justifyContent: "space-between",
-    color: "white",
-  },
-  
+  }, 
 })
 
 
@@ -71,19 +56,16 @@ const NavbarDisplay = ({updateToken, updateUserId}: SigninProps) => {
 
   return (
     <div className={classes.root}>
-      <Box justifyContent="flex-end">
       <Appbar position="static" className={classes.color}>
-        <Toolbar>
-          <Typography className={classes.peta}>Petazoa</Typography>
+          <Typography align="left" className={classes.peta}>Petazoa</Typography>
           <Router>
-            <Link className={classes.links} to="/MyProfile">My Profile</Link>
-            <Link className={classes.links} to="/Feed">My Feed</Link>
-            <Link className={classes.links} to="/Adopt">Adopt</Link>
+            <Box display="flex" justifyContent="space-around">
+             <Box display="flex"><Link className={classes.links} to="/MyProfile">My Profile</Link></Box>
+            <Box display="flex"><Link className={classes.links} to="/Feed">My Feed</Link></Box>
+            <Box display="flex"><Link className={classes.links} to="/Adopt">Adopt</Link></Box>
+            </Box>
           </Router>
-        </Toolbar>
-      </Appbar>
-      </Box>
-      
+      </Appbar>  
     <Router>
       <Switch>
         <Route exact path="/Feed">

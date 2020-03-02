@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 // import Adopt from "./Components/Adopt/Adopt";
-import Auth from "./Components/Auth/Auth";
+// import Auth from "./Components/Auth/Auth";
 import Post from "./Components/Posting/Post";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import MyProfile from "./Components/MyProfile/MyProfile";

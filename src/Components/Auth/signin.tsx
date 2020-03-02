@@ -1,9 +1,16 @@
 import React, { Component, SyntheticEvent } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
+import styled from 'styled-components';
 
-
-
+const Signinstyle = styled.div`
+      background-color: #61c899;
+      color: white;
+      width: 75%;
+      border-radius: 100px;
+      justify-content: center;
+      
+`
 
 interface SigninState {
   email: string;
@@ -49,14 +56,14 @@ class Signin extends Component<SigninProps, SigninState> {
 
   render() {
     return (
-      <div>
-       
+    
+      <Signinstyle>
         <form onSubmit={e => this.signinFetch(e)}> 
             <TextField type="email" value={this.state.email} name="email" placeholder="Email" onChange={e => this.setState({ email: e.target.value })}/>
             <TextField type="password" value={this.state.password} name="password" placeholder="Password" onChange={e => this.setState({ password: e.target.value })}/>
              <Button type="submit">Login</Button>
           </form>
-      </div>
+      </Signinstyle>
     );
   }
 }
