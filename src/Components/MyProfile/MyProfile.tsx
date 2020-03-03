@@ -1,6 +1,7 @@
 import React, { Component, SyntheticEvent } from "react";
 import MyProfileDisplay from "./MyProfileDisplay";
 import CreatePost from "./CreatePost";
+import UpdateProfileModal from "./Displays/UpdateProfileModal";
 
 interface MyProfileProps {
   sessionToken: any;
@@ -14,6 +15,7 @@ interface MyProfileState {
   profile: [];
   postResults: [];
   userIdTest: number;
+  editProfile: boolean;
 }
 
 class MyProfile extends Component<MyProfileProps, MyProfileState> {
@@ -26,7 +28,8 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       gender: "",
       profile: [],
       postResults: [],
-      userIdTest: 0
+      userIdTest: 0,
+      editProfile: false
     };
   }
 
@@ -37,7 +40,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
 
   componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
     if (this.props.sessionToken !== prevProps.sessionToken) {
-      // this.showMyProfile();
+      this.getMyProfile();
       this.getPosts();
       console.log(this.props.sessionToken);
       console.log(prevProps.sessionToken);
@@ -70,7 +73,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       .catch(err => console.log("error: ", err));
   };
 
-  showMyProfile = () => {
+  getMyProfile = () => {
     let url = "http://localhost:3000/profiles/mine";
     fetch(url, {
       method: "GET",
@@ -82,7 +85,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       .then(res => res.json())
       .then(json => {
         console.log(json);
-        this.setState({ profile: json });
+        this.setState({ profile: json[0] });
       })
       .catch(err => console.log("error ", err));
   };
@@ -121,6 +124,40 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
     });
   };
 
+  submitProfileUpdate = (
+    name: string,
+    animal: string,
+    gender: string,
+    bio: string,
+    userId: number
+  ) => {
+    console.log("hey");
+    let url = `http://localhost:3000/profiles/${userId}`;
+    fetch(url, {
+      method: "PUT",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: this.props.sessionToken
+      }),
+      body: JSON.stringify({
+        name: name,
+        animal: animal,
+        gender: gender,
+        bio: bio
+      })
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+        this.closeUpdateProfileModal();
+      })
+      .catch(err => console.log("Error: ", err));
+  };
+
+  closeUpdateProfileModal = () => {
+    this.setState({ editProfile: false });
+  };
+
   render() {
     return (
       <div
@@ -134,6 +171,20 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
           sessionToken={this.props.sessionToken}
           getPosts={this.getPosts}
         />
+        <button
+          onClick={() =>
+            this.setState({ editProfile: !this.state.editProfile })
+          }
+        >
+          Click To Update Profile
+        </button>
+        {this.state.editProfile ? (
+          <UpdateProfileModal
+            submitProfileUpdate={this.submitProfileUpdate}
+            closeModal={this.closeUpdateProfileModal}
+            profile={this.state.profile}
+          />
+        ) : null}
         {this.displayPosts()}
       </div>
     );
