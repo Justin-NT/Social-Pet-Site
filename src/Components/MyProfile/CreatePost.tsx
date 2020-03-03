@@ -24,13 +24,15 @@ const useStyles = (theme: any) =>
       backgroundColor: "pink"
     },
     avatar: {
-      backgroundColor: red[500]
+      backgroundColor: red[500],
+      width: theme.spacing(4),
+      height: theme.spacing(4)
     },
     cardAct: {
       justifyContent: "space-evenly",
       backgroundColor: "orange"
     },
-    testDiv: {
+    buttonsContainer: {
       display: "flex",
       backgroundColor: "red",
       flexFlow: "wrap row",
@@ -43,6 +45,11 @@ const useStyles = (theme: any) =>
     },
     TextField: {
       margin: theme.spacing(1)
+    },
+    bodySection: {
+      display: "flex",
+      flexFlow: "row wrap",
+      alignItems: "center"
     }
   });
 
@@ -95,7 +102,7 @@ class CreatePost extends Component<CreatePostProps, CreatePostState> {
     return (
       <Card className={classes.root}>
         <CardContent>
-          <div style={{ display: "flex", flexFlow: "row wrap" }}>
+          <div className={classes.bodySection}>
             <Avatar aria-label="recipe" className={classes.avatar}>
               R
             </Avatar>
@@ -108,7 +115,7 @@ class CreatePost extends Component<CreatePostProps, CreatePostState> {
           </div>
         </CardContent>
         <CardActions disableSpacing>
-          <div className={classes.testDiv}>
+          <div className={classes.buttonsContainer}>
             <Button
               color="primary"
               variant="contained"

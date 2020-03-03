@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import "./App.css";
 // import Adopt from "./Components/Adopt/Adopt";
-import Auth from "./Components/Auth/Auth";
-import Post from "./Components/Posting/Post";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import MyProfile from "./Components/MyProfile/MyProfile";
 import Navbar from "./site/Navbar";
@@ -26,21 +24,20 @@ class App extends Component<AppProps, AppState> {
   }
 
   componentDidMount() {
-    console.log("App mounted");
     if (localStorage.getItem("token")) {
       let localToken = localStorage.getItem("token");
       this.setState({ sessionToken: localToken });
     }
   }
 
-  componentDidUpdate(prevProps: any, prevState: any) {
-    if (prevState.sessionToken !== this.state.sessionToken) {
-      console.log("Current state value for token: ", this.state.sessionToken);
-      console.log("previous state value for token: ", prevState.sessionToken);
-    } else {
-      console.log("no");
-    }
-  }
+  // componentDidUpdate(prevProps: any, prevState: any) {
+  //   if (prevState.sessionToken !== this.state.sessionToken) {
+  //     console.log("Current state value for token: ", this.state.sessionToken);
+  //     console.log("previous state value for token: ", prevState.sessionToken);
+  //   } else {
+  //     console.log("no");
+  //   }
+  // }
 
   updateToken = (newToken: string): any => {
     localStorage.setItem("token", newToken);

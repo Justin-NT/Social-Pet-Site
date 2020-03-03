@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import "./Modal.css";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 
@@ -16,7 +16,7 @@ interface UpdateProfileModalState {
   bio: string;
 }
 
-class UpdateProfileModal extends React.Component<
+class UpdateProfileModal extends Component<
   UpdateProfileModalProps,
   UpdateProfileModalState
 > {
@@ -30,7 +30,12 @@ class UpdateProfileModal extends React.Component<
     };
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    console.log(this.props.profile.name);
+    console.log(this.props.profile.animal);
+    console.log(this.props.profile.gender);
+    console.log(this.props.profile.bio);
+  }
 
   render() {
     return (
@@ -76,13 +81,11 @@ class UpdateProfileModal extends React.Component<
               <button
                 onClick={() =>
                   this.props.submitProfileUpdate(
-                    // this.props.profile.id,
-                    // this.state.newBody
+                    this.props.profile.id,
                     this.state.name,
                     this.state.animal,
                     this.state.gender,
-                    this.state.bio,
-                    this.props.profile.userId
+                    this.state.bio
                   )
                 }
               >

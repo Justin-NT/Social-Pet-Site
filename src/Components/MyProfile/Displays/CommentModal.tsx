@@ -1,5 +1,5 @@
-import React, { createRef, SyntheticEvent } from "react";
-import "./Comment.css";
+import React, { createRef, Component } from "react";
+import "./Modal.css";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 
@@ -13,7 +13,7 @@ interface CommentState {
   newComment: string | null;
 }
 
-class commentModal extends React.Component<CommentProps, CommentState> {
+class commentModal extends Component<CommentProps, CommentState> {
   inputRef: React.RefObject<any>;
   constructor(props: any) {
     super(props);

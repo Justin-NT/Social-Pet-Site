@@ -2,16 +2,8 @@ import React from "react";
 import Appbar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
-// import Button from "@material-ui/core/Button";
-// import TextField from "@material-ui/core/TextField";
-import Feed from "../Components/Feed";
-import MyProfile from "../Components/MyProfile/MyProfile";
-import Adopt from "../Components/Adopt";
-import { Switch, Route, Link } from "react-router-dom";
-import { BrowserRouter as Router } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
-// import FormControl from "@material-ui/core/FormControl";
-// import Input from "@material-ui/core/Input";
 import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles({
@@ -51,10 +43,6 @@ const useStyles = makeStyles({
     color: "white"
   }
 });
-
-interface SigninProps {}
-
-interface SigninState {}
 
 const NavbarDisplay = () => {
   const classes = useStyles();

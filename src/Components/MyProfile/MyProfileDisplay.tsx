@@ -1,4 +1,4 @@
-import React, { Component, createRef } from "react";
+import React, { Component } from "react";
 import { withStyles, createStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardHeader from "@material-ui/core/CardHeader";
@@ -78,8 +78,6 @@ class MyProfileDisplay extends Component<
 
   submitCommentUpdate = (commentId: number, newComment: string) => {
     let url = `http://localhost:3000/comments/${commentId}`;
-    console.log(url);
-    console.log(newComment);
     fetch(url, {
       method: "PUT",
       body: JSON.stringify({
@@ -92,7 +90,6 @@ class MyProfileDisplay extends Component<
     })
       .then(res => res.json())
       .then(json => {
-        console.log(json);
         this.getComments();
       })
       .then(() => this.closeCommentModal())
@@ -115,7 +112,7 @@ class MyProfileDisplay extends Component<
     })
       .then(res => res.json())
       .then(json => {
-        console.log("Updated successfully", json);
+        // console.log("Updated successfully", json);
         this.props.getPosts();
         this.closePostModal();
       })
@@ -132,20 +129,10 @@ class MyProfileDisplay extends Component<
 
   componentDidMount() {
     this.getComments();
-    console.log("MyProfile Display mounted");
   }
 
   componentDidUpdate(prevProps: any, prevState: any) {
-    if (prevProps.post !== this.props.post) {
-      console.log(
-        "prevProps: ",
-        prevProps.post,
-        "current post prop: ",
-        this.props.post
-      );
-    }
     if (this.state.comments !== prevState.comments) {
-      console.log("Comments are updating");
       this.getComments();
     }
     if (this.props.userIdTest !== prevProps.userIdTest) {
@@ -165,14 +152,15 @@ class MyProfileDisplay extends Component<
         return JSON.stringify(json.comment) ===
           JSON.stringify(this.state.comments)
           ? null
-          : this.setState({ comments: json.comment });
+          : json.comment !== undefined
+          ? this.setState({ comments: json.comment })
+          : console.log("Check this out yo");
       })
       .catch(err => console.log("Error: ", err));
   };
 
   deleteComment = (id: number) => {
     let url = `http://localhost:3000/comments/${id}`;
-    console.log(url);
     fetch(url, {
       method: "DELETE",
       headers: new Headers({
@@ -181,7 +169,6 @@ class MyProfileDisplay extends Component<
     })
       .then(res => res.json())
       .then(json => {
-        console.log(json);
         this.getComments();
       })
       .catch(err => console.log("Error: ", err));
@@ -201,7 +188,6 @@ class MyProfileDisplay extends Component<
     })
       .then(res => res.json())
       .then(json => {
-        console.log(json);
         this.getComments();
       })
       .catch(err => console.log("Error created the comment: ", err));
@@ -216,23 +202,16 @@ class MyProfileDisplay extends Component<
       })
     })
       .then(res => res.json())
-      .then(json => {
-        console.log("Post deleted", json);
-      })
       .then(() => this.props.getPosts())
       .catch(err => console.log("error", err));
   };
 
   updatePost = () => {
-    console.log("This is where the post update will happen");
     this.setState({ editPost: !this.state.editPost });
-    console.log(this.props.userIdTest);
   };
 
   updateComment = (commentId: number) => {
-    console.log("This is where the comment update will happen");
     this.setState({ editComment: !this.state.editComment });
-    return commentId;
   };
 
   render() {
@@ -256,7 +235,7 @@ class MyProfileDisplay extends Component<
           title={this.props.post.title}
           subheader={this.props.post.createdAt}
         />
-        <Typography variant="body2" color="textSecondary" component="p">
+        <Typography variant="body1" color="textSecondary" component="p">
           This will contain the body of what the user types:
           {this.props.post.body}
         </Typography>
@@ -351,38 +330,3 @@ class MyProfileDisplay extends Component<
 }
 
 export default withStyles(useStyles)(MyProfileDisplay);
-
-// Code that no longer serves a purpose but might be needed again
-
-// displayComments = () => {
-//     return this.state.comments.map((comment: any) => {
-//       return (
-//         <div key={comment.id}>
-//           {comment.comment}
-//           {` comment id: `} {comment.id}
-//           {` postid: ${this.props.post.id}`}
-//           {` userid: ${comment.userId}`}
-//           {comment.userId === this.state.userId ? (
-//             <Button
-//               color="secondary"
-//               variant="contained"
-//               startIcon={<DeleteIcon />}
-//               className={this.props.classes.button}
-//               onClick={() => this.deleteComment(comment.id)}
-//             >
-//               Delete
-//             </Button>
-//           ) : null}
-//         </div>
-//       );
-//     });
-//   };
-
-//   checkOwnership = () => {
-//     // let useridString = localStorage.getItem("userid");
-//     // let useridNumber = useridString ? parseInt(useridString) : null;
-//     // console.log("running checkOwnership");
-//     // typeof useridNumber === "number"
-//     //   ? this.setState({ userId: useridNumber })
-//     //   : console.log("not a number");
-//   };
