@@ -48,9 +48,6 @@ class App extends Component<AppProps, AppState> {
   };
 
   render() {
-    {
-      console.log(this.updateToken);
-    }
     return (
       <div>
         <Router>

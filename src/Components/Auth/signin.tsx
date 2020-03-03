@@ -30,17 +30,12 @@ class Signin extends Component<SigninProps, SigninState> {
       .then(response => response.json())
       .then(data => {
         console.log(data);
-        console.log(data.sessionToken);
-        console.log(this.props);
         this.props.updateToken(data.sessionToken);
       })
       .catch(err => console.log("error: ", err));
   };
 
   render() {
-    {
-      console.log(this.props);
-    }
     return (
       <div>
         <form onSubmit={e => this.signinFetch(e)}>

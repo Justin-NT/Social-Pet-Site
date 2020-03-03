@@ -33,7 +33,6 @@ class Body extends Component<BodyProps, BodyState> {
   render() {
     return (
       <div className="maindiv">
-        {console.log(this.props.updateToken)}
         <h3 className="mission">
           Tired of seeing a depressing scene as you mindlessly scroll through
           your social media?

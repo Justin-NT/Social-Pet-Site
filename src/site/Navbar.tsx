@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 // import Button from "@material-ui/core/Button";
 // import TextField from "@material-ui/core/TextField";
 import Feed from "../Components/Feed";
-import MyProfile from "../Components/MyProfile";
+import MyProfile from "../Components/MyProfile/MyProfile";
 import Adopt from "../Components/Adopt";
 import { Switch, Route, Link } from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
@@ -80,20 +80,6 @@ const NavbarDisplay = () => {
           </Toolbar>
         </Appbar>
       </Box>
-
-      <Router>
-        <Switch>
-          <Route exact path="/Feed">
-            <Feed />
-          </Route>
-          <Route exact path="/MyProfile">
-            <MyProfile />
-          </Route>
-          <Route exact path="/Adopt">
-            <Adopt />
-          </Route>
-        </Switch>
-      </Router>
     </div>
   );
 };

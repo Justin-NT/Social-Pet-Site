@@ -14,8 +14,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import SendIcon from "@material-ui/icons/Send";
 import UpdateIcon from "@material-ui/icons/Update";
 import { TextField } from "@material-ui/core";
-import CommentDisplay from "./CommentDisplay";
-import PostModal from "./PostModal";
+import CommentDisplay from "./Displays/CommentModal";
+import PostModal from "./Displays/PostModal";
 
 const useStyles = (theme: any) =>
   createStyles({

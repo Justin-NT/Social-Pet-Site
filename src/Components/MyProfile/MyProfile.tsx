@@ -1,5 +1,6 @@
 import React, { Component, SyntheticEvent } from "react";
 import MyProfileDisplay from "./MyProfileDisplay";
+import CreatePost from "./CreatePost";
 
 interface MyProfileProps {
   sessionToken: any;
@@ -129,39 +130,10 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
           flexFlow: "wrap column"
         }}
       >
-        <h3>Create Profile</h3>
-        <form onSubmit={e => this.createProfile(e)}>
-          <input
-            type="text"
-            value={this.state.name}
-            name="name"
-            placeholder="name"
-            onChange={e => this.setState({ name: e.target.value })}
-          />
-          <input
-            type="text"
-            value={this.state.animal}
-            name="animal"
-            placeholder="animal"
-            onChange={e => this.setState({ animal: e.target.value })}
-          />
-          <input
-            type="text"
-            value={this.state.bio}
-            name="bio"
-            placeholder="bio"
-            onChange={e => this.setState({ bio: e.target.value })}
-          />
-          <input
-            type="text"
-            value={this.state.gender}
-            name="gender"
-            placeholder="gender"
-            onChange={e => this.setState({ gender: e.target.value })}
-          />
-          <button>Update Profile(still need to update)</button>
-        </form>
-        <button onClick={() => this.showMyProfile()}>Show Profile</button>
+        <CreatePost
+          sessionToken={this.props.sessionToken}
+          getPosts={this.getPosts}
+        />
         {this.displayPosts()}
       </div>
     );
@@ -169,3 +141,39 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
 }
 
 export default MyProfile;
+
+{
+  /* <h3>Create Profile</h3>
+<form onSubmit={e => this.createProfile(e)}>
+  <input
+    type="text"
+    value={this.state.name}
+    name="name"
+    placeholder="name"
+    onChange={e => this.setState({ name: e.target.value })}
+  />
+  <input
+    type="text"
+    value={this.state.animal}
+    name="animal"
+    placeholder="animal"
+    onChange={e => this.setState({ animal: e.target.value })}
+  />
+  <input
+    type="text"
+    value={this.state.bio}
+    name="bio"
+    placeholder="bio"
+    onChange={e => this.setState({ bio: e.target.value })}
+  />
+  <input
+    type="text"
+    value={this.state.gender}
+    name="gender"
+    placeholder="gender"
+    onChange={e => this.setState({ gender: e.target.value })}
+  />
+  <button>Update Profile(still need to update)</button>
+</form>
+<button onClick={() => this.showMyProfile()}>Show Profile</button> */
+}

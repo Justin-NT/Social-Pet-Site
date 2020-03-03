@@ -36,7 +36,6 @@ class commentModal extends React.Component<CommentProps, CommentState> {
               type="text"
               onChange={e => this.setState({ newComment: e.target.value })}
               value={this.state.newComment}
-              //   defaultValue={this.props.comment.comment}
               variant="outlined"
               placeholder={this.props.comment.comment}
             />
