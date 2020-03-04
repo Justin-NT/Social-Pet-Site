@@ -20,8 +20,7 @@ const useStyles = makeStyles({
   },
   peta: {
     fontFamily: "Krona One",
-    fontSize: "40px",
-    textDecoration: "none"
+    fontSize: "40px"
   },
   links: {
     fontFamily: "Krona One",
@@ -45,7 +44,10 @@ const useStyles = makeStyles({
   }
 });
 
-const NavbarDisplay = () => {
+interface IProps {
+  sessionToken: string;
+}
+const NavbarDisplay = (props: IProps) => {
   const classes = useStyles();
 
   return (

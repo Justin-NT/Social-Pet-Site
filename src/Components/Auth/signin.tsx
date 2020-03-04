@@ -26,6 +26,7 @@ class Signin extends Component<SigninProps, SigninState> {
 
   signinFetch = (e: SyntheticEvent) => {
     e.preventDefault();
+
     let url = `${APIURL}/auth/signin`;
     fetch(url, {
       method: "POST",
@@ -35,14 +36,15 @@ class Signin extends Component<SigninProps, SigninState> {
       body: JSON.stringify({
         email: this.state.email,
         password: this.state.password
+
       })
-    })
-      .then(response => response.json())
-      .then(data => {
-        this.props.updateToken(data.sessionToken);
-        this.props.roleCheck(data.user.admin);
-      })
-      .catch(err => console.log("error: ", err));
+        .then(response => response.json())
+        .then(data => {
+          this.props.updateToken(data.sessionToken);
+          this.props.roleCheck(data.user.admin);
+        })
+        .catch(err => console.log("error: ", err));
+    }
   };
 
   render() {
@@ -69,5 +71,4 @@ class Signin extends Component<SigninProps, SigninState> {
     );
   }
 }
-
 export default Signin;

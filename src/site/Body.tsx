@@ -56,6 +56,7 @@ class Body extends Component<BodyProps, BodyState> {
               inSwitch={this.state.inSwitch}
               updateToken={this.props.updateToken}
               sessionToken={this.props.sessionToken}
+              roleCheck={this.props.roleCheck}
             />
           )}
           <Kitten  alt="Petazoa" />

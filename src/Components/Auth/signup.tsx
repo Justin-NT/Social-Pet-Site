@@ -26,6 +26,7 @@ interface SignupProps {
   inSwitch: boolean;
   toggleDialogue: any;
   sessionToken: string;
+  roleCheck: any;
 }
 
 interface SignupState {
@@ -62,6 +63,7 @@ class Signup extends Component<SignupProps, SignupState> {
 
   signupFetch = (e: SyntheticEvent) => {
     e.preventDefault();
+
     let url = `${APIURL}/auth/signup`;
     fetch(url, {
       method: "POST",
@@ -84,6 +86,7 @@ class Signup extends Component<SignupProps, SignupState> {
       .then(() => this.props.toggleDialogue())
       .then(() => this.createProfile())
       .catch(err => console.log("error: ", err));
+
   };
 
   createProfile = () => {
@@ -103,15 +106,10 @@ class Signup extends Component<SignupProps, SignupState> {
       })
     })
       .then(res => res.json())
-      .then(json => {
-        console.log(json);
+      .then(data => {
+        console.log(data);
       })
       .catch(err => console.log("error: ", err));
-  };
-
-  doublePost = (e: SyntheticEvent) => {
-    this.createProfile();
-    this.signupFetch(e);
   };
 
   render() {
