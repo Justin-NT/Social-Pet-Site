@@ -38,8 +38,10 @@ class commentModal extends Component<CommentProps, CommentState> {
   constructor(props: any) {
     super(props);
     this.inputRef = createRef();
-    this.state = { newComment: this.props.comment.comment };
+    this.state = { newComment: "" };
   }
+
+  // this.props.comment.comment
 
   componentDidMount() {
     this.inputRef.current.focus();
@@ -78,7 +80,7 @@ class commentModal extends Component<CommentProps, CommentState> {
               onChange={e => this.setState({ newComment: e.target.value })}
               value={this.state.newComment}
               variant="outlined"
-              placeholder={this.props.comment.comment}
+              // placeholder={this.props.comment.comment}
               label="Comment"
               multiline
               rowsMax="8"
