@@ -8,8 +8,10 @@ import Button from "@material-ui/core/Button";
 interface CommentProps {
   comment: any;
   closeModal: any;
-  submitCommentUpdate: any;
   classes: any;
+  getComments: any;
+  sessionToken: string;
+  currentCommentId: any;
 }
 
 interface CommentState {
@@ -43,6 +45,26 @@ class commentModal extends Component<CommentProps, CommentState> {
     this.inputRef.current.focus();
   }
 
+  submitCommentUpdate = (commentId: number, newComment: string | null) => {
+    let url = `http://localhost:3000/comments/${this.props.currentCommentId}`;
+    fetch(url, {
+      method: "PUT",
+      body: JSON.stringify({
+        comment: newComment
+      }),
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: this.props.sessionToken
+      })
+    })
+      .then(res => res.json())
+      .then(() => {
+        this.props.getComments();
+      })
+      .then(() => this.props.closeModal())
+      .catch(err => console.log("Error: ", err));
+  };
+
   render() {
     const { classes } = this.props;
     return (
@@ -70,7 +92,7 @@ class commentModal extends Component<CommentProps, CommentState> {
                 color="primary"
                 className={classes.Button}
                 onClick={() =>
-                  this.props.submitCommentUpdate(
+                  this.submitCommentUpdate(
                     this.props.comment.id,
                     this.state.newComment
                   )
