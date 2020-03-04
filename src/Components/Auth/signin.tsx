@@ -2,6 +2,7 @@ import React, { Component, SyntheticEvent } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import styled from "styled-components";
+import APIURL from '../../helpers/environment';
 
 const Signinstyle = styled.div`
   background-color: #61c899;
@@ -25,28 +26,26 @@ class Signin extends Component<SigninProps, SigninState> {
 
   signinFetch = (e: SyntheticEvent) => {
     e.preventDefault();
-    let url = "http://localhost:3000/auth/signin";
-    if (
-      this.state.password.length >= 8 &&
-      /^(?=.*\d)+(?=.*[!@#$%^&*])/.test(this.state.password)
-    ) {
-      fetch(url, {
-        method: "POST",
-        headers: new Headers({
-          "Content-Type": "application/json"
-        }),
-        body: JSON.stringify({
-          email: this.state.email,
-          password: this.state.password
-        })
+
+    let url = `${APIURL}/auth/signin`;
+    fetch(url, {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json"
+      }),
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password
+
       })
+    })
         .then(response => response.json())
         .then(data => {
           this.props.updateToken(data.sessionToken);
           this.props.roleCheck(data.user.admin);
         })
         .catch(err => console.log("error: ", err));
-    }
+    
   };
 
   render() {

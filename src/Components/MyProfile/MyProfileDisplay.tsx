@@ -16,6 +16,9 @@ import UpdateIcon from "@material-ui/icons/Update";
 import { TextField } from "@material-ui/core";
 import CommentModal from "./Displays/CommentModal";
 import PostModal from "./Displays/PostModal";
+import APIURL from '../../helpers/environment';
+
+// import styled from "styled-components";
 
 const useStyles = (theme: any) =>
   createStyles({
@@ -39,7 +42,10 @@ const useStyles = (theme: any) =>
       backgroundColor: "grey"
     },
     Button: {
-      margin: theme.spacing(1)
+      margin: theme.spacing(1),
+      backgroundColor: "#61C899",
+      color: "white",
+      borderRadius: 100,
     },
     cardAct: {
       justifyContent: "space-evenly",
@@ -50,6 +56,13 @@ const useStyles = (theme: any) =>
       // backgroundColor: "white"
     }
   });
+
+  // const Button = styled.button`
+  //   backgroundColor: "#61C899",
+  //   color: "white",
+  //   borderRadius: 100px,
+    
+  // `
 
 interface MyProfileDisplayProps {
   post: any;
@@ -82,7 +95,7 @@ class MyProfileDisplay extends Component<
   }
 
   submitCommentUpdate = (commentId: number, newComment: string) => {
-    let url = `http://localhost:3000/comments/${commentId}`;
+    let url = `${APIURL}/comments/${commentId}`;
     fetch(url, {
       method: "PUT",
       body: JSON.stringify({
@@ -102,7 +115,7 @@ class MyProfileDisplay extends Component<
   };
 
   submitPostUpdate = (postId: number, newBody: string) => {
-    let url = `http://localhost:3000/posts/${postId}`;
+    let url = `${APIURL}/posts/${postId}`;
     fetch(url, {
       method: "PUT",
       headers: new Headers({
@@ -144,7 +157,7 @@ class MyProfileDisplay extends Component<
   }
 
   getComments = () => {
-    fetch(`http://localhost:3000/comments/${this.props.post.id}`, {
+    fetch(`${APIURL}/comments/${this.props.post.id}`, {
       method: "GET",
       headers: new Headers({
         Authorization: this.props.sessionToken
@@ -163,7 +176,7 @@ class MyProfileDisplay extends Component<
   };
 
   deleteComment = (id: number) => {
-    let url = `http://localhost:3000/comments/${id}`;
+    let url = `${APIURL}/comments/${id}`;
     fetch(url, {
       method: "DELETE",
       headers: new Headers({
@@ -179,7 +192,7 @@ class MyProfileDisplay extends Component<
   };
 
   postComment = () => {
-    let url = `http://localhost:3000/comments/create/${this.props.post.id}`;
+    let url = `${APIURL}/comments/create/${this.props.post.id}`;
     fetch(url, {
       method: "POST",
       headers: new Headers({
@@ -198,7 +211,7 @@ class MyProfileDisplay extends Component<
   };
 
   deletePost = () => {
-    let url = `http://localhost:3000/Posts/${this.props.post.id}`;
+    let url = `${APIURL}/Posts/${this.props.post.id}`;
     fetch(url, {
       method: "DELETE",
       headers: new Headers({

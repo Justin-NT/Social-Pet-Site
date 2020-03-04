@@ -8,6 +8,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import styled from "styled-components";
 // import {withRouter} from "react-router";
+import APIURL from '../../helpers/environment';
 
 const Container = styled.div`
   width: 90%;
@@ -62,36 +63,34 @@ class Signup extends Component<SignupProps, SignupState> {
 
   signupFetch = (e: SyntheticEvent) => {
     e.preventDefault();
-    let endpoint = "http://localhost:3000/auth/signup";
-    return this.state.password.length >= 8 &&
-      /^(?=.*\d)(?=.*[!@#$%^&*])$/.test(this.state.password)
-      ? fetch(endpoint, {
-          method: "POST",
-          body: JSON.stringify({
-            firstname: this.state.firstname,
-            lastname: this.state.lastname,
-            email: this.state.email,
-            password: this.state.password,
-            admin: this.state.admin
-          }),
-          headers: new Headers({
-            "Content-Type": "application/json"
-          })
-        })
-          .then(response => response.json())
-          .then(data => {
-            console.log(data);
-            this.props.updateToken(data.sessionToken);
-            this.props.roleCheck(data.user.admin);
-          })
-          .then(() => this.props.toggleDialogue())
-          .then(() => this.createProfile())
-          .catch(err => console.log("error: ", err))
-      : "password requires 8 characters, with 1 number and 1 special character";
+
+    let url = `${APIURL}/auth/signup`;
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        firstname: this.state.firstname,
+        lastname: this.state.lastname,
+        email: this.state.email,
+        password: this.state.password,
+        admin: this.state.admin
+      }),
+      headers: new Headers({
+        "Content-Type": "application/json"
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.props.updateToken(data.sessionToken);
+      })
+      .then(() => this.props.toggleDialogue())
+      .then(() => this.createProfile())
+      .catch(err => console.log("error: ", err));
+
   };
 
   createProfile = () => {
-    let url = "http://localhost:3000/profiles/create";
+    let url = `${APIURL}/profiles/create`;
     fetch(url, {
       method: "POST",
       headers: new Headers({
@@ -102,7 +101,8 @@ class Signup extends Component<SignupProps, SignupState> {
         name: this.state.name,
         animal: this.state.animal,
         bio: this.state.bio,
-        gender: this.state.gender
+        gender: this.state.gender,
+        profilePicture: this.state.profilePicture
       })
     })
       .then(res => res.json())
