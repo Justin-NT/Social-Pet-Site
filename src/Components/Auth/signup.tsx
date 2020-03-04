@@ -7,7 +7,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 // import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from "@material-ui/core/DialogTitle";
 import styled from "styled-components";
-// import {withRouter} from "react-router";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
 const Container = styled.div`
   width: 90%;
@@ -20,7 +20,7 @@ const Header = styled.div`
   font-family: "Krona One", sans-serif;
 `;
 
-interface SignupProps {
+interface SignupProps extends RouteComponentProps {
   updateToken: any;
   inSwitch: boolean;
   toggleDialogue: any;
@@ -63,32 +63,37 @@ class Signup extends Component<SignupProps, SignupState> {
   signupFetch = (e: SyntheticEvent) => {
     e.preventDefault();
     let endpoint = "http://localhost:3000/auth/signup";
-    return this.state.password.length >= 8 &&
-      /^(?=.*\d)(?=.*[!@#$%^&*])$/.test(this.state.password)
-      ? fetch(endpoint, {
-          method: "POST",
-          body: JSON.stringify({
-            firstname: this.state.firstname,
-            lastname: this.state.lastname,
-            email: this.state.email,
-            password: this.state.password,
-            admin: this.state.admin
-          }),
-          headers: new Headers({
-            "Content-Type": "application/json"
-          })
-        })
-          .then(response => response.json())
-          .then(data => {
-            console.log(data);
-            this.props.updateToken(data.sessionToken);
-            this.props.roleCheck(data.user.admin);
-          })
-          .then(() => this.props.toggleDialogue())
-          .then(() => this.createProfile())
-          .catch(err => console.log("error: ", err))
-      : "password requires 8 characters, with 1 number and 1 special character";
+    fetch(endpoint, {
+      method: "POST",
+      body: JSON.stringify({
+        firstname: this.state.firstname,
+        lastname: this.state.lastname,
+        email: this.state.email,
+        password: this.state.password,
+        admin: this.state.admin
+      }),
+      headers: new Headers({
+        "Content-Type": "application/json"
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.props.updateToken(data.sessionToken);
+        this.props.roleCheck(data.user.admin);
+      })
+      .then(() => {
+        this.createProfile();
+        this.props.toggleDialogue();
+        this.props.history.push("/feed");
+      })
+      // .then(() => this.props.toggleDialogue())
+      .catch(err => console.log("error: ", err));
   };
+
+  // return this.state.password.length >= 8 &&
+  //     /^(?=.*\d)(?=.*[!@#$%^&*])$/.test(this.state.password)
+  //     ?
 
   createProfile = () => {
     let url = "http://localhost:3000/profiles/create";
@@ -200,4 +205,4 @@ class Signup extends Component<SignupProps, SignupState> {
   }
 }
 
-export default Signup;
+export default withRouter(Signup);
