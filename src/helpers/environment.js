@@ -10,7 +10,7 @@ switch(window.location.hostname){
         break;
 
     case 'kdj-petazoa-client.herokuapp.com':
-        APIURL = 'https://kdj-petazoa-client.herokuapp.com/'
+        APIURL = 'https://kdj-petazoa.herokuapp.com'
 }
 
 export default APIURL;
