@@ -51,11 +51,13 @@ const useStyles = makeStyles({
   }
 });
 
-interface SigninProps {}
+interface SigninProps {
+  sessionToken: string | null;
+}
 
 interface SigninState {}
 
-const NavbarDisplay = () => {
+const NavbarDisplay = (props: SigninProps) => {
   const classes = useStyles();
 
   return (
@@ -83,7 +85,7 @@ const NavbarDisplay = () => {
       <Router>
         <Switch>
           <Route exact path="/Feed">
-            <Feed />
+            <Feed sessionToken={props.sessionToken} />
           </Route>
           <Route exact path="/MyProfile">
             <MyProfile />

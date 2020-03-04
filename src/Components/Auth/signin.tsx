@@ -12,8 +12,6 @@ interface SigninProps {
 }
 
 class Signin extends Component<SigninProps, SigninState> {
-  // constructor(props: SigninProps) {
-  //   super(props);
   state: SigninState = { email: "", password: "" };
 
   signinFetch = (e: SyntheticEvent) => {
@@ -36,9 +34,15 @@ class Signin extends Component<SigninProps, SigninState> {
         .then(response => response.json())
         .then(data => {
           console.log(data);
+          console.log(data.sessionToken);
+          console.log(this.props);
           this.props.updateToken(data.sessionToken);
         })
         .catch(err => console.log("error: ", err));
+    } else {
+      return prompt(
+        "password requires 8 characters, with one special character and one number"
+      );
     }
   };
 
