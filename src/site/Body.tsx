@@ -3,7 +3,7 @@ import Button from "@material-ui/core/Button";
 import Signup from "../Components/Auth/signup";
 import styled from "styled-components";
 import Signin from "../Components/Auth/signin";
-import Kitty from "../assets/kitty.jpeg";
+// import Kitty from "../assets/kitty.jpeg";
 
 interface BodyProps {
   updateToken(newToken: string): any;
@@ -58,7 +58,7 @@ class Body extends Component<BodyProps, BodyState> {
               sessionToken={this.props.sessionToken}
             />
           )}
-          <Kitten src={Kitty} alt="Petazoa" />
+          <Kitten  alt="Petazoa" />
         </Background>
       </div>
     );

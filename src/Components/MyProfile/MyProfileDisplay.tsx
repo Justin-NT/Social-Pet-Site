@@ -9,7 +9,7 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import Button from "@material-ui/core/Button";
-import Catdog from "../../assets/catdog.jpeg";
+// import Catdog from "../../assets/catdog.jpeg";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SendIcon from "@material-ui/icons/Send";
 import UpdateIcon from "@material-ui/icons/Update";
@@ -252,7 +252,7 @@ class MyProfileDisplay extends Component<
           This will contain the body of what the user types:
           {this.props.post.body}
         </Typography>
-        <CardMedia className={classes.media} image={Catdog} />
+        <CardMedia className={classes.media}  />
         <CardContent className={classes.comments}>
           contains the area where comments are displayed
           {this.state.comments.map((comment: any) => {
