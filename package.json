@@ -45,17 +45,9 @@
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "3.10.2"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Justin-NT/Social-Pet-Site.git"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Justin-NT/Social-Pet-Site/issues"
-  },
-  "homepage": "https://github.com/Justin-NT/Social-Pet-Site#readme",
   "browserslist": {
     "production": [
       ">0.2%",
