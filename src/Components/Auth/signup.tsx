@@ -63,28 +63,31 @@ class Signup extends Component<SignupProps, SignupState> {
   signupFetch = (e: SyntheticEvent) => {
     e.preventDefault();
     let endpoint = "http://localhost:3000/auth/signup";
-    fetch(endpoint, {
-      method: "POST",
-      body: JSON.stringify({
-        firstname: this.state.firstname,
-        lastname: this.state.lastname,
-        email: this.state.email,
-        password: this.state.password,
-        admin: this.state.admin
-      }),
-      headers: new Headers({
-        "Content-Type": "application/json"
-      })
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        this.props.updateToken(data.sessionToken);
-        this.props.roleCheck(data.user.admin);
-      })
-      .then(() => this.props.toggleDialogue())
-      .then(() => this.createProfile())
-      .catch(err => console.log("error: ", err));
+    return this.state.password.length >= 8 &&
+      /^(?=.*\d)(?=.*[!@#$%^&*])$/.test(this.state.password)
+      ? fetch(endpoint, {
+          method: "POST",
+          body: JSON.stringify({
+            firstname: this.state.firstname,
+            lastname: this.state.lastname,
+            email: this.state.email,
+            password: this.state.password,
+            admin: this.state.admin
+          }),
+          headers: new Headers({
+            "Content-Type": "application/json"
+          })
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log(data);
+            this.props.updateToken(data.sessionToken);
+            this.props.roleCheck(data.user.admin);
+          })
+          .then(() => this.props.toggleDialogue())
+          .then(() => this.createProfile())
+          .catch(err => console.log("error: ", err))
+      : "password requires 8 characters, with 1 number and 1 special character";
   };
 
   createProfile = () => {
