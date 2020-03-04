@@ -19,6 +19,7 @@ interface MyProfileState {
   postResults: [];
   userIdTest: number;
   editProfile: boolean;
+  postPicture: string;
 }
 
 const Title = styled.h3`
@@ -49,7 +50,8 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       profile: [],
       postResults: [],
       userIdTest: 0,
-      editProfile: false
+      editProfile: false,
+      postPicture: ""
     };
   }
 
@@ -109,7 +111,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
     fetch(url, {
       method: "GET",
       headers: new Headers({
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
         Authorization: this.props.sessionToken
       })
     })
@@ -122,19 +124,21 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
   };
 
   displayPosts = () => {
-    return this.state.postResults.map((post: any) => {
-      return (
-        <div key={post.id}>
-          <MyProfileDisplay
-            post={post}
-            sessionToken={this.props.sessionToken}
-            getPosts={this.getPosts}
-            userIdTest={this.state.userIdTest}
-            isUserAdmin={this.props.isUserAdmin}
-          />
-        </div>
-      );
-    });
+    return this.state.postResults.length > 0
+      ? this.state.postResults.map((post: any) => {
+          return (
+            <div key={post.id}>
+              <MyProfileDisplay
+                post={post}
+                sessionToken={this.props.sessionToken}
+                getPosts={this.getPosts}
+                userIdTest={this.state.userIdTest}
+                isUserAdmin={this.props.isUserAdmin}
+              />
+            </div>
+          );
+        })
+      : null;
   };
 
   submitProfileUpdate = (

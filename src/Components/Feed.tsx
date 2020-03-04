@@ -13,6 +13,7 @@ interface FeedState {
   name: string;
   profile: any;
   userId: number;
+  postPicture: any;
   // postId: number;
 }
 
@@ -26,8 +27,8 @@ export default class Feed extends Component<FeedProps, FeedState> {
     comment: "",
     name: "",
     profile: "",
-    userId: 0
-    // postId: 0
+    userId: 0,
+    postPicture: ""
   };
 
   newsFeed = () => {
@@ -38,7 +39,7 @@ export default class Feed extends Component<FeedProps, FeedState> {
     fetch(url, {
       method: "GET",
       headers: new Headers({
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
         Authorization: this.props.sessionToken
       })
     })
@@ -77,21 +78,24 @@ export default class Feed extends Component<FeedProps, FeedState> {
   createPost = (e: SyntheticEvent) => {
     e.preventDefault();
     let url = "http://localhost:3000/posts/create";
+    let upload: any = document.getElementById("upload");
+    const formdata = new FormData();
+    formdata.append("postPicture", upload.files[0]);
+    formdata.append("body", JSON.stringify({ body: this.state.body }));
 
     fetch(url, {
       method: "POST",
       headers: new Headers({
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
         Authorization: this.props.sessionToken
       }),
-      body: JSON.stringify({
-        body: this.state.body
-      })
+      body: formdata
     })
       .then(res => res.json())
-      .then(json => {
-        console.log(json);
-        this.setState({ userId: json.userId });
+      .then(data => {
+        console.log("THIS IS IMPORTANT", data);
+        this.setState({ userId: data.userId });
+        this.setState({ postPicture: data.file.path });
       })
       .then(() => {
         // this.findPet();
@@ -104,7 +108,7 @@ export default class Feed extends Component<FeedProps, FeedState> {
   componentDidUpdate(prevProps: any, prevState: any) {
     if (this.props.sessionToken !== prevProps.sessionToken) {
       this.newsFeed();
-    } else if (this.state.userId !== 0) {
+    } else if (this.state.userId !== prevState.userId) {
       this.findPet();
     } else {
       console.log(this.props.sessionToken);
@@ -128,6 +132,7 @@ export default class Feed extends Component<FeedProps, FeedState> {
             placeholder="body"
             onChange={e => this.setState({ body: e.target.value })}
           />
+          <input type="file" id="upload" />
           <button>Create Post</button>
         </form>
         {this.state.posts.map(post => {
@@ -138,6 +143,7 @@ export default class Feed extends Component<FeedProps, FeedState> {
               sessionToken={this.props.sessionToken}
               petName={this.state.name}
               profile={this.state.profile}
+              // postPicture={this.state.postPicture}
               // postId={this.state.postId}
             />
           );
