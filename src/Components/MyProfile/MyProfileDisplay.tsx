@@ -10,12 +10,21 @@ import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import Button from "@material-ui/core/Button";
 import Catdog from "../../assets/catdog.jpeg";
+<<<<<<< HEAD
 // import DeleteIcon from "@material-ui/icons/Delete";
 // import SendIcon from "@material-ui/icons/Send";
 // import UpdateIcon from "@material-ui/icons/Update";
 import { TextField } from "@material-ui/core";
 import CommentDisplay from "./CommentDisplay";
 import PostModal from "./PostModal";
+=======
+import DeleteIcon from "@material-ui/icons/Delete";
+import SendIcon from "@material-ui/icons/Send";
+import UpdateIcon from "@material-ui/icons/Update";
+import { TextField } from "@material-ui/core";
+import CommentDisplay from "./Displays/CommentModal";
+import PostModal from "./Displays/PostModal";
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
 
 const useStyles = (theme: any) =>
   createStyles({
@@ -27,13 +36,21 @@ const useStyles = (theme: any) =>
     media: {
       height: 0,
       paddingTop: "56.25%", // 16:9
+<<<<<<< HEAD
       backgroundColor: "#61C899"
+=======
+      backgroundColor: "pink"
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
     },
     avatar: {
       backgroundColor: red[500]
     },
     comments: {
+<<<<<<< HEAD
       backgroundColor: "white"
+=======
+      backgroundColor: "yellow"
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
     },
     cardhead: {
       backgroundColor: "grey"
@@ -49,10 +66,18 @@ const useStyles = (theme: any) =>
 
 interface MyProfileDisplayProps {
   post: any;
+<<<<<<< HEAD
   sessionToken: any;
   classes: any;
   getPosts: any;
   userIdTest: any;
+=======
+  sessionToken: string;
+  classes: any;
+  getPosts: any;
+  userIdTest: number;
+  isUserAdmin: boolean;
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
 }
 
 interface MyProfileDisplayState {
@@ -78,8 +103,11 @@ class MyProfileDisplay extends Component<
 
   submitCommentUpdate = (commentId: number, newComment: string) => {
     let url = `http://localhost:3000/comments/${commentId}`;
+<<<<<<< HEAD
     console.log(url);
     console.log(newComment);
+=======
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
     fetch(url, {
       method: "PUT",
       body: JSON.stringify({
@@ -92,7 +120,10 @@ class MyProfileDisplay extends Component<
     })
       .then(res => res.json())
       .then(json => {
+<<<<<<< HEAD
         console.log(json);
+=======
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
         this.getComments();
       })
       .then(() => this.closeCommentModal())
@@ -108,14 +139,21 @@ class MyProfileDisplay extends Component<
         Authorization: this.props.sessionToken
       }),
       body: JSON.stringify({
+<<<<<<< HEAD
         title: this.props.post.title,
         feeling: this.props.post.feeling,
+=======
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
         body: newBody
       })
     })
       .then(res => res.json())
       .then(json => {
+<<<<<<< HEAD
         console.log("Updated successfully", json);
+=======
+        // console.log("Updated successfully", json);
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
         this.props.getPosts();
         this.closePostModal();
       })
@@ -132,6 +170,7 @@ class MyProfileDisplay extends Component<
 
   componentDidMount() {
     this.getComments();
+<<<<<<< HEAD
     console.log("MyProfile Display mounted");
   }
 
@@ -146,6 +185,12 @@ class MyProfileDisplay extends Component<
     }
     if (this.state.comments !== prevState.comments) {
       console.log("Comments are updating");
+=======
+  }
+
+  componentDidUpdate(prevProps: any, prevState: any) {
+    if (this.state.comments !== prevState.comments) {
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
       this.getComments();
     }
     if (this.props.userIdTest !== prevProps.userIdTest) {
@@ -165,21 +210,34 @@ class MyProfileDisplay extends Component<
         return JSON.stringify(json.comment) ===
           JSON.stringify(this.state.comments)
           ? null
+<<<<<<< HEAD
           : this.setState({ comments: json.comment });
+=======
+          : json.comment !== undefined
+          ? this.setState({ comments: json.comment })
+          : console.log("Check this out yo");
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
       })
       .catch(err => console.log("Error: ", err));
   };
 
   deleteComment = (id: number) => {
     let url = `http://localhost:3000/comments/${id}`;
+<<<<<<< HEAD
     console.log(url);
+=======
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
     fetch(url, {
       method: "DELETE",
       headers: new Headers({
         Authorization: this.props.sessionToken
       })
     })
+<<<<<<< HEAD
       .then(res => res.json())
+=======
+      .then(res => JSON.stringify(res))
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
       .then(json => {
         console.log(json);
         this.getComments();
@@ -201,7 +259,10 @@ class MyProfileDisplay extends Component<
     })
       .then(res => res.json())
       .then(json => {
+<<<<<<< HEAD
         console.log(json);
+=======
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
         this.getComments();
       })
       .catch(err => console.log("Error created the comment: ", err));
@@ -216,14 +277,18 @@ class MyProfileDisplay extends Component<
       })
     })
       .then(res => res.json())
+<<<<<<< HEAD
       .then(json => {
         console.log("Post deleted", json);
       })
+=======
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
       .then(() => this.props.getPosts())
       .catch(err => console.log("error", err));
   };
 
   updatePost = () => {
+<<<<<<< HEAD
     console.log("This is where the post update will happen");
     this.setState({ editPost: !this.state.editPost });
     console.log(this.props.userIdTest);
@@ -233,6 +298,13 @@ class MyProfileDisplay extends Component<
     console.log("This is where the comment update will happen");
     this.setState({ editComment: !this.state.editComment });
     return commentId;
+=======
+    this.setState({ editPost: !this.state.editPost });
+  };
+
+  updateComment = (commentId: number) => {
+    this.setState({ editComment: !this.state.editComment });
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
   };
 
   render() {
@@ -253,6 +325,7 @@ class MyProfileDisplay extends Component<
               Pet
             </Avatar>
           }
+<<<<<<< HEAD
           title={this.props.post.title}
           subheader={this.props.post.createdAt}
         />
@@ -266,6 +339,17 @@ class MyProfileDisplay extends Component<
           title={this.props.post.title}
         />
         <CardContent className={classes.comments}>
+=======
+          subheader={this.props.post.createdAt}
+        />
+        <Typography variant="body1" color="textSecondary" component="p">
+          This will contain the body of what the user types:
+          {this.props.post.body}
+        </Typography>
+        <CardMedia className={classes.media} image={Catdog} />
+        <CardContent className={classes.comments}>
+          contains the area where comments are displayed
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
           {this.state.comments.map((comment: any) => {
             return (
               <div key={comment.id}>
@@ -274,19 +358,36 @@ class MyProfileDisplay extends Component<
                   <Button
                     color="primary"
                     variant="contained"
+<<<<<<< HEAD
                     // startIcon={<UpdateIcon />}
                     className={classes.button}
+=======
+                    size="small"
+                    startIcon={<UpdateIcon />}
+                    className={classes.Button}
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
                     onClick={() => this.updateComment(comment.id)}
                   >
                     Update
                   </Button>
                 ) : null}
+<<<<<<< HEAD
                 {comment.userId === this.props.userIdTest ? (
                   <Button
                     color="secondary"
                     variant="contained"
                     // startIcon={<DeleteIcon />}
                     className={this.props.classes.button}
+=======
+                {comment.userId === this.props.userIdTest ||
+                this.props.isUserAdmin ? (
+                  <Button
+                    color="secondary"
+                    size="small"
+                    variant="contained"
+                    startIcon={<DeleteIcon />}
+                    className={classes.Button}
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
                     onClick={() => this.deleteComment(comment.id)}
                   >
                     Delete
@@ -309,11 +410,20 @@ class MyProfileDisplay extends Component<
             variant="outlined"
             label="Post a comment..."
             onChange={e => this.setState({ createdComment: e.target.value })}
+<<<<<<< HEAD
+=======
+            multiline
+            rowsMax="8"
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
           ></TextField>
           <Button
             color="primary"
             variant="contained"
+<<<<<<< HEAD
             // startIcon={<SendIcon />}
+=======
+            startIcon={<SendIcon />}
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
             className={this.props.classes.button}
             onClick={() => this.postComment()}
           >
@@ -325,7 +435,11 @@ class MyProfileDisplay extends Component<
             <Button
               color="primary"
               variant="contained"
+<<<<<<< HEAD
               // startIcon={<UpdateIcon />}
+=======
+              startIcon={<UpdateIcon />}
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
               className={classes.button}
               onClick={() => this.updatePost()}
             >
@@ -336,7 +450,11 @@ class MyProfileDisplay extends Component<
             <Button
               color="secondary"
               variant="contained"
+<<<<<<< HEAD
               // startIcon={<DeleteIcon />}
+=======
+              startIcon={<DeleteIcon />}
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
               className={classes.button}
               onClick={() => this.deletePost()}
             >
@@ -350,6 +468,7 @@ class MyProfileDisplay extends Component<
 }
 
 export default withStyles(useStyles)(MyProfileDisplay);
+<<<<<<< HEAD
 
 // Code that no longer serves a purpose but might be needed again
 
@@ -385,3 +504,5 @@ export default withStyles(useStyles)(MyProfileDisplay);
 //     //   ? this.setState({ userId: useridNumber })
 //     //   : console.log("not a number");
 //   };
+=======
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd

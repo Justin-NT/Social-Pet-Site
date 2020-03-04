@@ -25,8 +25,11 @@ const Header = styled.div`
 
 interface SignupProps {
   updateToken: any;
+<<<<<<< HEAD
   inSwitch: boolean;
   toggleDialogue: any;
+=======
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
 }
 
 interface SignupState {
@@ -81,12 +84,21 @@ class Signup extends Component<SignupProps, SignupState> {
         "Content-Type": "application/json"
       })
     })
+<<<<<<< HEAD
     .then(response => response.json())
     .then(data => {
       console.log(data);
       this.props.updateToken(data.sessionToken);
     })
     .catch(err => console.log("error: ", err));
+=======
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.props.updateToken(data.sessionToken);
+      })
+      .catch(err => console.log("error: ", err));
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
   };
 
 

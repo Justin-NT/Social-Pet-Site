@@ -1,9 +1,19 @@
 import React, { Component, SyntheticEvent } from "react";
 import MyProfileDisplay from "./MyProfileDisplay";
+<<<<<<< HEAD
 import styled from "styled-components";
 
 interface MyProfileProps {
   sessionToken: any;
+=======
+import CreatePost from "./CreatePost";
+import UpdateProfileModal from "./Displays/UpdateProfileModal";
+import UserDetailsDisplay from "./Displays/UserDetailsDisplay";
+
+interface MyProfileProps {
+  sessionToken: any;
+  isUserAdmin: boolean;
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
 }
 
 interface MyProfileState {
@@ -11,9 +21,16 @@ interface MyProfileState {
   animal: string;
   bio: string;
   gender: string;
+<<<<<<< HEAD
   profile: [];
   postResults: [];
   userIdTest: number;
+=======
+  profile: any;
+  postResults: [];
+  userIdTest: number;
+  editProfile: boolean;
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
 }
 
 const Title = styled.h3`
@@ -45,17 +62,26 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       gender: "",
       profile: [],
       postResults: [],
+<<<<<<< HEAD
       userIdTest: 0
+=======
+      userIdTest: 0,
+      editProfile: false
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
     };
   }
 
   componentDidMount() {
+<<<<<<< HEAD
     console.log("MyProfile mounted");
+=======
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
     this.getPosts();
   }
 
   componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
     if (this.props.sessionToken !== prevProps.sessionToken) {
+<<<<<<< HEAD
       // this.showMyProfile();
       this.getPosts();
       console.log(this.props.sessionToken);
@@ -63,6 +89,10 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
     } else {
       console.log(this.props.sessionToken);
       console.log(prevProps.sessionToken);
+=======
+      this.getMyProfile();
+      this.getPosts();
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
     }
   }
 
@@ -89,7 +119,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       .catch(err => console.log("error: ", err));
   };
 
-  showMyProfile = () => {
+  getMyProfile = () => {
     let url = "http://localhost:3000/profiles/mine";
     fetch(url, {
       method: "GET",
@@ -101,7 +131,11 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       .then(res => res.json())
       .then(json => {
         console.log(json);
+<<<<<<< HEAD
         this.setState({ profile: json });
+=======
+        this.setState({ profile: json[0] });
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
       })
       .catch(err => console.log("error ", err));
   };
@@ -117,10 +151,15 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
     })
       .then(res => res.json())
       .then(json => {
+<<<<<<< HEAD
         console.log(json);
         this.setState({ postResults: json });
         this.setState({ userIdTest: json[0].userId });
         console.log(json[0].userId);
+=======
+        this.setState({ postResults: json });
+        this.setState({ userIdTest: json[0].userId });
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
       })
       .catch(err => console.log("error", err));
   };
@@ -134,10 +173,69 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
             sessionToken={this.props.sessionToken}
             getPosts={this.getPosts}
             userIdTest={this.state.userIdTest}
+<<<<<<< HEAD
+=======
+            isUserAdmin={this.props.isUserAdmin}
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
           />
         </div>
       );
     });
+<<<<<<< HEAD
+=======
+  };
+
+  submitProfileUpdate = (
+    profileId: number,
+    name: string,
+    animal: string,
+    gender: string,
+    bio: string
+  ) => {
+    let url = `http://localhost:3000/profiles/${profileId}`;
+    fetch(url, {
+      method: "PUT",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: this.props.sessionToken
+      }),
+      body: JSON.stringify({
+        name: name,
+        animal: animal,
+        gender: gender,
+        bio: bio
+      })
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+        this.getMyProfile();
+        this.closeUpdateProfileModal();
+      })
+      .catch(err => console.log("Error: ", err));
+  };
+
+  editProfileSwitch = () => {
+    this.setState({ editProfile: !this.state.editProfile });
+  };
+
+  closeUpdateProfileModal = () => {
+    this.setState({ editProfile: false });
+  };
+
+  deleteProfile = (profileId: number) => {
+    let url = `http://localhost:3000/profiles/${profileId}`;
+    console.log(url);
+    fetch(url, {
+      method: "DELETE",
+      headers: new Headers({
+        Authorization: this.props.sessionToken
+      })
+    })
+      .then(() => console.log("Profile deleted"))
+      .then(() => this.getMyProfile())
+      .catch(err => console.log("ERROR: ", err));
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
   };
 
   render() {
@@ -148,6 +246,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
           alignItems: "center",
           flexFlow: "wrap column"
         }}
+<<<<<<< HEAD
         >
         <Title>Create Profile
         </Title>
@@ -183,6 +282,27 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
           <Button>Update Profile(still need to update)</Button>
         </form>
         <Button onClick={() => this.showMyProfile()}>Show Profile</Button>
+=======
+      >
+        {this.state.profile !== [] ? (
+          <UserDetailsDisplay
+            profile={this.state.profile}
+            deleteProfile={this.deleteProfile}
+            editProfileSwitch={this.editProfileSwitch}
+          />
+        ) : null}
+        <CreatePost
+          sessionToken={this.props.sessionToken}
+          getPosts={this.getPosts}
+        />
+        {this.state.editProfile ? (
+          <UpdateProfileModal
+            submitProfileUpdate={this.submitProfileUpdate}
+            closeModal={this.closeUpdateProfileModal}
+            profile={this.state.profile}
+          />
+        ) : null}
+>>>>>>> d924a530b2f39cf49e175d978b021ea5dcbfe0fd
         {this.displayPosts()}
       </div>
     );
