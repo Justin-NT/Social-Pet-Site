@@ -9,6 +9,7 @@ import SendIcon from "@material-ui/icons/Send";
 import { red } from "@material-ui/core/colors";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import APIURL from '../../helpers/environment';
 
 const useStyles = (theme: any) =>
   createStyles({
@@ -74,7 +75,7 @@ class CreatePost extends Component<CreatePostProps, CreatePostState> {
   //Create a Post fetch
   submitPost = () => {
     console.log("submitted");
-    let url = "http://localhost:3000/posts/create";
+    let url = `${APIURL}/posts/create`;
     fetch(url, {
       method: "POST",
       headers: new Headers({
