@@ -1,9 +1,10 @@
 import React, { Component, SyntheticEvent } from "react";
 import MyProfileDisplay from "./MyProfileDisplay";
-import styled from "styled-components";
+// import styled from "styled-components";
 import CreatePost from "./CreatePost";
 import UpdateProfileModal from "./Displays/UpdateProfileModal";
 import UserDetailsDisplay from "./Displays/UserDetailsDisplay";
+import APIURL from '../../helpers/environment';
 
 interface MyProfileProps {
   sessionToken: any;
@@ -21,22 +22,22 @@ interface MyProfileState {
   editProfile: boolean;
 }
 
-const Title = styled.h3`
-  font-family: "Krona One", sans-serif;
-`;
-const Input = styled.input`
-  height: 50 px;
-  border-radius: 100px;
-  background-color: #61c899;
-  font-family: "Krona One", sans-serif;
-`;
-const Button = styled.button`
-  background-color: #61c899;
-  font-family: "Krona One", sans-serif;
-  height: 25px;
-  border-radius: 100px;
-  color: white;
-`;
+// const Title = styled.h3`
+//   font-family: "Krona One", sans-serif;
+// `;
+// const Input = styled.input`
+//   height: 50 px;
+//   border-radius: 100px;
+//   background-color: #61c899;
+//   font-family: "Krona One", sans-serif;
+// `;
+// const Button = styled.button`
+//   background-color: #61c899;
+//   font-family: "Krona One", sans-serif;
+//   height: 25px;
+//   border-radius: 100px;
+//   color: white;
+// `;
 
 class MyProfile extends Component<MyProfileProps, MyProfileState> {
   constructor(props: any) {
@@ -67,7 +68,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
 
   createProfile = (e: SyntheticEvent) => {
     e.preventDefault();
-    let url = "http://localhost:3000/profiles/create";
+    let url = `${APIURL}/profiles/create`;
     fetch(url, {
       method: "POST",
       headers: new Headers({
@@ -89,7 +90,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
   };
 
   getMyProfile = () => {
-    let url = "http://localhost:3000/profiles/mine";
+    let url = `${APIURL}/profiles/mine`;
     fetch(url, {
       method: "GET",
       headers: new Headers({
@@ -106,7 +107,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
   };
 
   getPosts = () => {
-    let url = "http://localhost:3000/posts/mine";
+    let url = `${APIURL}/posts/mine`;
     fetch(url, {
       method: "GET",
       headers: new Headers({
@@ -145,7 +146,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
     gender: string,
     bio: string
   ) => {
-    let url = `http://localhost:3000/profiles/${profileId}`;
+    let url = `${APIURL}/profiles/${profileId}`;
     fetch(url, {
       method: "PUT",
       headers: new Headers({
@@ -177,7 +178,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
   };
 
   deleteProfile = (profileId: number) => {
-    let url = `http://localhost:3000/profiles/${profileId}`;
+    let url = `${APIURL}/profiles/${profileId}`;
     console.log(url);
     fetch(url, {
       method: "DELETE",
