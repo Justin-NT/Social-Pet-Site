@@ -17,6 +17,10 @@ class UserDetailsDisplay extends Component<
     super(props);
     this.state = {};
   }
+
+  componentDidMount() {
+    console.log("UserDetailDisplay Mounted");
+  }
   render() {
     return (
       <div
@@ -47,7 +51,9 @@ class UserDetailsDisplay extends Component<
               Update Profile
             </button>
           </Grid>
-        ) : null}
+        ) : (
+          <div>Profile is undefined</div>
+        )}
       </div>
     );
   }

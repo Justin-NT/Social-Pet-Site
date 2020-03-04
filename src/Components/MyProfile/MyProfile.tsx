@@ -55,6 +55,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
 
   componentDidMount() {
     this.getPosts();
+    this.getMyProfile();
   }
 
   componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
