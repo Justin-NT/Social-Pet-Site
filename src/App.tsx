@@ -7,6 +7,7 @@ import Navbar from "./site/Navbar";
 import Body from "./site/Body";
 import Footer from "./site/Footer";
 import Feed from "./Components/Feed";
+import { Redirect } from "react-router-dom";
 
 interface AppState {
   sessionToken: any;

@@ -2,7 +2,8 @@ import React, { Component, SyntheticEvent } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import styled from "styled-components";
-import APIURL from '../../helpers/environment';
+import APIURL from "../../helpers/environment";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
 const Signinstyle = styled.div`
   background-color: #61c899;
@@ -11,7 +12,7 @@ const Signinstyle = styled.div`
   border-radius: 100px;
   justify-content: center;
 `;
-interface SigninProps {
+interface SigninProps extends RouteComponentProps {
   updateToken(newToken: string): any;
   roleCheck: any;
 }
@@ -28,6 +29,7 @@ class Signin extends Component<SigninProps, SigninState> {
     e.preventDefault();
 
     let url = `${APIURL}/auth/signin`;
+    // let url = "http://localhost:3000/auth/signin";
     fetch(url, {
       method: "POST",
       headers: new Headers({
@@ -36,16 +38,15 @@ class Signin extends Component<SigninProps, SigninState> {
       body: JSON.stringify({
         email: this.state.email,
         password: this.state.password
-
       })
     })
-        .then(response => response.json())
-        .then(data => {
-          this.props.updateToken(data.sessionToken);
-          this.props.roleCheck(data.user.admin);
-        })
-        .catch(err => console.log("error: ", err));
-    
+      .then(response => response.json())
+      .then(data => {
+        this.props.updateToken(data.sessionToken);
+        this.props.roleCheck(data.user.admin);
+      })
+      .then(() => this.props.history.push("/feed"))
+      .catch(err => console.log("error: ", err));
   };
 
   render() {
@@ -72,4 +73,4 @@ class Signin extends Component<SigninProps, SigninState> {
     );
   }
 }
-export default Signin;
+export default withRouter(Signin);

@@ -124,19 +124,21 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
   };
 
   displayPosts = () => {
-    return this.state.postResults.map((post: any) => {
-      return (
-        <div key={post.id}>
-          <MyProfileDisplay
-            post={post}
-            sessionToken={this.props.sessionToken}
-            getPosts={this.getPosts}
-            userIdTest={this.state.userIdTest}
-            isUserAdmin={this.props.isUserAdmin}
-          />
-        </div>
-      );
-    });
+    return this.state.postResults.length > 0
+      ? this.state.postResults.map((post: any) => {
+          return (
+            <div key={post.id}>
+              <MyProfileDisplay
+                post={post}
+                sessionToken={this.props.sessionToken}
+                getPosts={this.getPosts}
+                userIdTest={this.state.userIdTest}
+                isUserAdmin={this.props.isUserAdmin}
+              />
+            </div>
+          );
+        })
+      : null;
   };
 
   submitProfileUpdate = (

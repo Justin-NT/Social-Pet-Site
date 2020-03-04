@@ -7,8 +7,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 // import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from "@material-ui/core/DialogTitle";
 import styled from "styled-components";
-// import {withRouter} from "react-router";
-import APIURL from '../../helpers/environment';
+import { withRouter, RouteComponentProps } from "react-router-dom";
+import APIURL from "../../helpers/environment";
 
 const Container = styled.div`
   width: 90%;
@@ -21,7 +21,7 @@ const Header = styled.div`
   font-family: "Krona One", sans-serif;
 `;
 
-interface SignupProps {
+interface SignupProps extends RouteComponentProps {
   updateToken: any;
   inSwitch: boolean;
   toggleDialogue: any;
@@ -65,6 +65,7 @@ class Signup extends Component<SignupProps, SignupState> {
     e.preventDefault();
 
     let url = `${APIURL}/auth/signup`;
+    // let url = "http://localhost:3000/auth/signup";
     fetch(url, {
       method: "POST",
       body: JSON.stringify({
@@ -82,15 +83,24 @@ class Signup extends Component<SignupProps, SignupState> {
       .then(data => {
         console.log(data);
         this.props.updateToken(data.sessionToken);
+        this.props.roleCheck(data.user.admin);
       })
-      .then(() => this.props.toggleDialogue())
-      .then(() => this.createProfile())
+      .then(() => {
+        this.createProfile();
+        this.props.toggleDialogue();
+        this.props.history.push("/feed");
+      })
+      // .then(() => this.props.toggleDialogue())
       .catch(err => console.log("error: ", err));
-
   };
+
+  // return this.state.password.length >= 8 &&
+  //     /^(?=.*\d)(?=.*[!@#$%^&*])$/.test(this.state.password)
+  //     ?
 
   createProfile = () => {
     let url = `${APIURL}/profiles/create`;
+    // let url = "http://localhost:3000/profiles/create";
     fetch(url, {
       method: "POST",
       headers: new Headers({
@@ -200,4 +210,4 @@ class Signup extends Component<SignupProps, SignupState> {
   }
 }
 
-export default Signup;
+export default withRouter(Signup);
