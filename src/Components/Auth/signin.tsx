@@ -19,14 +19,10 @@ interface SigninState {
 
 interface SigninProps {
   updateToken(newToken: string): any;
-  updateUserId: any;
 }
 
 class Signin extends Component<SigninProps, SigninState> {
-  constructor(props: SigninProps) {
-    super(props);
-    this.state = { email: "", password: "" };
-  }
+  state: SigninState = { email: "", password: "" };
 
   signinFetch = (e: SyntheticEvent) => {
     e.preventDefault();
@@ -44,15 +40,12 @@ class Signin extends Component<SigninProps, SigninState> {
       .then(response => response.json())
       .then(data => {
         console.log(data);
+        console.log(data.sessionToken);
+        console.log(this.props);
         this.props.updateToken(data.sessionToken);
-        this.props.updateUserId(data.user.id);
       })
       .catch(err => console.log("error: ", err));
   };
-
-  
-    
-  
 
   render() {
     return (
@@ -70,20 +63,20 @@ class Signin extends Component<SigninProps, SigninState> {
 
 export default Signin;
 
-        // <form onSubmit={e => this.signinFetch(e)}>
-        //   <input
-        //     type="email"
-        //     placeholder="email"
-        //     value={this.state.email}
-        //     name="email"
-        //     onChange={e => this.setState({ email: e.target.value })}
-        //   />
-        //   <input
-        //     type="password"
-        //     placeholder="password"
-        //     value={this.state.password}
-        //     name="password"
-        //     onChange={e => this.setState({ password: e.target.value })}
-        //   />
-        //   <button>Signin</button>
-        // </form>
+// <form onSubmit={e => this.signinFetch(e)}>
+//   <input
+//     type="email"
+//     placeholder="email"
+//     value={this.state.email}
+//     name="email"
+//     onChange={e => this.setState({ email: e.target.value })}
+//   />
+//   <input
+//     type="password"
+//     placeholder="password"
+//     value={this.state.password}
+//     name="password"
+//     onChange={e => this.setState({ password: e.target.value })}
+//   />
+//   <button>Signin</button>
+// </form>

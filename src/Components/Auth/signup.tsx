@@ -7,12 +7,13 @@ import DialogContent from '@material-ui/core/DialogContent';
 // import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import styled from 'styled-components';
+// import {withRouter} from "react-router";
 
 
 const Container = styled.div`
   width: 90%;
   height: 50%;
-  font-family: Krona One;
+  font-family: 'Krona One', sans-serif;
   display: flex;
 `;
 const Header = styled.div`
@@ -24,8 +25,8 @@ const Header = styled.div`
 
 interface SignupProps {
   updateToken: any;
-  updateUserId: any;
   inSwitch: boolean;
+  toggleDialogue: any;
 }
 
 interface SignupState {
@@ -38,8 +39,9 @@ interface SignupState {
   animal: string;
   gender: string;
   bio: string;
-  image: string;
+  profilePicture: string;
   open: boolean;
+  
 }
 
 
@@ -57,11 +59,12 @@ class Signup extends Component<SignupProps, SignupState> {
       animal: "",
       gender: "",
       bio: "",
-      image: "",
+      profilePicture: "",
       open: true,
+      
     };
   }
-
+  
   signupFetch = (e: SyntheticEvent) => {
     e.preventDefault();
     let endpoint = "http://localhost:3000/auth/signup";
@@ -78,13 +81,12 @@ class Signup extends Component<SignupProps, SignupState> {
         "Content-Type": "application/json"
       })
     })
-      .then(response => response.json())
-      .then(data => {
-        console.log(data);
-        this.props.updateToken(data.sessionToken);
-        // this.props.updateUserId(data.user.id);
-      })
-      .catch(err => console.log("error: ", err));
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+      this.props.updateToken(data.sessionToken);
+    })
+    .catch(err => console.log("error: ", err));
   };
 
 
@@ -106,11 +108,11 @@ class Signup extends Component<SignupProps, SignupState> {
             <TextField type="text" value={this.state.animal} name="animal" placeholder="animal" onChange={e=> this.setState({animal: e.target.value})}/>
             <TextField type="text" value={this.state.gender} name="gender" placeholder="gender" onChange={e => this.setState({ gender: e.target.value })}/>
             <TextField type="text" value={this.state.bio} name="bio" placeholder="bio" onChange={e => this.setState({ bio: e.target.value })}/>
-            <TextField type="file" value={this.state.image} name="image" placeholder="image" onChange={e => this.setState({ image: e.target.value })}/>
+            <TextField type="file" value={this.state.profilePicture} name="profilepicture" placeholder="profile picture" onChange={e => this.setState({ profilePicture: e.target.value })}/>
           </DialogContent>
             <DialogActions>
             <Button type="submit">Create Profile</Button>
-            <Button>Cancel</Button>
+            <Button onClick={this.props.toggleDialogue} >Cancel</Button>
             </DialogActions>
           </form>
           </Dialog>
