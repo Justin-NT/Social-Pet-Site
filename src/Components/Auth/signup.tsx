@@ -97,7 +97,8 @@ class Signup extends Component<SignupProps, SignupState> {
         name: this.state.name,
         animal: this.state.animal,
         bio: this.state.bio,
-        gender: this.state.gender
+        gender: this.state.gender,
+        profilePicture: this.state.profilePicture
       })
     })
       .then(res => res.json())

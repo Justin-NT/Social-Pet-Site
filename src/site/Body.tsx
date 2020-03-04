@@ -4,7 +4,6 @@ import Signup from "../Components/Auth/signup";
 import styled from "styled-components";
 import Signin from "../Components/Auth/signin";
 import Kitty from "../assets/kitty.jpeg";
-import Link from "@material-ui/core/Link";
 
 interface BodyProps {
   updateToken(newToken: string): any;

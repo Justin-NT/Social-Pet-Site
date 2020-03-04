@@ -17,6 +17,8 @@ import { TextField } from "@material-ui/core";
 import CommentModal from "./Displays/CommentModal";
 import PostModal from "./Displays/PostModal";
 
+// import styled from "styled-components";
+
 const useStyles = (theme: any) =>
   createStyles({
     root: {
@@ -39,13 +41,23 @@ const useStyles = (theme: any) =>
       backgroundColor: "grey"
     },
     Button: {
-      margin: theme.spacing(1)
+      margin: theme.spacing(1),
+      backgroundColor: "#61C899",
+      color: "white",
+      borderRadius: 100,
     },
     cardAct: {
       justifyContent: "space-evenly",
       backgroundColor: "orange"
     }
   });
+
+  // const Button = styled.button`
+  //   backgroundColor: "#61C899",
+  //   color: "white",
+  //   borderRadius: 100px,
+    
+  // `
 
 interface MyProfileDisplayProps {
   post: any;
