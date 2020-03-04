@@ -8,6 +8,7 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import styled from "styled-components";
 // import {withRouter} from "react-router";
+import APIURL from '../../helpers/environment';
 
 const Container = styled.div`
   width: 90%;
@@ -61,8 +62,8 @@ class Signup extends Component<SignupProps, SignupState> {
 
   signupFetch = (e: SyntheticEvent) => {
     e.preventDefault();
-    let endpoint = "http://localhost:3000/auth/signup";
-    fetch(endpoint, {
+    let url = `${APIURL}/auth/signup`;
+    fetch(url, {
       method: "POST",
       body: JSON.stringify({
         firstname: this.state.firstname,
@@ -86,7 +87,7 @@ class Signup extends Component<SignupProps, SignupState> {
   };
 
   createProfile = () => {
-    let url = "http://localhost:3000/profiles/create";
+    let url = `${APIURL}/profiles/create`;
     fetch(url, {
       method: "POST",
       headers: new Headers({

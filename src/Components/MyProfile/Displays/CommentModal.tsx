@@ -4,6 +4,7 @@ import "./Modal.css";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import APIURL from '../../../helpers/environment';
 
 interface CommentProps {
   comment: any;
@@ -46,7 +47,7 @@ class commentModal extends Component<CommentProps, CommentState> {
   }
 
   submitCommentUpdate = (commentId: number, newComment: string | null) => {
-    let url = `http://localhost:3000/comments/${this.props.currentCommentId}`;
+    let url = `${APIURL}/comments/${this.props.currentCommentId}`;
     fetch(url, {
       method: "PUT",
       body: JSON.stringify({
