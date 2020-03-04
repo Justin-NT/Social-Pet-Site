@@ -1,135 +1,248 @@
-import React, {Component} from 'react';
-import styled from 'styled-components';
-// import {makeStyles} from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Kitty from "../assets/kitty.jpeg";
-import Gunny from "../assets/gunny.jpeg";
-import Pig from "../assets/piglet.jpeg";
+import React, { Component, SyntheticEvent } from "react";
+import FeedDisplay from "./Posting/FeedDisplay";
 
-class Feed extends Component {
-    // constructor(){
-    //     super();
-    //     this.state ={
+interface FeedProps {
+  sessionToken: any;
+  //   userid: number;
+}
 
-    //     }
-    // }
-    render(){
-        return(
-            <div>
-                <FeedDisplay />
-            </div>
-        )
+interface FeedState {
+  posts: string[];
+  body: any;
+  comment: any;
+  name: string;
+  profile: any;
+  userId: number;
+  // postId: number;
+}
+
+export default class Feed extends Component<FeedProps, FeedState> {
+  // constructor(props: any) {
+  // super(props);
+  state: FeedState = {
+    // token: localStorage.getItem("token"),
+    posts: [],
+    body: "",
+    comment: "",
+    name: "",
+    profile: "",
+    userId: 0
+    // postId: 0
+  };
+
+  newsFeed = () => {
+    //   e.preventDefault();
+    let url = "http://localhost:3000/posts/all";
+    console.log(this.props.sessionToken);
+
+    fetch(url, {
+      method: "GET",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: this.props.sessionToken
+      })
+    })
+      .then(res => res.json())
+      .then(posts => {
+        console.log(posts.post);
+        // this.setState({ postId: posts.id });
+        // console.log(this.state.postId);
+        this.setState({ posts: posts.post });
+      })
+      .catch(err => console.log("Error:", err));
+  };
+
+  findPet = () => {
+    // e.preventDefault();
+    let url = `http://localhost:3000/profiles/${this.state.userId}`;
+    console.log(this.state.userId);
+    fetch(url, {
+      method: "GET",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: this.props.sessionToken
+      })
+    })
+      .then(res => res.json())
+      .then(profile => {
+        console.log(profile.userId);
+        console.log(profile.name);
+        this.setState({ name: profile.name });
+        console.log(profile.userId);
+        this.setState({ profile: profile });
+      })
+      .catch(err => console.log("error:", err));
+  };
+
+  createPost = (e: SyntheticEvent) => {
+    e.preventDefault();
+    let url = "http://localhost:3000/posts/create";
+
+    fetch(url, {
+      method: "POST",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: this.props.sessionToken
+      }),
+      body: JSON.stringify({
+        body: this.state.body
+      })
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+        this.setState({ userId: json.userId });
+      })
+      .then(() => {
+        // this.findPet();
+        this.newsFeed();
+      })
+
+      .catch(err => console.log("Error: ", err));
+  };
+
+  componentDidUpdate(prevProps: any, prevState: any) {
+    if (this.props.sessionToken !== prevProps.sessionToken) {
+      this.newsFeed();
+    } else if (this.state.userId !== 0) {
+      this.findPet();
+    } else {
+      console.log(this.props.sessionToken);
     }
+  }
+
+  render() {
+    return (
+      <div>
+        <h3>Post</h3>
+        <form
+          onSubmit={e => {
+            this.createPost(e);
+            this.newsFeed();
+          }}
+        >
+          <input
+            type="text"
+            value={this.state.body}
+            name="body"
+            placeholder="body"
+            onChange={e => this.setState({ body: e.target.value })}
+          />
+          <button>Create Post</button>
+        </form>
+        {this.state.posts.map(post => {
+          return (
+            <FeedDisplay
+              post={post}
+              newsFeed={this.newsFeed}
+              sessionToken={this.props.sessionToken}
+              petName={this.state.name}
+              profile={this.state.profile}
+              // postId={this.state.postId}
+            />
+          );
+        })}
+      </div>
+    );
+  }
+  // }
 }
-
-
-
-
-const Row = styled.div`
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    width: 100%
-`;
-
-const Column = styled.div`
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-`;
-
-// const Background = styled.div`
-//     background: linear-gradient(to bottom, white, #e1e6e2);
-// `;
-
-const Wrapper = styled.div`
-    display: block;
-    margin: auto;
-    padding: 2em;
-`;
-
-// const useStyles = makeStyles({
-//   card: {
-//       maxWidth: 345,
-//       maxHeight: 450
-//   }
-// })
-
-const FeedDisplay = ()  => {
-    return(
-        <div>
-            <Row>
-          <Column>
-              <Wrapper>
-                  <Card>
-                      <CardActionArea>
-                          <CardMedia component="img" alt="Joy Division" height="180" src={Gunny} title="Joy Division" />
-                          <CardContent>
-                              <Typography gutterBottom variant="h5" component="h2">Ginny the Guinea Pig</Typography>
-                              <Typography variant="body2" color="textSecondary" component="p"></Typography>
-                          </CardContent>
-                      </CardActionArea>
-                      <CardActions>
-                          <Button size="small">Like</Button>
-                          <Button size="small">Comment</Button>
-                      </CardActions>
-                  </Card>
-              </Wrapper>
-          </Column>
-          <Column>
-              <Wrapper>
-                  <Card>
-                      <CardActionArea>
-                          <CardMedia
-                          component="img"
-                          alt="Piglet"
-                          height="180"
-                          src={Pig}
-                          title="Dark Side of the Moon" />
-                          <CardContent>
-                              <Typography gutterBottom variant="h5" component="h2">Wiglet the Piglet</Typography>
-                              <Typography variant="body2" color="textSecondary" component="p"> </Typography>
-                          </CardContent>
-                      </CardActionArea>
-                      <CardActions>
-                          <Button size="small" >Like</Button>
-                          <Button size="small" >Comment</Button>
-                      </CardActions>
-                  </Card>
-              </Wrapper>
-          </Column>
-          <Column>
-              <Wrapper>
-                  <Card>
-                      <CardActionArea>
-                          <CardMedia
-                          component="img"
-                          alt="Abbey Road"
-                          height="180"
-                          src={Kitty}
-                          title="Abbey Road" />
-                          <CardContent>
-                              <Typography gutterBottom variant="h5" component="h2">Pretty the Kitty</Typography>
-                              <Typography variant="body2" color="textSecondary" component="p"> </Typography>
-                          </CardContent>
-                      </CardActionArea>
-                      <CardActions>
-                          <Button size="small" >Like</Button>
-                          <Button size="small" >Comment</Button>
-                      </CardActions>
-                  </Card>
-              </Wrapper>
-          </Column>
-      </Row>
-
-        </div>
-    )
-}
-
-export default Feed;
+// const FeedDisplay = () => {
+//   return (
+//     <div>
+//       <Row>
+//         <Column>
+//           <Wrapper>
+//             <Card>
+//               <CardActionArea>
+//                 <CardMedia
+//                   component="img"
+//                   alt="GuineaPig"
+//                   height="180"
+//                   src={Gunny}
+//                   title="GuineaPig"
+//                 />
+//                 <CardContent>
+//                   <Typography gutterBottom variant="h5" component="h2">
+//                     Ginny the Guinea Pig
+//                   </Typography>
+//                   <Typography
+//                     variant="body2"
+//                     color="textSecondary"
+//                     component="p"
+//                   ></Typography>
+//                 </CardContent>
+//               </CardActionArea>
+//               <CardActions>
+//                 <Button size="small">Like</Button>
+//                 <Button size="small">Comment</Button>
+//               </CardActions>
+//             </Card>
+//           </Wrapper>
+//         </Column>
+//         <Column>
+//           <Wrapper>
+//             <Card>
+//               <CardActionArea>
+//                 <CardMedia
+//                   component="img"
+//                   alt="Piglet"
+//                   height="180"
+//                   src={Pig}
+//                   title="Piglet"
+//                 />
+//                 <CardContent>
+//                   <Typography gutterBottom variant="h5" component="h2">
+//                     Wiglet the Piglet
+//                   </Typography>
+//                   <Typography
+//                     variant="body2"
+//                     color="textSecondary"
+//                     component="p"
+//                   >
+//                     {" "}
+//                   </Typography>
+//                 </CardContent>
+//               </CardActionArea>
+//               <CardActions>
+//                 <Button size="small">Like</Button>
+//                 <Button size="small">Comment</Button>
+//               </CardActions>
+//             </Card>
+//           </Wrapper>
+//         </Column>
+//         <Column>
+//           <Wrapper>
+//             <Card>
+//               <CardActionArea>
+//                 <CardMedia
+//                   component="img"
+//                   alt="Kitty"
+//                   height="180"
+//                   src={Kitty}
+//                   title="Kitty"
+//                 />
+//                 <CardContent>
+//                   <Typography gutterBottom variant="h5" component="h2">
+//                     Pretty the Kitty
+//                   </Typography>
+//                   <Typography
+//                     variant="body2"
+//                     color="textSecondary"
+//                     component="p"
+//                   >
+//                     {" "}
+//                   </Typography>
+//                 </CardContent>
+//               </CardActionArea>
+//               <CardActions>
+//                 <Button size="small">Like</Button>
+//                 <Button size="small">Comment</Button>
+//               </CardActions>
+//             </Card>
+//           </Wrapper>
+//         </Column>
+//       </Row>
+//     </div>
+//   );
+// };

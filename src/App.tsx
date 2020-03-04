@@ -6,6 +6,7 @@ import MyProfile from "./Components/MyProfile/MyProfile";
 import Navbar from "./site/Navbar";
 import Body from "./site/Body";
 import Footer from "./site/Footer";
+import Feed from "./Components/Feed";
 
 interface AppState {
   sessionToken: any;
@@ -46,7 +47,7 @@ class App extends Component<AppProps, AppState> {
     return (
       <div>
         <Router>
-          <Navbar />
+          <Navbar sessionToken={this.state.sessionToken} />
           <Switch>
             <Route exact path="/">
               <Body
@@ -60,6 +61,9 @@ class App extends Component<AppProps, AppState> {
                 sessionToken={this.state.sessionToken}
                 isUserAdmin={this.state.isUserAdmin}
               />
+            </Route>
+            <Route exact path="/feed">
+              <Feed sessionToken={this.state.sessionToken} />
             </Route>
           </Switch>
           <Footer />

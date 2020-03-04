@@ -50,6 +50,10 @@ const useStyles = (theme: any) =>
     cardAct: {
       justifyContent: "space-evenly",
       backgroundColor: "orange"
+    },
+    commentTextField: {
+      minWidth: "70%"
+      // backgroundColor: "white"
     }
   });
 
@@ -312,6 +316,7 @@ class MyProfileDisplay extends Component<
             onChange={e => this.setState({ createdComment: e.target.value })}
             multiline
             rowsMax="8"
+            className={classes.commentTextField}
           ></TextField>
           <Button
             color="primary"
