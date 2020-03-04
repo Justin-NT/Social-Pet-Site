@@ -38,13 +38,14 @@ class Signin extends Component<SigninProps, SigninState> {
         password: this.state.password
 
       })
+    })
         .then(response => response.json())
         .then(data => {
           this.props.updateToken(data.sessionToken);
           this.props.roleCheck(data.user.admin);
         })
         .catch(err => console.log("error: ", err));
-    }
+    
   };
 
   render() {
