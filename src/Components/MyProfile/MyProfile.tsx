@@ -1,6 +1,6 @@
 import React, { Component, SyntheticEvent } from "react";
 import MyProfileDisplay from "./MyProfileDisplay";
-import styled from "styled-components";
+// import styled from "styled-components";
 import CreatePost from "./CreatePost";
 import UpdateProfileModal from "./Displays/UpdateProfileModal";
 import UserDetailsDisplay from "./Displays/UserDetailsDisplay";
@@ -21,22 +21,22 @@ interface MyProfileState {
   editProfile: boolean;
 }
 
-const Title = styled.h3`
-  font-family: "Krona One", sans-serif;
-`;
-const Input = styled.input`
-  height: 50 px;
-  border-radius: 100px;
-  background-color: #61c899;
-  font-family: "Krona One", sans-serif;
-`;
-const Button = styled.button`
-  background-color: #61c899;
-  font-family: "Krona One", sans-serif;
-  height: 25px;
-  border-radius: 100px;
-  color: white;
-`;
+// const Title = styled.h3`
+//   font-family: "Krona One", sans-serif;
+// `;
+// const Input = styled.input`
+//   height: 50 px;
+//   border-radius: 100px;
+//   background-color: #61c899;
+//   font-family: "Krona One", sans-serif;
+// `;
+// const Button = styled.button`
+//   background-color: #61c899;
+//   font-family: "Krona One", sans-serif;
+//   height: 25px;
+//   border-radius: 100px;
+//   color: white;
+// `;
 
 class MyProfile extends Component<MyProfileProps, MyProfileState> {
   constructor(props: any) {
