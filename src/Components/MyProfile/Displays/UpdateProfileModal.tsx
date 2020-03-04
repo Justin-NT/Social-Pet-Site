@@ -30,13 +30,6 @@ class UpdateProfileModal extends Component<
     };
   }
 
-  componentDidMount() {
-    console.log(this.props.profile.name);
-    console.log(this.props.profile.animal);
-    console.log(this.props.profile.gender);
-    console.log(this.props.profile.bio);
-  }
-
   render() {
     return (
       <div className="modal--overlay">

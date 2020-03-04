@@ -60,8 +60,6 @@ interface CreatePostProps {
 }
 
 interface CreatePostState {
-  title: string;
-  feeling: string;
   body: string;
 }
 
@@ -69,8 +67,6 @@ class CreatePost extends Component<CreatePostProps, CreatePostState> {
   constructor(props: CreatePostProps) {
     super(props);
     this.state = {
-      title: "Fake title",
-      feeling: "",
       body: ""
     };
   }
@@ -86,8 +82,6 @@ class CreatePost extends Component<CreatePostProps, CreatePostState> {
         Authorization: this.props.sessionToken
       }),
       body: JSON.stringify({
-        title: this.state.title,
-        feeling: this.state.feeling,
         body: this.state.body
       })
     })

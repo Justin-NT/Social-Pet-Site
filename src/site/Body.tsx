@@ -17,6 +17,7 @@ import Kitty from "../assets/kitty.jpeg";
 
 interface BodyProps {
   updateToken(newToken: string): any;
+  roleCheck: any;
 }
 
 interface BodyState {
@@ -43,7 +44,10 @@ class Body extends Component<BodyProps, BodyState> {
         </h3>
 
         <Background>
-          <Signin updateToken={this.props.updateToken} />
+          <Signin
+            updateToken={this.props.updateToken}
+            roleCheck={this.props.roleCheck}
+          />
           <Link>No Profile? Click here.</Link>
           {/* <Signup updateToken={props.updateToken} updateUserId={props.updateUserId}/> */}
           <Kitten src={Kitty} alt="Petazoa" />

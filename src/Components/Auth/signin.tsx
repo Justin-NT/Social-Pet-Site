@@ -2,13 +2,14 @@ import React, { Component, SyntheticEvent } from "react";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 
+interface SigninProps {
+  updateToken(newToken: string): any;
+  roleCheck: any;
+}
+
 interface SigninState {
   email: string;
   password: string;
-}
-
-interface SigninProps {
-  updateToken(newToken: string): any;
 }
 
 class Signin extends Component<SigninProps, SigninState> {
@@ -31,6 +32,7 @@ class Signin extends Component<SigninProps, SigninState> {
       .then(data => {
         console.log(data);
         this.props.updateToken(data.sessionToken);
+        this.props.roleCheck(data.user.admin);
       })
       .catch(err => console.log("error: ", err));
   };

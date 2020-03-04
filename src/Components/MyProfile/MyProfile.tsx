@@ -6,6 +6,7 @@ import UserDetailsDisplay from "./Displays/UserDetailsDisplay";
 
 interface MyProfileProps {
   sessionToken: any;
+  isUserAdmin: boolean;
 }
 
 interface MyProfileState {
@@ -111,6 +112,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
             sessionToken={this.props.sessionToken}
             getPosts={this.getPosts}
             userIdTest={this.state.userIdTest}
+            isUserAdmin={this.props.isUserAdmin}
           />
         </div>
       );
@@ -185,17 +187,6 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
             editProfileSwitch={this.editProfileSwitch}
           />
         ) : null}
-        <div>
-          {/* <button
-            onClick={() =>
-              this.state.profile
-                ? this.setState({ editProfile: !this.state.editProfile })
-                : console.log("No profile to delete!")
-            }
-          >
-            Click To Update Profile
-          </button> */}
-        </div>
         <CreatePost
           sessionToken={this.props.sessionToken}
           getPosts={this.getPosts}

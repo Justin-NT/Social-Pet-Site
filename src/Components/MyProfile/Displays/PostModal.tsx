@@ -33,7 +33,7 @@ class ProfileModal extends Component<ProfileModalProps, ProfileModalState> {
               variant="outlined"
               onChange={e => this.setState({ newBody: e.target.value })}
               placeholder={this.props.post.body}
-              name="body"
+              label="body"
             />
           </Grid>
           <Grid container spacing={3}>

@@ -9,6 +9,7 @@ import Footer from "./site/Footer";
 
 interface AppState {
   sessionToken: string | null;
+  isUserAdmin: boolean;
 }
 
 interface AppProps {
@@ -19,7 +20,8 @@ class App extends Component<AppProps, AppState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      sessionToken: ""
+      sessionToken: "",
+      isUserAdmin: false
     };
   }
 
@@ -44,6 +46,10 @@ class App extends Component<AppProps, AppState> {
     this.setState({ sessionToken: newToken });
   };
 
+  roleCheck = (role: boolean) => {
+    this.setState({ isUserAdmin: role });
+  };
+
   render() {
     return (
       <div>
@@ -51,11 +57,13 @@ class App extends Component<AppProps, AppState> {
           <Navbar />
           <Switch>
             <Route exact path="/">
-              <Body updateToken={this.updateToken} />
-              {/* <Post sessionToken={this.state.sessionToken} /> */}
+              <Body updateToken={this.updateToken} roleCheck={this.roleCheck} />
             </Route>
             <Route exact path="/myprofile">
-              <MyProfile sessionToken={this.state.sessionToken} />
+              <MyProfile
+                sessionToken={this.state.sessionToken}
+                isUserAdmin={this.state.isUserAdmin}
+              />
             </Route>
           </Switch>
           <Footer />

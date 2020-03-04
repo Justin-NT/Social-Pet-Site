@@ -49,10 +49,11 @@ const useStyles = (theme: any) =>
 
 interface MyProfileDisplayProps {
   post: any;
-  sessionToken: any;
+  sessionToken: string;
   classes: any;
   getPosts: any;
-  userIdTest: any;
+  userIdTest: number;
+  isUserAdmin: boolean;
 }
 
 interface MyProfileDisplayState {
@@ -105,8 +106,6 @@ class MyProfileDisplay extends Component<
         Authorization: this.props.sessionToken
       }),
       body: JSON.stringify({
-        title: this.props.post.title,
-        feeling: this.props.post.feeling,
         body: newBody
       })
     })
@@ -167,8 +166,9 @@ class MyProfileDisplay extends Component<
         Authorization: this.props.sessionToken
       })
     })
-      .then(res => res.json())
+      .then(res => JSON.stringify(res))
       .then(json => {
+        console.log(json);
         this.getComments();
       })
       .catch(err => console.log("Error: ", err));
@@ -232,18 +232,13 @@ class MyProfileDisplay extends Component<
               Pet
             </Avatar>
           }
-          title={this.props.post.title}
           subheader={this.props.post.createdAt}
         />
         <Typography variant="body1" color="textSecondary" component="p">
           This will contain the body of what the user types:
           {this.props.post.body}
         </Typography>
-        <CardMedia
-          className={classes.media}
-          image={Catdog}
-          title={this.props.post.title}
-        />
+        <CardMedia className={classes.media} image={Catdog} />
         <CardContent className={classes.comments}>
           contains the area where comments are displayed
           {this.state.comments.map((comment: any) => {
@@ -254,19 +249,22 @@ class MyProfileDisplay extends Component<
                   <Button
                     color="primary"
                     variant="contained"
+                    size="small"
                     startIcon={<UpdateIcon />}
-                    className={classes.button}
+                    className={classes.Button}
                     onClick={() => this.updateComment(comment.id)}
                   >
                     Update
                   </Button>
                 ) : null}
-                {comment.userId === this.props.userIdTest ? (
+                {comment.userId === this.props.userIdTest ||
+                this.props.isUserAdmin ? (
                   <Button
                     color="secondary"
+                    size="small"
                     variant="contained"
                     startIcon={<DeleteIcon />}
-                    className={this.props.classes.button}
+                    className={classes.Button}
                     onClick={() => this.deleteComment(comment.id)}
                   >
                     Delete
@@ -289,6 +287,8 @@ class MyProfileDisplay extends Component<
             variant="outlined"
             label="Post a comment..."
             onChange={e => this.setState({ createdComment: e.target.value })}
+            multiline
+            rowsMax="8"
           ></TextField>
           <Button
             color="primary"
