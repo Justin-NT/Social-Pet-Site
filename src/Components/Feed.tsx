@@ -53,6 +53,7 @@ export default class Feed extends Component<FeedProps, FeedState> {
   };
 
   findPet = () => {
+    // e.preventDefault();
     let url = `http://localhost:3000/profiles/${this.state.userId}`;
     console.log(this.state.userId);
     fetch(url, {
@@ -64,8 +65,8 @@ export default class Feed extends Component<FeedProps, FeedState> {
     })
       .then(res => res.json())
       .then(profile => {
-        console.log(profile[0].userId);
-        console.log(profile[0].name);
+        console.log(profile.userId);
+        console.log(profile.name);
         this.setState({ name: profile.name });
         console.log(profile.userId);
         this.setState({ profile: profile });
@@ -93,7 +94,7 @@ export default class Feed extends Component<FeedProps, FeedState> {
         this.setState({ userId: json.userId });
       })
       .then(() => {
-        this.findPet();
+        // this.findPet();
         this.newsFeed();
       })
 
@@ -103,6 +104,8 @@ export default class Feed extends Component<FeedProps, FeedState> {
   componentDidUpdate(prevProps: any, prevState: any) {
     if (this.props.sessionToken !== prevProps.sessionToken) {
       this.newsFeed();
+    } else if (this.state.userId !== 0) {
+      this.findPet();
     } else {
       console.log(this.props.sessionToken);
     }

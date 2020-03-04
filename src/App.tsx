@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import "./App.css";
 // import Adopt from "./Components/Adopt/Adopt";
-import Auth from "./Components/Auth/Auth";
-import Post from "./Components/Posting/Post";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import MyProfile from "./Components/MyProfile/MyProfile";
 import Navbar from "./site/Navbar";
 import Body from "./site/Body";
 import Footer from "./site/Footer";
+import Feed from "./Components/Feed";
 
 interface AppState {
-  sessionToken: string | null;
+  sessionToken: any;
+  isUserAdmin: boolean;
 }
 
 interface AppProps {
@@ -21,7 +21,8 @@ class App extends Component<AppProps, AppState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      sessionToken: ""
+      sessionToken: "",
+      isUserAdmin: false
     };
   }
 
@@ -33,18 +34,13 @@ class App extends Component<AppProps, AppState> {
     }
   }
 
-  componentDidUpdate(prevProps: any, prevState: any) {
-    if (prevState.sessionToken !== this.state.sessionToken) {
-      console.log("Current state value for token: ", this.state.sessionToken);
-      console.log("previous state value for token: ", prevState.sessionToken);
-    } else {
-      console.log("no");
-    }
-  }
-
   updateToken = (newToken: string): any => {
     localStorage.setItem("token", newToken);
     this.setState({ sessionToken: newToken });
+  };
+
+  roleCheck = (role: boolean) => {
+    this.setState({ isUserAdmin: role });
   };
 
   render() {
@@ -54,11 +50,20 @@ class App extends Component<AppProps, AppState> {
           <Navbar sessionToken={this.state.sessionToken} />
           <Switch>
             <Route exact path="/">
-              <Body updateToken={this.updateToken} />
-              {/* <Post sessionToken={this.state.sessionToken} /> */}
+              <Body
+                updateToken={this.updateToken}
+                roleCheck={this.roleCheck}
+                sessionToken={this.state.sessionToken}
+              />
             </Route>
             <Route exact path="/myprofile">
-              <MyProfile sessionToken={this.state.sessionToken} />
+              <MyProfile
+                sessionToken={this.state.sessionToken}
+                isUserAdmin={this.state.isUserAdmin}
+              />
+            </Route>
+            <Route exact path="/feed">
+              <Feed sessionToken={this.state.sessionToken} />
             </Route>
           </Switch>
           <Footer />

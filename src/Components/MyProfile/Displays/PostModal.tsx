@@ -1,5 +1,5 @@
-import React from "react";
-
+import React, { Component } from "react";
+import "./Modal.css";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 
@@ -13,10 +13,7 @@ interface ProfileModalState {
   newBody: string;
 }
 
-class ProfileModal extends React.Component<
-  ProfileModalProps,
-  ProfileModalState
-> {
+class ProfileModal extends Component<ProfileModalProps, ProfileModalState> {
   constructor(props: any) {
     super(props);
     this.state = { newBody: this.props.post.body };
@@ -36,7 +33,7 @@ class ProfileModal extends React.Component<
               variant="outlined"
               onChange={e => this.setState({ newBody: e.target.value })}
               placeholder={this.props.post.body}
-              name="body"
+              label="body"
             />
           </Grid>
           <Grid container spacing={3}>

@@ -1,13 +1,21 @@
 import React, {Component} from "react";
 import Typography from "@material-ui/core/Typography";
 import Link from "@material-ui/core/Link";
+// import styled from "styled-components";
+
+
 
 
 class Footer extends Component {
 //     constructor(props){
 //     super(props)
 //     this.state ={}
+
 // }
+
+
+
+
 render(){
     return(
     <div>
@@ -29,7 +37,6 @@ function Copyright() {
         </Typography>
     );
 }
-
 
 
 const FooterDisplay = () => {

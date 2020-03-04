@@ -1,22 +1,15 @@
 import React from "react";
+import Typography from "@material-ui/core/Typography";
+import { Link } from "react-router-dom";
+import { makeStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
 import Appbar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-// import Button from "@material-ui/core/Button";
-// import TextField from "@material-ui/core/TextField";
-import Feed from "../Components/Feed";
-import MyProfile from "../Components/MyProfile";
-import Adopt from "../Components/Adopt";
-import { Switch, Route, Link } from "react-router-dom";
-import { BrowserRouter as Router } from "react-router-dom";
-import { makeStyles } from "@material-ui/core/styles";
-// import FormControl from "@material-ui/core/FormControl";
-// import Input from "@material-ui/core/Input";
-import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    backgroundColor: "#61c899"
   },
   title: {
     flexGrow: 1
@@ -51,13 +44,10 @@ const useStyles = makeStyles({
   }
 });
 
-interface SigninProps {
-  sessionToken: string | null;
+interface IProps {
+  sessionToken: string;
 }
-
-interface SigninState {}
-
-const NavbarDisplay = (props: SigninProps) => {
+const NavbarDisplay = (props: IProps) => {
   const classes = useStyles();
 
   return (
@@ -66,35 +56,18 @@ const NavbarDisplay = (props: SigninProps) => {
         <Appbar position="static" className={classes.color}>
           <Toolbar>
             <Typography className={classes.peta}>Petazoa</Typography>
-            <Link className={classes.links} to="/">
+            <Link className={classes.blinks} to="/">
               Home
             </Link>
-            <Link className={classes.links} to="/MyProfile">
+            <Link className={classes.blinks} to="/MyProfile">
               My Profile
             </Link>
-            <Link className={classes.links} to="/Feed">
+            <Link className={classes.blinks} to="/Feed">
               My Feed
-            </Link>
-            <Link className={classes.links} to="/Adopt">
-              Adopt
             </Link>
           </Toolbar>
         </Appbar>
       </Box>
-
-      <Router>
-        <Switch>
-          <Route exact path="/Feed">
-            <Feed sessionToken={props.sessionToken} />
-          </Route>
-          <Route exact path="/MyProfile">
-            <MyProfile />
-          </Route>
-          <Route exact path="/Adopt">
-            <Adopt />
-          </Route>
-        </Switch>
-      </Router>
     </div>
   );
 };

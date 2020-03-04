@@ -1,8 +1,13 @@
 import React, { Component, SyntheticEvent } from "react";
 import MyProfileDisplay from "./MyProfileDisplay";
+import styled from "styled-components";
+import CreatePost from "./CreatePost";
+import UpdateProfileModal from "./Displays/UpdateProfileModal";
+import UserDetailsDisplay from "./Displays/UserDetailsDisplay";
 
 interface MyProfileProps {
   sessionToken: any;
+  isUserAdmin: boolean;
 }
 
 interface MyProfileState {
@@ -10,10 +15,28 @@ interface MyProfileState {
   animal: string;
   bio: string;
   gender: string;
-  profile: [];
+  profile: any;
   postResults: [];
   userIdTest: number;
+  editProfile: boolean;
 }
+
+const Title = styled.h3`
+  font-family: "Krona One", sans-serif;
+`;
+const Input = styled.input`
+  height: 50 px;
+  border-radius: 100px;
+  background-color: #61c899;
+  font-family: "Krona One", sans-serif;
+`;
+const Button = styled.button`
+  background-color: #61c899;
+  font-family: "Krona One", sans-serif;
+  height: 25px;
+  border-radius: 100px;
+  color: white;
+`;
 
 class MyProfile extends Component<MyProfileProps, MyProfileState> {
   constructor(props: any) {
@@ -25,24 +48,19 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       gender: "",
       profile: [],
       postResults: [],
-      userIdTest: 0
+      userIdTest: 0,
+      editProfile: false
     };
   }
 
   componentDidMount() {
-    console.log("MyProfile mounted");
     this.getPosts();
   }
 
   componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
     if (this.props.sessionToken !== prevProps.sessionToken) {
-      // this.showMyProfile();
+      this.getMyProfile();
       this.getPosts();
-      console.log(this.props.sessionToken);
-      console.log(prevProps.sessionToken);
-    } else {
-      console.log(this.props.sessionToken);
-      console.log(prevProps.sessionToken);
     }
   }
 
@@ -69,7 +87,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       .catch(err => console.log("error: ", err));
   };
 
-  showMyProfile = () => {
+  getMyProfile = () => {
     let url = "http://localhost:3000/profiles/mine";
     fetch(url, {
       method: "GET",
@@ -81,7 +99,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       .then(res => res.json())
       .then(json => {
         console.log(json);
-        this.setState({ profile: json });
+        this.setState({ profile: json[0] });
       })
       .catch(err => console.log("error ", err));
   };
@@ -97,10 +115,8 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
     })
       .then(res => res.json())
       .then(json => {
-        console.log(json);
         this.setState({ postResults: json });
         this.setState({ userIdTest: json[0].userId });
-        console.log(json[0].userId);
       })
       .catch(err => console.log("error", err));
   };
@@ -114,10 +130,63 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
             sessionToken={this.props.sessionToken}
             getPosts={this.getPosts}
             userIdTest={this.state.userIdTest}
+            isUserAdmin={this.props.isUserAdmin}
           />
         </div>
       );
     });
+  };
+
+  submitProfileUpdate = (
+    profileId: number,
+    name: string,
+    animal: string,
+    gender: string,
+    bio: string
+  ) => {
+    let url = `http://localhost:3000/profiles/${profileId}`;
+    fetch(url, {
+      method: "PUT",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: this.props.sessionToken
+      }),
+      body: JSON.stringify({
+        name: name,
+        animal: animal,
+        gender: gender,
+        bio: bio
+      })
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log(json);
+        this.getMyProfile();
+        this.closeUpdateProfileModal();
+      })
+      .catch(err => console.log("Error: ", err));
+  };
+
+  editProfileSwitch = () => {
+    this.setState({ editProfile: !this.state.editProfile });
+  };
+
+  closeUpdateProfileModal = () => {
+    this.setState({ editProfile: false });
+  };
+
+  deleteProfile = (profileId: number) => {
+    let url = `http://localhost:3000/profiles/${profileId}`;
+    console.log(url);
+    fetch(url, {
+      method: "DELETE",
+      headers: new Headers({
+        Authorization: this.props.sessionToken
+      })
+    })
+      .then(() => console.log("Profile deleted"))
+      .then(() => this.getMyProfile())
+      .catch(err => console.log("ERROR: ", err));
   };
 
   render() {
@@ -129,39 +198,24 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
           flexFlow: "wrap column"
         }}
       >
-        <h3>Create Profile</h3>
-        <form onSubmit={e => this.createProfile(e)}>
-          <input
-            type="text"
-            value={this.state.name}
-            name="name"
-            placeholder="name"
-            onChange={e => this.setState({ name: e.target.value })}
+        {this.state.profile !== [] ? (
+          <UserDetailsDisplay
+            profile={this.state.profile}
+            deleteProfile={this.deleteProfile}
+            editProfileSwitch={this.editProfileSwitch}
           />
-          <input
-            type="text"
-            value={this.state.animal}
-            name="animal"
-            placeholder="animal"
-            onChange={e => this.setState({ animal: e.target.value })}
+        ) : null}
+        <CreatePost
+          sessionToken={this.props.sessionToken}
+          getPosts={this.getPosts}
+        />
+        {this.state.editProfile ? (
+          <UpdateProfileModal
+            submitProfileUpdate={this.submitProfileUpdate}
+            closeModal={this.closeUpdateProfileModal}
+            profile={this.state.profile}
           />
-          <input
-            type="text"
-            value={this.state.bio}
-            name="bio"
-            placeholder="bio"
-            onChange={e => this.setState({ bio: e.target.value })}
-          />
-          <input
-            type="text"
-            value={this.state.gender}
-            name="gender"
-            placeholder="gender"
-            onChange={e => this.setState({ gender: e.target.value })}
-          />
-          <button>Update Profile(still need to update)</button>
-        </form>
-        <button onClick={() => this.showMyProfile()}>Show Profile</button>
+        ) : null}
         {this.displayPosts()}
       </div>
     );
