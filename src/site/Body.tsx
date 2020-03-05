@@ -3,7 +3,8 @@ import Button from "@material-ui/core/Button";
 import Signup from "../Components/Auth/signup";
 import styled from "styled-components";
 import Signin from "../Components/Auth/signin";
-// import Kitty from "../assets/kitty.jpeg";
+import Kitty from "../assets/kitty.jpeg";
+
 
 interface BodyProps {
   updateToken(newToken: string): any;
@@ -34,7 +35,7 @@ class Body extends Component<BodyProps, BodyState> {
   };
   render() {
     return (
-      <div className="maindiv">
+      <div className="maindiv" >
         <Background>
           <h3>
             Tired of seeing a depressing scene as you mindlessly scroll through
@@ -49,7 +50,7 @@ class Body extends Component<BodyProps, BodyState> {
               roleCheck={this.props.roleCheck}
             />
           </Center>
-          <Button onClick={this.toggleDialogue}>No Profile? Click Here.</Button>
+          <Button style={divStyle} onClick={this.toggleDialogue}>No Profile? Click Here.</Button>
           {this.state.inSwitch === false ? null : (
             <Signup
               toggleDialogue={this.toggleDialogue}
@@ -59,7 +60,7 @@ class Body extends Component<BodyProps, BodyState> {
               roleCheck={this.props.roleCheck}
             />
           )}
-          <Kitten alt="Petazoa" />
+          <Kitten src={Kitty} alt="Petazoa" />
         </Background>
       </div>
     );
@@ -81,4 +82,7 @@ const Center = styled.div`
   float: center;
 `;
 
+const divStyle = {
+    color: "white",
+}
 export default Body;

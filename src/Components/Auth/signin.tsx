@@ -5,7 +5,7 @@ import styled from "styled-components";
 import APIURL from '../../helpers/environment';
 
 const Signinstyle = styled.div`
-  background-color: #61c899;
+  
   color: white;
   width: 75%;
   border-radius: 100px;
