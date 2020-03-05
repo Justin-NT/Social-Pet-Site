@@ -1,8 +1,26 @@
 import React, { Component, SyntheticEvent } from "react";
 import FeedDisplay from "./Posting/FeedDisplay";
+import { withStyles, createStyles } from "@material-ui/core/styles";
+import classes from "*.module.css";
+import { userInfo } from "os";
+
+const useStyles = (theme: any) =>
+  createStyles({
+    Header: {
+      display: "flex",
+      // alignContent: "space-evenly",
+      justifyContent: "center"
+    },
+    Wrapper: {
+      display: "flex",
+      // alignContent: "space-evenly",
+      justifyContent: "center"
+    }
+  });
 
 interface FeedProps {
   sessionToken: any;
+  classes: any;
   //   userid: number;
 }
 
@@ -10,13 +28,14 @@ interface FeedState {
   posts: string[];
   body: any;
   comment: any;
-  name: string;
-  profile: any;
+  human: string;
+  // profile: any;
   userId: number;
+  postPicture: any;
   // postId: number;
 }
 
-export default class Feed extends Component<FeedProps, FeedState> {
+class Feed extends Component<FeedProps, FeedState> {
   // constructor(props: any) {
   // super(props);
   state: FeedState = {
@@ -24,77 +43,59 @@ export default class Feed extends Component<FeedProps, FeedState> {
     posts: [],
     body: "",
     comment: "",
-    name: "",
-    profile: "",
-    userId: 0
-    // postId: 0
+    userId: 0,
+    postPicture: "",
+    human: ""
   };
 
   newsFeed = () => {
     //   e.preventDefault();
     let url = "http://localhost:3000/posts/all";
-    console.log(this.props.sessionToken);
-
+    // console.log(this.props.sessionToken);
+    // const formdata = new FormData();
+    // formdata.append("postPicture", upload.files[0]);
+    // formdata.append("body", JSON.stringify({ body: this.state.body }));
     fetch(url, {
       method: "GET",
       headers: new Headers({
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
         Authorization: this.props.sessionToken
       })
+      // body: formdata
     })
       .then(res => res.json())
       .then(posts => {
         console.log(posts.post);
-        // this.setState({ postId: posts.id });
-        // console.log(this.state.postId);
+        // this.setState({ human: user.firstname });
         this.setState({ posts: posts.post });
       })
       .catch(err => console.log("Error:", err));
   };
 
-  findPet = () => {
-    // e.preventDefault();
-    let url = `http://localhost:3000/profiles/${this.state.userId}`;
-    console.log(this.state.userId);
-    fetch(url, {
-      method: "GET",
-      headers: new Headers({
-        "Content-Type": "application/json",
-        Authorization: this.props.sessionToken
-      })
-    })
-      .then(res => res.json())
-      .then(profile => {
-        console.log(profile.userId);
-        console.log(profile.name);
-        this.setState({ name: profile.name });
-        console.log(profile.userId);
-        this.setState({ profile: profile });
-      })
-      .catch(err => console.log("error:", err));
-  };
-
   createPost = (e: SyntheticEvent) => {
     e.preventDefault();
     let url = "http://localhost:3000/posts/create";
+    let upload: any = document.getElementById("upload");
+    const formdata = new FormData();
+    formdata.append("postPicture", upload.files[0]);
+    formdata.append("body", JSON.stringify({ body: this.state.body }));
 
     fetch(url, {
       method: "POST",
       headers: new Headers({
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
         Authorization: this.props.sessionToken
       }),
-      body: JSON.stringify({
-        body: this.state.body
-      })
+      body: formdata
     })
       .then(res => res.json())
-      .then(json => {
-        console.log(json);
-        this.setState({ userId: json.userId });
+      .then(data => {
+        // console.log("THIS IS IMPORTANT", data);
+        this.setState({ userId: data.userId });
+        this.setState({ postPicture: data.postPicture });
+        // console.log(data.postPicture);
       })
       .then(() => {
-        // this.findPet();
         this.newsFeed();
       })
 
@@ -104,41 +105,46 @@ export default class Feed extends Component<FeedProps, FeedState> {
   componentDidUpdate(prevProps: any, prevState: any) {
     if (this.props.sessionToken !== prevProps.sessionToken) {
       this.newsFeed();
-    } else if (this.state.userId !== 0) {
-      this.findPet();
     } else {
       console.log(this.props.sessionToken);
     }
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
-        <h3>Post</h3>
-        <form
-          onSubmit={e => {
-            this.createPost(e);
-            this.newsFeed();
-          }}
-        >
-          <input
-            type="text"
-            value={this.state.body}
-            name="body"
-            placeholder="body"
-            onChange={e => this.setState({ body: e.target.value })}
-          />
-          <button>Create Post</button>
-        </form>
+        <div className={classes.Header}>
+          <h3>Post</h3>
+        </div>
+        <div className={classes.Wrapper}>
+          <br />
+          <br />
+          <form
+            onSubmit={e => {
+              this.createPost(e);
+              this.newsFeed();
+            }}
+          >
+            <input
+              type="text"
+              value={this.state.body}
+              name="body"
+              placeholder="body"
+              onChange={e => this.setState({ body: e.target.value })}
+            />
+            <input type="file" id="upload" />
+            <button>Create Post</button>
+          </form>
+        </div>
         {this.state.posts.map(post => {
           return (
             <FeedDisplay
               post={post}
               newsFeed={this.newsFeed}
               sessionToken={this.props.sessionToken}
-              petName={this.state.name}
-              profile={this.state.profile}
-              // postId={this.state.postId}
+              postPicture={this.state.postPicture}
+              userId={this.state.userId}
             />
           );
         })}
@@ -147,102 +153,4 @@ export default class Feed extends Component<FeedProps, FeedState> {
   }
   // }
 }
-// const FeedDisplay = () => {
-//   return (
-//     <div>
-//       <Row>
-//         <Column>
-//           <Wrapper>
-//             <Card>
-//               <CardActionArea>
-//                 <CardMedia
-//                   component="img"
-//                   alt="GuineaPig"
-//                   height="180"
-//                   src={Gunny}
-//                   title="GuineaPig"
-//                 />
-//                 <CardContent>
-//                   <Typography gutterBottom variant="h5" component="h2">
-//                     Ginny the Guinea Pig
-//                   </Typography>
-//                   <Typography
-//                     variant="body2"
-//                     color="textSecondary"
-//                     component="p"
-//                   ></Typography>
-//                 </CardContent>
-//               </CardActionArea>
-//               <CardActions>
-//                 <Button size="small">Like</Button>
-//                 <Button size="small">Comment</Button>
-//               </CardActions>
-//             </Card>
-//           </Wrapper>
-//         </Column>
-//         <Column>
-//           <Wrapper>
-//             <Card>
-//               <CardActionArea>
-//                 <CardMedia
-//                   component="img"
-//                   alt="Piglet"
-//                   height="180"
-//                   src={Pig}
-//                   title="Piglet"
-//                 />
-//                 <CardContent>
-//                   <Typography gutterBottom variant="h5" component="h2">
-//                     Wiglet the Piglet
-//                   </Typography>
-//                   <Typography
-//                     variant="body2"
-//                     color="textSecondary"
-//                     component="p"
-//                   >
-//                     {" "}
-//                   </Typography>
-//                 </CardContent>
-//               </CardActionArea>
-//               <CardActions>
-//                 <Button size="small">Like</Button>
-//                 <Button size="small">Comment</Button>
-//               </CardActions>
-//             </Card>
-//           </Wrapper>
-//         </Column>
-//         <Column>
-//           <Wrapper>
-//             <Card>
-//               <CardActionArea>
-//                 <CardMedia
-//                   component="img"
-//                   alt="Kitty"
-//                   height="180"
-//                   src={Kitty}
-//                   title="Kitty"
-//                 />
-//                 <CardContent>
-//                   <Typography gutterBottom variant="h5" component="h2">
-//                     Pretty the Kitty
-//                   </Typography>
-//                   <Typography
-//                     variant="body2"
-//                     color="textSecondary"
-//                     component="p"
-//                   >
-//                     {" "}
-//                   </Typography>
-//                 </CardContent>
-//               </CardActionArea>
-//               <CardActions>
-//                 <Button size="small">Like</Button>
-//                 <Button size="small">Comment</Button>
-//               </CardActions>
-//             </Card>
-//           </Wrapper>
-//         </Column>
-//       </Row>
-//     </div>
-//   );
-// };
+export default withStyles(useStyles)(Feed);
