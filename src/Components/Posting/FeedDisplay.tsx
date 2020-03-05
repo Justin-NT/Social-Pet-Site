@@ -15,6 +15,7 @@ import Typography from "@material-ui/core/Typography";
 import Input from "@material-ui/core/Input";
 // import classes from "*.module.css";
 // import src from "*.bmp";
+import APIURL from "../../helpers/environment";
 
 // const styles = (theme: Theme )
 
@@ -99,7 +100,7 @@ class FeedDisplay extends Component<FeedDisplayProps, FeedDisplayState> {
 
   createComment = (e: SyntheticEvent, postId: number) => {
     e.preventDefault();
-    let url = `http://localhost:3000/comments/create/${postId}`;
+    let url = `${APIURL}/comments/create/${postId}`;
     console.log(url);
     fetch(url, {
       method: "POST",
@@ -122,7 +123,7 @@ class FeedDisplay extends Component<FeedDisplayProps, FeedDisplayState> {
 
   // findPet = (e: SyntheticEvent, userId: number) => {
   //   e.preventDefault();
-  //   let url = `http://localhost:3000/profiles/${userId}`;
+  //   let url = `${APIURL}/profiles/${userId}`;
   //   fetch(url, {
   //     method: "GET",
   //     headers: new Headers({
@@ -140,9 +141,9 @@ class FeedDisplay extends Component<FeedDisplayProps, FeedDisplayState> {
   // };
   // componentWillUpdate(e: SyntheticEvent) {
   //   if (this.props.userId !== prevProps.userId) {
-  //   this.findPet(e, this.props.userId);
+  //     this.findPet(e, this.props.userId);
   //   } else {
-  //   console.log("lollipop");
+  //     console.log("lollipop");
   //   }
   // }
 
@@ -167,7 +168,8 @@ class FeedDisplay extends Component<FeedDisplayProps, FeedDisplayState> {
             </CardContent>
             <CardContent>
               <img
-                src={`http://localhost:3000/${this.props.postPicture}`}
+                // src={`http://localhost:3000/${this.props.postPicture}`}
+                src={`${APIURL}/${this.props.post.postPicture}`}
                 alt=""
                 className={classes.image}
               />

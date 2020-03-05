@@ -4,7 +4,7 @@
   "description": "_______PETAZOA - FINAL RED BADGE PROJECT BY JUSTIN TERRY, DYLAN MOROSOWSKI, KARL GIRONDA MARCH 2020_______",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "react-scripts start",
     "build": "webpack --config webpack.config.js && react-scripts build",
     "bundle": "webpack",
     "test": "react-scripts test",

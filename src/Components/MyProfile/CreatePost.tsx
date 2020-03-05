@@ -56,18 +56,21 @@ interface CreatePostProps {
   sessionToken: string;
   getPosts: any;
   classes: any;
-  postPicture: string;
+  grabImage: any;
+  // postPicture: string;
 }
 
 interface CreatePostState {
   body: string;
+  postPicture: string;
 }
 
 class CreatePost extends Component<CreatePostProps, CreatePostState> {
   constructor(props: CreatePostProps) {
     super(props);
     this.state = {
-      body: ""
+      body: "",
+      postPicture: ""
     };
   }
 
@@ -90,7 +93,10 @@ class CreatePost extends Component<CreatePostProps, CreatePostState> {
       // postPicture:
     })
       .then(res => res.json())
-      .then(json => console.log(json))
+      .then(post => {
+        this.props.grabImage(post.postPicture);
+        console.log(post.postPicture);
+      })
       .then(() => this.props.getPosts())
       .catch(err => console.log("error", err));
   };
