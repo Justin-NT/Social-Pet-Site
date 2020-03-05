@@ -28,9 +28,6 @@ class Body extends Component<BodyProps, BodyState> {
     });
   };
   render() {
-    // if (true) {
-    //   return <Redirect to="/feed" />;
-    // }
     return (
       <div className="maindiv">
         <Background>
@@ -72,7 +69,7 @@ const Background = styled.div`
 const Kitten = styled.img`
   width: 100vw;
   position: static;
-  height: 250px;
+  height: 20vh;
 `;
 
 const Center = styled.div`

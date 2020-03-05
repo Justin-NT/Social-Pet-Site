@@ -7,12 +7,16 @@ import Button from "@material-ui/core/Button";
 import Box from "@material-ui/core/Box";
 import Appbar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
 const useStyles = (theme: any) => {
   createStyles({
     root: {
       flexGrow: 1,
-      backgroundColor: "#61c899"
+      backgroundColor: "#61c899",
+      "& .MuiButton-text": {
+        color: "white"
+      }
     },
     title: {
       flexGrow: 1
@@ -29,7 +33,8 @@ const useStyles = (theme: any) => {
       fontFamily: "Krona One",
       fontSize: "10px",
       justifyContent: "space-between",
-      color: "white"
+      color: "white",
+      textDecoration: "none"
     },
     button: {
       fontFamily: "Krona One",
@@ -53,29 +58,59 @@ const useStyles = (theme: any) => {
   });
 };
 
-interface IProps {
+interface IProps extends RouteComponentProps {
   sessionToken: string;
   classes: any;
+  signout: any;
 }
+
 class NavbarDisplay extends Component<IProps> {
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
         <Box justifyContent="flex-end">
-          <Appbar position="static" className={classes.color}>
+          <Appbar
+            position="static"
+            className={classes.color}
+            style={{ backgroundColor: "#4FA818" }}
+          >
             <Toolbar className={classes.mainLinks}>
               <Typography className={classes.peta}>Petazoa</Typography>
               <div className={classes.divLinks}>
-                <Link className={classes.blinks} to="/">
-                  <Button>Home</Button>
+                <Link
+                  className={classes.blinks}
+                  style={{ textDecoration: "none" }}
+                  to="/"
+                >
+                  <Button className={classes.Button}>Home</Button>
                 </Link>
-                <Link className={classes.blinks} to="/MyProfile">
+                <Link
+                  className={classes.blinks}
+                  to="/MyProfile"
+                  style={{ textDecoration: "none" }}
+                >
                   <Button>My Profile</Button>
                 </Link>
-                <Link className={classes.blinks} to="/Feed">
+                <Link
+                  className={classes.blinks}
+                  to="/Feed"
+                  style={{ textDecoration: "none" }}
+                >
                   <Button>My Feed</Button>
                 </Link>
+                {this.props.sessionToken !== null &&
+                this.props.sessionToken &&
+                this.props.sessionToken !== "" ? (
+                  <Button
+                    onClick={() => {
+                      this.props.history.push("/splashpage");
+                      this.props.signout();
+                    }}
+                  >
+                    Signout
+                  </Button>
+                ) : null}
               </div>
             </Toolbar>
           </Appbar>
@@ -85,4 +120,5 @@ class NavbarDisplay extends Component<IProps> {
   }
 }
 
-export default withStyles(useStyles)(NavbarDisplay);
+// export default withStyles(useStyles)(NavbarDisplay);
+export default withRouter(withStyles(useStyles)(NavbarDisplay));

@@ -10,6 +10,7 @@ import { red } from "@material-ui/core/colors";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import APIURL from "../../helpers/environment";
+import "./Displays/CreatePost.css";
 
 const useStyles = (theme: any) =>
   createStyles({
@@ -17,35 +18,32 @@ const useStyles = (theme: any) =>
       maxWidth: 600,
       minWidth: 400,
       margin: "1% 0 1% 0",
-      border: "1px solid black"
-    },
-    media: {
-      height: 0,
-      paddingTop: "56.25%", // 16:9
-      backgroundColor: "pink"
+      border: "1px solid black",
+      backgroundColor: "#C3D095"
     },
     avatar: {
       backgroundColor: red[500],
       width: theme.spacing(4),
       height: theme.spacing(4)
     },
-    cardAct: {
-      justifyContent: "space-evenly",
-      backgroundColor: "orange"
-    },
     buttonsContainer: {
       display: "flex",
-      backgroundColor: "red",
       flexFlow: "wrap row",
       justifyContent: "center",
       width: "100%"
     },
     postButton: {
       width: "100%",
-      margin: theme.spacing(1)
+      margin: theme.spacing(1),
+      backgroundColor: "#4FA818",
+      fontWeight: "bold"
     },
-    TextField: {
-      margin: theme.spacing(1)
+    TextFieldBody: {
+      margin: theme.spacing(1),
+      minWidth: "80%"
+    },
+    TextFieldFile: {
+      margin: "auto"
     },
     bodySection: {
       display: "flex",
@@ -108,7 +106,12 @@ class CreatePost extends Component<CreatePostProps, CreatePostState> {
             </Avatar>
             <TextField
               placeholder="Type something here..."
-              className={classes.TextField}
+              variant="outlined"
+              multiline
+              rows="2"
+              rowsMax="8"
+              label="What's on your mind?"
+              className={classes.TextFieldBody}
               value={this.state.body}
               onChange={e => this.setState({ body: e.target.value })}
             ></TextField>
@@ -116,17 +119,15 @@ class CreatePost extends Component<CreatePostProps, CreatePostState> {
         </CardContent>
         <CardActions disableSpacing>
           <div className={classes.buttonsContainer}>
-            <input
-              // color="primary"
-              // variant="contained"
-              // startIcon={<PublishIcon />}
+            <TextField
               type="file"
               id="upload"
-              // placeholder="Choose file"
+              variant="filled"
+              className={classes.TextFieldFile}
             />
             <br />
             <Button
-              color="primary"
+              // color="primary"
               variant="contained"
               className={classes.postButton}
               startIcon={<SendIcon />}
