@@ -7,7 +7,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import { red } from "@material-ui/core/colors";
+import { red, brown } from "@material-ui/core/colors";
 import Button from "@material-ui/core/Button";
 // import Catdog from "../../assets/catdog.jpeg";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -16,7 +16,7 @@ import UpdateIcon from "@material-ui/icons/Update";
 import { TextField } from "@material-ui/core";
 import CommentModal from "./Displays/CommentModal";
 import PostModal from "./Displays/PostModal";
-import APIURL from '../../helpers/environment';
+import APIURL from "../../helpers/environment";
 
 // import styled from "styled-components";
 
@@ -39,30 +39,43 @@ const useStyles = (theme: any) =>
       backgroundColor: "white"
     },
     cardhead: {
-      backgroundColor: "grey"
+      backgroundColor: "lightblue"
     },
     Button: {
       margin: theme.spacing(1),
-      backgroundColor: "#61C899",
+      // backgroundColor: "#50A819",
       color: "white",
-      borderRadius: 100,
+      borderRadius: 100
     },
     cardAct: {
       justifyContent: "space-evenly",
-      backgroundColor: "orange"
+      backgroundColor: "white"
     },
     commentTextField: {
       minWidth: "70%"
       // backgroundColor: "white"
+    },
+    postImage: {
+      maxHeight: "30vh",
+      border: "1px solid black"
+      // boxShadow: "0.5px 0.5px 0.5px 0.5px black"
+      // Width: "%"
+    },
+    bodyDiv: {
+      display: "flex",
+      justifyContent: "center"
+    },
+    posts: {
+      margin: "3%"
     }
   });
 
-  // const Button = styled.button`
-  //   backgroundColor: "#61C899",
-  //   color: "white",
-  //   borderRadius: 100px,
-    
-  // `
+// const Button = styled.button`
+//   backgroundColor: "#61C899",
+//   color: "white",
+//   borderRadius: 100px,
+
+// `
 
 interface MyProfileDisplayProps {
   post: any;
@@ -71,6 +84,7 @@ interface MyProfileDisplayProps {
   getPosts: any;
   userIdTest: number;
   isUserAdmin: boolean;
+  postPicture: string;
 }
 
 interface MyProfileDisplayState {
@@ -253,20 +267,32 @@ class MyProfileDisplay extends Component<
           }
           subheader={this.props.post.createdAt}
         />
-        <Typography variant="body1" color="textSecondary" component="p">
-          This will contain the body of what the user types:
+        <Typography
+          className={classes.posts}
+          variant="body1"
+          color="textSecondary"
+          component="p"
+        >
           {this.props.post.body}
         </Typography>
-        <CardMedia className={classes.media} />
+        <div className={classes.bodyDiv}>
+          {/* <CardMedia className={classes.media} />
+           */}
+          <img
+            src={`${APIURL}/${this.props.post.postPicture}`}
+            className={classes.postImage}
+          />
+        </div>
+        {console.log(this.props.post)}
         <CardContent className={classes.comments}>
-          contains the area where comments are displayed
           {this.state.comments.map((comment: any) => {
             return (
               <div key={comment.id}>
                 {comment.comment}
                 {comment.userId === this.props.userIdTest ? (
                   <Button
-                    color="primary"
+                    // color="#50A819"
+                    style={{ backgroundColor: "#50A819" }}
                     variant="contained"
                     size="small"
                     startIcon={<UpdateIcon />}

@@ -67,6 +67,9 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       this.getMyProfile();
       this.getPosts();
     }
+    if (this.state.postPicture !== prevState.postPicture) {
+      this.getPosts();
+    }
   }
 
   createProfile = (e: SyntheticEvent) => {
@@ -138,6 +141,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
                 getPosts={this.getPosts}
                 userIdTest={this.state.userIdTest}
                 isUserAdmin={this.props.isUserAdmin}
+                postPicture={this.state.postPicture}
               />
             </div>
           );
@@ -197,6 +201,11 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       .catch(err => console.log("ERROR: ", err));
   };
 
+  grabImage = (picture: string) => {
+    this.setState({ postPicture: picture });
+    console.log(picture);
+  };
+
   render() {
     return (
       <div id="profile-wrapper">
@@ -217,7 +226,8 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
           <CreatePost
             sessionToken={this.props.sessionToken}
             getPosts={this.getPosts}
-            postPicture={this.state.postPicture}
+            grabImage={this.grabImage}
+            // postPicture={this.state.postPicture}
           />
           {this.state.editProfile ? (
             <UpdateProfileModal

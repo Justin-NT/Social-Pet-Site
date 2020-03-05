@@ -1,6 +1,7 @@
 import React, { Component, SyntheticEvent } from "react";
 import FeedDisplay from "./Posting/FeedDisplay";
 import { withStyles, createStyles } from "@material-ui/core/styles";
+import APIURL from "../helpers/environment";
 import classes from "*.module.css";
 import { userInfo } from "os";
 
@@ -50,7 +51,7 @@ class Feed extends Component<FeedProps, FeedState> {
 
   newsFeed = () => {
     //   e.preventDefault();
-    let url = "http://localhost:3000/posts/all";
+    let url = `${APIURL}/posts/all`;
     // console.log(this.props.sessionToken);
     // const formdata = new FormData();
     // formdata.append("postPicture", upload.files[0]);
@@ -74,7 +75,7 @@ class Feed extends Component<FeedProps, FeedState> {
 
   createPost = (e: SyntheticEvent) => {
     e.preventDefault();
-    let url = "http://localhost:3000/posts/create";
+    let url = `${APIURL}/posts/create`;
     let upload: any = document.getElementById("upload");
     const formdata = new FormData();
     formdata.append("postPicture", upload.files[0]);
