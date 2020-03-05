@@ -11,7 +11,6 @@ interface BodyProps extends RouteComponentProps {
   updateToken(newToken: string): any;
   roleCheck: any;
   sessionToken: string;
-  // history: RouteComponentProps;
 }
 
 interface BodyState {
