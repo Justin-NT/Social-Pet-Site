@@ -1,7 +1,15 @@
 import React, { Component, SyntheticEvent } from "react";
 import FeedDisplay from "./Posting/FeedDisplay";
 import { withStyles, createStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
 import APIURL from "../helpers/environment";
+import CardContent from "@material-ui/core/CardContent";
+import CardActions from "@material-ui/core/CardActions";
+import Avatar from "@material-ui/core/Avatar";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import SendIcon from "@material-ui/icons/Send";
+import { red } from "@material-ui/core/colors";
 import classes from "*.module.css";
 import { userInfo } from "os";
 
@@ -16,6 +24,42 @@ const useStyles = (theme: any) =>
       display: "flex",
       // alignContent: "space-evenly",
       justifyContent: "center"
+    },
+    root: {
+      maxWidth: 600,
+      minWidth: 400,
+      margin: "1% 0 1% 0",
+      border: "1px solid black",
+      backgroundColor: "#C3D095"
+    },
+    avatar: {
+      backgroundColor: red[500],
+      width: theme.spacing(4),
+      height: theme.spacing(4)
+    },
+    buttonsContainer: {
+      display: "flex",
+      flexFlow: "wrap row",
+      justifyContent: "center",
+      width: "100%"
+    },
+    postButton: {
+      width: "100%",
+      margin: theme.spacing(1),
+      backgroundColor: "#4FA818",
+      fontWeight: "bold"
+    },
+    TextFieldBody: {
+      margin: theme.spacing(1),
+      minWidth: "80%"
+    },
+    TextFieldFile: {
+      margin: "auto"
+    },
+    bodySection: {
+      display: "flex",
+      flexFlow: "row wrap",
+      alignItems: "center"
     }
   });
 
@@ -121,22 +165,49 @@ class Feed extends Component<FeedProps, FeedState> {
         <div className={classes.Wrapper}>
           <br />
           <br />
-          <form
-            onSubmit={e => {
-              this.createPost(e);
-              this.newsFeed();
-            }}
-          >
-            <input
-              type="text"
-              value={this.state.body}
-              name="body"
-              placeholder="body"
-              onChange={e => this.setState({ body: e.target.value })}
-            />
-            <input type="file" id="upload" />
-            <button>Create Post</button>
-          </form>
+          <Card className={classes.root}>
+            <CardContent>
+              <div className={classes.bodySection}>
+                <Avatar aria-label="recipe" className={classes.avatar}>
+                  R
+                </Avatar>
+                <TextField
+                  placeholder="Type something here..."
+                  variant="outlined"
+                  multiline
+                  rows="2"
+                  rowsMax="8"
+                  label="What's on your mind?"
+                  className={classes.TextFieldBody}
+                  value={this.state.body}
+                  onChange={e => this.setState({ body: e.target.value })}
+                ></TextField>
+              </div>
+            </CardContent>
+            <CardActions disableSpacing>
+              <div className={classes.buttonsContainer}>
+                <TextField
+                  type="file"
+                  id="upload"
+                  variant="filled"
+                  className={classes.TextFieldFile}
+                />
+                <br />
+                <Button
+                  // color="primary"
+                  variant="contained"
+                  className={classes.postButton}
+                  startIcon={<SendIcon />}
+                  onClick={e => {
+                    this.createPost(e);
+                    // this.newsFeed();
+                  }}
+                >
+                  Post
+                </Button>
+              </div>
+            </CardActions>
+          </Card>
         </div>
         {this.state.posts.map(post => {
           return (
