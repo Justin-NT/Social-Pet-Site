@@ -9,7 +9,7 @@ import SendIcon from "@material-ui/icons/Send";
 import { red } from "@material-ui/core/colors";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import APIURL from '../../helpers/environment';
+import APIURL from "../../helpers/environment";
 
 const useStyles = (theme: any) =>
   createStyles({
@@ -58,6 +58,7 @@ interface CreatePostProps {
   sessionToken: string;
   getPosts: any;
   classes: any;
+  postPicture: string;
 }
 
 interface CreatePostState {
@@ -76,15 +77,19 @@ class CreatePost extends Component<CreatePostProps, CreatePostState> {
   submitPost = () => {
     console.log("submitted");
     let url = `${APIURL}/posts/create`;
+    let upload: any = document.getElementById("upload");
+    const formdata = new FormData();
+    formdata.append("postPicture", upload.files[0]);
+    formdata.append("body", JSON.stringify({ body: this.state.body }));
+
     fetch(url, {
       method: "POST",
       headers: new Headers({
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
         Authorization: this.props.sessionToken
       }),
-      body: JSON.stringify({
-        body: this.state.body
-      })
+      body: formdata
+      // postPicture:
     })
       .then(res => res.json())
       .then(json => console.log(json))
@@ -111,13 +116,14 @@ class CreatePost extends Component<CreatePostProps, CreatePostState> {
         </CardContent>
         <CardActions disableSpacing>
           <div className={classes.buttonsContainer}>
-            <Button
-              color="primary"
-              variant="contained"
-              startIcon={<PublishIcon />}
-            >
-              Upload an image
-            </Button>
+            <input
+              // color="primary"
+              // variant="contained"
+              // startIcon={<PublishIcon />}
+              type="file"
+              id="upload"
+              // placeholder="Choose file"
+            />
             <br />
             <Button
               color="primary"

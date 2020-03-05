@@ -20,6 +20,7 @@ interface MyProfileState {
   postResults: [];
   userIdTest: number;
   editProfile: boolean;
+  postPicture: string;
 }
 
 // const Title = styled.h3`
@@ -50,7 +51,8 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       profile: [],
       postResults: [],
       userIdTest: 0,
-      editProfile: false
+      editProfile: false,
+      postPicture: ""
     };
   }
 
@@ -111,7 +113,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
     fetch(url, {
       method: "GET",
       headers: new Headers({
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
         Authorization: this.props.sessionToken
       })
     })
@@ -119,6 +121,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       .then(json => {
         this.setState({ postResults: json });
         this.setState({ userIdTest: json[0].userId });
+        this.setState({ postPicture: json.postPicture });
       })
       .catch(err => console.log("error", err));
   };
@@ -212,6 +215,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
         <CreatePost
           sessionToken={this.props.sessionToken}
           getPosts={this.getPosts}
+          postPicture={this.state.postPicture}
         />
         {this.state.editProfile ? (
           <UpdateProfileModal
