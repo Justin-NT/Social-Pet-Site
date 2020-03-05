@@ -22,22 +22,22 @@ interface MyProfileState {
   postPicture: string;
 }
 
-const Title = styled.h3`
-  font-family: "Krona One", sans-serif;
-`;
-const Input = styled.input`
-  height: 50 px;
-  border-radius: 100px;
-  background-color: #61c899;
-  font-family: "Krona One", sans-serif;
-`;
-const Button = styled.button`
-  background-color: #61c899;
-  font-family: "Krona One", sans-serif;
-  height: 25px;
-  border-radius: 100px;
-  color: white;
-`;
+// const Title = styled.h3`
+//   font-family: "Krona One", sans-serif;
+// `;
+// const Input = styled.input`
+//   height: 50 px;
+//   border-radius: 100px;
+//   background-color: #61c899;
+//   font-family: "Krona One", sans-serif;
+// `;
+// const Button = styled.button`
+//   background-color: #61c899;
+//   font-family: "Krona One", sans-serif;
+//   height: 25px;
+//   border-radius: 100px;
+//   color: white;
+// `;
 
 class MyProfile extends Component<MyProfileProps, MyProfileState> {
   constructor(props: any) {
@@ -119,6 +119,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       .then(json => {
         this.setState({ postResults: json });
         this.setState({ userIdTest: json[0].userId });
+        this.setState({ postPicture: json.postPicture });
       })
       .catch(err => console.log("error", err));
   };
@@ -212,6 +213,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
         <CreatePost
           sessionToken={this.props.sessionToken}
           getPosts={this.getPosts}
+          postPicture={this.state.postPicture}
         />
         {this.state.editProfile ? (
           <UpdateProfileModal

@@ -57,6 +57,7 @@ interface CreatePostProps {
   sessionToken: string;
   getPosts: any;
   classes: any;
+  postPicture: string;
 }
 
 interface CreatePostState {
