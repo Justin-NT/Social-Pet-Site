@@ -5,8 +5,9 @@ import styled from "styled-components";
 import Signin from "../Components/Auth/signin";
 import Kitty from "../assets/kitty.jpeg";
 import Link from "@material-ui/core/Link";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
-interface BodyProps {
+interface BodyProps extends RouteComponentProps {
   updateToken(newToken: string): any;
   roleCheck: any;
   sessionToken: string;
@@ -17,13 +18,6 @@ interface BodyState {
 }
 
 class Body extends Component<BodyProps, BodyState> {
-  //   constructor(props: any) {
-  //     super(props);
-  //     this.state = {
-  //       inSwitch: true
-  //     };
-  //   }
-
   state: BodyState = {
     inSwitch: false
   };
@@ -34,6 +28,9 @@ class Body extends Component<BodyProps, BodyState> {
     });
   };
   render() {
+    // if (true) {
+    //   return <Redirect to="/feed" />;
+    // }
     return (
       <div className="maindiv">
         <Background>
@@ -57,9 +54,10 @@ class Body extends Component<BodyProps, BodyState> {
               inSwitch={this.state.inSwitch}
               updateToken={this.props.updateToken}
               sessionToken={this.props.sessionToken}
+              roleCheck={this.props.roleCheck}
             />
           )}
-          <Kitten src={Kitty} alt="Petazoa" />
+          <Kitten alt="Petazoa" />
         </Background>
       </div>
     );
@@ -81,4 +79,4 @@ const Center = styled.div`
   float: center;
 `;
 
-export default Body;
+export default withRouter(Body);

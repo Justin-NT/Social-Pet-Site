@@ -1,9 +1,10 @@
 import React, { Component, SyntheticEvent } from "react";
 import MyProfileDisplay from "./MyProfileDisplay";
-import styled from "styled-components";
+// import styled from "styled-components";
 import CreatePost from "./CreatePost";
 import UpdateProfileModal from "./Displays/UpdateProfileModal";
 import UserDetailsDisplay from "./Displays/UserDetailsDisplay";
+import APIURL from '../../helpers/environment';
 
 interface MyProfileProps {
   sessionToken: any;
@@ -57,6 +58,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
 
   componentDidMount() {
     this.getPosts();
+    this.getMyProfile();
   }
 
   componentDidUpdate(prevProps: any, prevState: any, snapshot: any) {
@@ -68,7 +70,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
 
   createProfile = (e: SyntheticEvent) => {
     e.preventDefault();
-    let url = "http://localhost:3000/profiles/create";
+    let url = `${APIURL}/profiles/create`;
     fetch(url, {
       method: "POST",
       headers: new Headers({
@@ -90,7 +92,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
   };
 
   getMyProfile = () => {
-    let url = "http://localhost:3000/profiles/mine";
+    let url = `${APIURL}/profiles/mine`;
     fetch(url, {
       method: "GET",
       headers: new Headers({
@@ -107,7 +109,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
   };
 
   getPosts = () => {
-    let url = "http://localhost:3000/posts/mine";
+    let url = `${APIURL}/posts/mine`;
     fetch(url, {
       method: "GET",
       headers: new Headers({
@@ -149,7 +151,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
     gender: string,
     bio: string
   ) => {
-    let url = `http://localhost:3000/profiles/${profileId}`;
+    let url = `${APIURL}/profiles/${profileId}`;
     fetch(url, {
       method: "PUT",
       headers: new Headers({
@@ -181,7 +183,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
   };
 
   deleteProfile = (profileId: number) => {
-    let url = `http://localhost:3000/profiles/${profileId}`;
+    let url = `${APIURL}/profiles/${profileId}`;
     console.log(url);
     fetch(url, {
       method: "DELETE",

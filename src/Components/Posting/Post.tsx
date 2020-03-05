@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
+import APIURL from '../../helpers/environment';
 
 interface PostProps {
   sessionToken: any; // Need to fix. Currently don't know how to input anything but any atm
@@ -50,7 +51,7 @@ class Post extends React.Component<PostProps, PostState> {
   submitPost = (e: React.SyntheticEvent) => {
     e.preventDefault();
     console.log("submitted");
-    let url = "http://localhost:3000/posts/create";
+    let url = `${APIURL}/posts/create`;
     fetch(url, {
       method: "POST",
       headers: new Headers({
@@ -72,7 +73,7 @@ class Post extends React.Component<PostProps, PostState> {
   //Find all posts for this user fetch
   getPosts = () => {
     console.log("Getting Posts");
-    let url = "http://localhost:3000/posts/mine";
+    let url = `${APIURL}/posts/mine`;
     fetch(url, {
       method: "GET",
       headers: new Headers({
@@ -89,7 +90,7 @@ class Post extends React.Component<PostProps, PostState> {
   };
 
   deletePost = (id: number) => {
-    let url = `http://localhost:3000/posts/${id}`;
+    let url = `${APIURL}/posts/${id}`;
     fetch(url, {
       method: "DELETE",
       headers: new Headers({
@@ -105,7 +106,7 @@ class Post extends React.Component<PostProps, PostState> {
   };
 
   updatePost = (id: number) => {
-    let url = `http://localhost:3000/posts/${id}`;
+    let url = `${APIURL}/posts/${id}`;
     fetch(url, {
       method: "PUT",
       headers: new Headers({

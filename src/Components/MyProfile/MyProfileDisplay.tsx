@@ -9,13 +9,16 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
 import Button from "@material-ui/core/Button";
-import Catdog from "../../assets/catdog.jpeg";
+// import Catdog from "../../assets/catdog.jpeg";
 import DeleteIcon from "@material-ui/icons/Delete";
 import SendIcon from "@material-ui/icons/Send";
 import UpdateIcon from "@material-ui/icons/Update";
 import { TextField } from "@material-ui/core";
 import CommentModal from "./Displays/CommentModal";
 import PostModal from "./Displays/PostModal";
+import APIURL from '../../helpers/environment';
+
+// import styled from "styled-components";
 
 const useStyles = (theme: any) =>
   createStyles({
@@ -39,13 +42,27 @@ const useStyles = (theme: any) =>
       backgroundColor: "grey"
     },
     Button: {
-      margin: theme.spacing(1)
+      margin: theme.spacing(1),
+      backgroundColor: "#61C899",
+      color: "white",
+      borderRadius: 100,
     },
     cardAct: {
       justifyContent: "space-evenly",
       backgroundColor: "orange"
+    },
+    commentTextField: {
+      minWidth: "70%"
+      // backgroundColor: "white"
     }
   });
+
+  // const Button = styled.button`
+  //   backgroundColor: "#61C899",
+  //   color: "white",
+  //   borderRadius: 100px,
+    
+  // `
 
 interface MyProfileDisplayProps {
   post: any;
@@ -78,7 +95,7 @@ class MyProfileDisplay extends Component<
   }
 
   submitCommentUpdate = (commentId: number, newComment: string) => {
-    let url = `http://localhost:3000/comments/${commentId}`;
+    let url = `${APIURL}/comments/${commentId}`;
     fetch(url, {
       method: "PUT",
       body: JSON.stringify({
@@ -98,7 +115,7 @@ class MyProfileDisplay extends Component<
   };
 
   submitPostUpdate = (postId: number, newBody: string) => {
-    let url = `http://localhost:3000/posts/${postId}`;
+    let url = `${APIURL}/posts/${postId}`;
     fetch(url, {
       method: "PUT",
       headers: new Headers({
@@ -140,7 +157,7 @@ class MyProfileDisplay extends Component<
   }
 
   getComments = () => {
-    fetch(`http://localhost:3000/comments/${this.props.post.id}`, {
+    fetch(`${APIURL}/comments/${this.props.post.id}`, {
       method: "GET",
       headers: new Headers({
         Authorization: this.props.sessionToken
@@ -159,7 +176,7 @@ class MyProfileDisplay extends Component<
   };
 
   deleteComment = (id: number) => {
-    let url = `http://localhost:3000/comments/${id}`;
+    let url = `${APIURL}/comments/${id}`;
     fetch(url, {
       method: "DELETE",
       headers: new Headers({
@@ -175,7 +192,7 @@ class MyProfileDisplay extends Component<
   };
 
   postComment = () => {
-    let url = `http://localhost:3000/comments/create/${this.props.post.id}`;
+    let url = `${APIURL}/comments/create/${this.props.post.id}`;
     fetch(url, {
       method: "POST",
       headers: new Headers({
@@ -194,7 +211,7 @@ class MyProfileDisplay extends Component<
   };
 
   deletePost = () => {
-    let url = `http://localhost:3000/Posts/${this.props.post.id}`;
+    let url = `${APIURL}/Posts/${this.props.post.id}`;
     fetch(url, {
       method: "DELETE",
       headers: new Headers({
@@ -240,7 +257,7 @@ class MyProfileDisplay extends Component<
           This will contain the body of what the user types:
           {this.props.post.body}
         </Typography>
-        <CardMedia className={classes.media} image={Catdog} />
+        <CardMedia className={classes.media}  />
         <CardContent className={classes.comments}>
           contains the area where comments are displayed
           {this.state.comments.map((comment: any) => {
@@ -299,6 +316,7 @@ class MyProfileDisplay extends Component<
             onChange={e => this.setState({ createdComment: e.target.value })}
             multiline
             rowsMax="8"
+            className={classes.commentTextField}
           ></TextField>
           <Button
             color="primary"

@@ -7,7 +7,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 // import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from "@material-ui/core/DialogTitle";
 import styled from "styled-components";
-// import {withRouter} from "react-router";
+import { withRouter, RouteComponentProps } from "react-router-dom";
+import APIURL from "../../helpers/environment";
 
 const Container = styled.div`
   width: 90%;
@@ -20,11 +21,12 @@ const Header = styled.div`
   font-family: "Krona One", sans-serif;
 `;
 
-interface SignupProps {
+interface SignupProps extends RouteComponentProps {
   updateToken: any;
   inSwitch: boolean;
   toggleDialogue: any;
   sessionToken: string;
+  roleCheck: any;
 }
 
 interface SignupState {
@@ -61,35 +63,44 @@ class Signup extends Component<SignupProps, SignupState> {
 
   signupFetch = (e: SyntheticEvent) => {
     e.preventDefault();
-    let endpoint = "http://localhost:3000/auth/signup";
-    return this.state.password.length >= 8 &&
-      /^(?=.*\d)(?=.*[!@#$%^&*])$/.test(this.state.password)
-      ? fetch(endpoint, {
-          method: "POST",
-          body: JSON.stringify({
-            firstname: this.state.firstname,
-            lastname: this.state.lastname,
-            email: this.state.email,
-            password: this.state.password,
-            admin: this.state.admin
-          }),
-          headers: new Headers({
-            "Content-Type": "application/json"
-          })
-        })
-          .then(response => response.json())
-          .then(data => {
-            console.log(data);
-            this.props.updateToken(data.sessionToken);
-          })
-          .then(() => this.props.toggleDialogue())
-          .then(() => this.createProfile())
-          .catch(err => console.log("error: ", err))
-      : "password requires 8 characters, with 1 number and 1 special character";
+
+    let url = `${APIURL}/auth/signup`;
+    // let url = "http://localhost:3000/auth/signup";
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify({
+        firstname: this.state.firstname,
+        lastname: this.state.lastname,
+        email: this.state.email,
+        password: this.state.password,
+        admin: this.state.admin
+      }),
+      headers: new Headers({
+        "Content-Type": "application/json"
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        console.log(data);
+        this.props.updateToken(data.sessionToken);
+        this.props.roleCheck(data.user.admin);
+      })
+      .then(() => {
+        this.createProfile();
+        this.props.toggleDialogue();
+        this.props.history.push("/feed");
+      })
+      // .then(() => this.props.toggleDialogue())
+      .catch(err => console.log("error: ", err));
   };
 
+  // return this.state.password.length >= 8 &&
+  //     /^(?=.*\d)(?=.*[!@#$%^&*])$/.test(this.state.password)
+  //     ?
+
   createProfile = () => {
-    let url = "http://localhost:3000/profiles/create";
+    let url = `${APIURL}/profiles/create`;
+    // let url = "http://localhost:3000/profiles/create";
     fetch(url, {
       method: "POST",
       headers: new Headers({
@@ -100,19 +111,15 @@ class Signup extends Component<SignupProps, SignupState> {
         name: this.state.name,
         animal: this.state.animal,
         bio: this.state.bio,
-        gender: this.state.gender
+        gender: this.state.gender,
+        profilePicture: this.state.profilePicture
       })
     })
       .then(res => res.json())
-      .then(json => {
-        console.log(json);
+      .then(data => {
+        console.log(data);
       })
       .catch(err => console.log("error: ", err));
-  };
-
-  doublePost = (e: SyntheticEvent) => {
-    this.createProfile();
-    this.signupFetch(e);
   };
 
   render() {
@@ -203,4 +210,4 @@ class Signup extends Component<SignupProps, SignupState> {
   }
 }
 
-export default Signup;
+export default withRouter(Signup);
