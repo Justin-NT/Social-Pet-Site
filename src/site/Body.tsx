@@ -4,9 +4,10 @@ import Signup from "../Components/Auth/signup";
 import styled from "styled-components";
 import Signin from "../Components/Auth/signin";
 import Kitty from "../assets/kitty.jpeg";
+import Link from "@material-ui/core/Link";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
-
-interface BodyProps {
+interface BodyProps extends RouteComponentProps {
   updateToken(newToken: string): any;
   roleCheck: any;
   sessionToken: string;
@@ -17,13 +18,6 @@ interface BodyState {
 }
 
 class Body extends Component<BodyProps, BodyState> {
-  //   constructor(props: any) {
-  //     super(props);
-  //     this.state = {
-  //       inSwitch: true
-  //     };
-  //   }
-
   state: BodyState = {
     inSwitch: false
   };
@@ -50,7 +44,7 @@ class Body extends Component<BodyProps, BodyState> {
               roleCheck={this.props.roleCheck}
             />
           </Center>
-          <Button style={divStyle} onClick={this.toggleDialogue}>No Profile? Click Here.</Button>
+          <Button onClick={this.toggleDialogue}>No Profile? Click Here.</Button>
           {this.state.inSwitch === false ? null : (
             <Signup
               toggleDialogue={this.toggleDialogue}
@@ -75,14 +69,12 @@ const Background = styled.div`
 const Kitten = styled.img`
   width: 100vw;
   position: static;
-  height: 250px;
+  height: 75vh;
+  alignContent: center;
 `;
 
 const Center = styled.div`
   float: center;
 `;
 
-const divStyle = {
-    color: "white",
-}
-export default Body;
+export default withRouter(Body);

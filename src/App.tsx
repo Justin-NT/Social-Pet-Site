@@ -7,15 +7,14 @@ import Navbar from "./site/Navbar";
 import Body from "./site/Body";
 import Footer from "./site/Footer";
 import Feed from "./Components/Feed";
+import { Redirect } from "react-router-dom";
 
 interface AppState {
   sessionToken: any;
   isUserAdmin: boolean;
 }
 
-interface AppProps {
-  updateToken?: any;
-}
+interface AppProps {}
 
 class App extends Component<AppProps, AppState> {
   constructor(props: any) {
@@ -43,13 +42,24 @@ class App extends Component<AppProps, AppState> {
     this.setState({ isUserAdmin: role });
   };
 
+  signout = () => {
+    localStorage.setItem("token", "");
+    this.setState({ sessionToken: "" });
+  };
+
   render() {
     return (
       <div>
         <Router>
-          <Navbar sessionToken={this.state.sessionToken} />
+          <Navbar
+            sessionToken={this.state.sessionToken}
+            signout={this.signout}
+          />
           <Switch>
             <Route exact path="/">
+              <Redirect to="/splashpage" />
+            </Route>
+            <Route exact path="/splashpage">
               <Body
                 updateToken={this.updateToken}
                 roleCheck={this.roleCheck}
