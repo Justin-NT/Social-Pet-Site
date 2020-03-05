@@ -257,7 +257,7 @@ class MyProfileDisplay extends Component<
           This will contain the body of what the user types:
           {this.props.post.body}
         </Typography>
-        <CardMedia className={classes.media}  />
+        <CardMedia className={classes.media} />
         <CardContent className={classes.comments}>
           contains the area where comments are displayed
           {this.state.comments.map((comment: any) => {
