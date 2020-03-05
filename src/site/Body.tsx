@@ -29,7 +29,7 @@ class Body extends Component<BodyProps, BodyState> {
   };
   render() {
     return (
-      <div className="maindiv">
+      <div className="maindiv" >
         <Background>
           <h3>
             Tired of seeing a depressing scene as you mindlessly scroll through
@@ -54,7 +54,7 @@ class Body extends Component<BodyProps, BodyState> {
               roleCheck={this.props.roleCheck}
             />
           )}
-          <Kitten alt="Petazoa" />
+          <Kitten src={Kitty} alt="Petazoa" />
         </Background>
       </div>
     );
@@ -69,7 +69,8 @@ const Background = styled.div`
 const Kitten = styled.img`
   width: 100vw;
   position: static;
-  height: 20vh;
+  height: 75vh;
+  alignContent: center;
 `;
 
 const Center = styled.div`

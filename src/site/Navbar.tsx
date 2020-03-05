@@ -70,19 +70,11 @@ class NavbarDisplay extends Component<IProps> {
     return (
       <div>
         <Box justifyContent="flex-end">
-          <Appbar
-            position="static"
-            // className={classes.color}
-            style={{ backgroundColor: "#4FA818" }}
-          >
+          <Appbar position="static" style={{ backgroundColor: "#4FA818" }}>
             <Toolbar>
               <Typography>Petazoa</Typography>
               <div>
-                <Link
-                  // className={classes.blinks}
-                  style={{ textDecoration: "none" }}
-                  to="/"
-                >
+                <Link style={{ textDecoration: "none" }} to="/">
                   <Button>Home</Button>
                 </Link>
                 <Link

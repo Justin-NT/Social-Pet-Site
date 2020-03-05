@@ -6,7 +6,7 @@ import APIURL from "../../helpers/environment";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 
 const Signinstyle = styled.div`
-  background-color: #61c899;
+  
   color: white;
   width: 75%;
   border-radius: 100px;
