@@ -1,0 +1,13 @@
+#profile-wrapper {
+  min-height: 93.5%;
+  min-width: 100%;
+  height: auto;
+  position: absolute;
+  /* background-color: papayawhip */
+  background-image: url("../../assets/MyProfile.jpg");
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}

@@ -4,7 +4,8 @@ import MyProfileDisplay from "./MyProfileDisplay";
 import CreatePost from "./CreatePost";
 import UpdateProfileModal from "./Displays/UpdateProfileModal";
 import UserDetailsDisplay from "./Displays/UserDetailsDisplay";
-import APIURL from '../../helpers/environment';
+import APIURL from "../../helpers/environment";
+import "./MyProfile.css";
 
 interface MyProfileProps {
   sessionToken: any;
@@ -20,6 +21,7 @@ interface MyProfileState {
   postResults: [];
   userIdTest: number;
   editProfile: boolean;
+  postPicture: string;
 }
 
 // const Title = styled.h3`
@@ -50,7 +52,8 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       profile: [],
       postResults: [],
       userIdTest: 0,
-      editProfile: false
+      editProfile: false,
+      postPicture: ""
     };
   }
 
@@ -111,7 +114,7 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
     fetch(url, {
       method: "GET",
       headers: new Headers({
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
         Authorization: this.props.sessionToken
       })
     })
@@ -119,24 +122,27 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
       .then(json => {
         this.setState({ postResults: json });
         this.setState({ userIdTest: json[0].userId });
+        this.setState({ postPicture: json.postPicture });
       })
       .catch(err => console.log("error", err));
   };
 
   displayPosts = () => {
-    return this.state.postResults.map((post: any) => {
-      return (
-        <div key={post.id}>
-          <MyProfileDisplay
-            post={post}
-            sessionToken={this.props.sessionToken}
-            getPosts={this.getPosts}
-            userIdTest={this.state.userIdTest}
-            isUserAdmin={this.props.isUserAdmin}
-          />
-        </div>
-      );
-    });
+    return this.state.postResults.length > 0
+      ? this.state.postResults.map((post: any) => {
+          return (
+            <div key={post.id}>
+              <MyProfileDisplay
+                post={post}
+                sessionToken={this.props.sessionToken}
+                getPosts={this.getPosts}
+                userIdTest={this.state.userIdTest}
+                isUserAdmin={this.props.isUserAdmin}
+              />
+            </div>
+          );
+        })
+      : null;
   };
 
   submitProfileUpdate = (
@@ -193,32 +199,35 @@ class MyProfile extends Component<MyProfileProps, MyProfileState> {
 
   render() {
     return (
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          flexFlow: "wrap column"
-        }}
-      >
-        {this.state.profile !== [] ? (
-          <UserDetailsDisplay
-            profile={this.state.profile}
-            deleteProfile={this.deleteProfile}
-            editProfileSwitch={this.editProfileSwitch}
+      <div id="profile-wrapper">
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            flexFlow: "wrap column"
+          }}
+        >
+          {this.state.profile !== [] ? (
+            <UserDetailsDisplay
+              profile={this.state.profile}
+              deleteProfile={this.deleteProfile}
+              editProfileSwitch={this.editProfileSwitch}
+            />
+          ) : null}
+          <CreatePost
+            sessionToken={this.props.sessionToken}
+            getPosts={this.getPosts}
+            postPicture={this.state.postPicture}
           />
-        ) : null}
-        <CreatePost
-          sessionToken={this.props.sessionToken}
-          getPosts={this.getPosts}
-        />
-        {this.state.editProfile ? (
-          <UpdateProfileModal
-            submitProfileUpdate={this.submitProfileUpdate}
-            closeModal={this.closeUpdateProfileModal}
-            profile={this.state.profile}
-          />
-        ) : null}
-        {this.displayPosts()}
+          {this.state.editProfile ? (
+            <UpdateProfileModal
+              submitProfileUpdate={this.submitProfileUpdate}
+              closeModal={this.closeUpdateProfileModal}
+              profile={this.state.profile}
+            />
+          ) : null}
+          {this.displayPosts()}
+        </div>
       </div>
     );
   }
